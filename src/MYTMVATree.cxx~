@@ -1,0 +1,239 @@
+#include "include/MYTMVATree.h"
+#include "include/EventCalc.h"
+#include "include/SelectionModules.h"
+#include "include/JetProps.h"
+#include "include/TopFitCalc.h"
+#include <iostream>
+
+using namespace std;
+
+MYTMVATree::MYTMVATree(const char* name, HypothesisDiscriminator *discr) : BaseHists(name)
+{
+  // named default constructor
+
+  m_discr = discr;
+
+}
+
+MYTMVATree::~MYTMVATree()
+{
+  // default destructor, does nothing
+}
+
+void MYTMVATree::Init()
+{
+  // book the TMVA Tree here
+
+  const char* directory = "";
+  GetTempDir()->cd();
+  TTree tree( "CutTree", "CutTree" );
+  
+  TString path = "" + TString( tree.GetName() );
+  SCycleOutput* out = dynamic_cast< SCycleOutput* >( SCycleBaseHist::m_output->FindObject( path ) );
+  if( ! out ) {
+    out = new SCycleOutput( tree.Clone(), path, directory );
+    SCycleBaseHist::m_output->TList::AddLast( out );
+    REPORT_VERBOSE( "Added new object with name \"" << tree.GetName()
+		    << "\" in directory \"" << ( directory ? directory : "" ) << "\"" );
+  }
+  
+  m_treeCut = dynamic_cast< TTree* >( out->GetObject() );
+
+  
+  gROOT->cd(); // So that the temporary objects would be
+               // created in a general memory space.
+ 
+
+  m_treeCut->Branch("Event_Weight", &m_weight, "Event_Weight/D");
+
+  m_treeCut->Branch("pTrel_muon_neutrino"    , &m_pTrel_muon_neutrino         , "pTrel_muon_neutrino/D");
+  m_treeCut->Branch("pTrel_muon_bjet"        , &m_pTrel_muon_bjet             , "pTrel_muon_bjet/D");
+  m_treeCut->Branch("pTrel_neutrino_bjet"    , &m_pTrel_neutrino_bjet         , "pTrel_neutrino_bjet/D");
+  m_treeCut->Branch("pTrel_muon_jet"         , &m_pTrel_muon_jet              , "pTrel_muon_jet/D");
+  m_treeCut->Branch("pTrel_neutrino_jet"     , &m_pTrel_neutrino_jet          , "pTrel_neutrino_jet/D");
+
+
+  m_treeCut->Branch("deltaR_muon_jet"         , &m_deltaR_muon_jet            , "deltaR_muon_jet/D");
+  m_treeCut->Branch("deltaR_muon_neutrino"    , &m_deltaR_neutrino_jet        , "deltaR_neutrino_jet/D");
+  m_treeCut->Branch("deltaR_muon_bjet"        , &m_deltaR_muon_bjet           , "deltaR_muon_bjet/D");
+  m_treeCut->Branch("deltaR_bjet_neutrino"    , &m_deltaR_neutrino_bjet       , "deltaR_neutrino_bjet/D");
+
+
+  m_treeCut->Branch("razor_mrt_w_tophad"     , &m_razor_mrt_w_tophad     , "razor_mrt_w_tophad/D");
+  m_treeCut->Branch("razor_mr_w_tophad"      , &m_razor_mr_w_tophad      , "razor_mrt_w_tophad/D");
+  m_treeCut->Branch("razor_mrt_toplep_tophad", &m_razor_mrt_toplep_tophad, "razor_mrt_toplep_tophad/D");
+  m_treeCut->Branch("razor_mr_toplep_tophad" , &m_razor_mr_toplep_tophad , "razor_mrt_toplep_tophad/D");
+
+  m_treeCut->Branch("razor_mrt_w_tophad_addmiss"     , &m_razor_mrt_w_tophad_addmiss     , "razor_mrt_w_tophad_addmiss/D");
+  m_treeCut->Branch("razor_mr_w_tophad_addmiss"      , &m_razor_mr_w_tophad_addmiss      , "razor_mrt_w_tophad_addmiss/D");
+
+  m_treeCut->Branch("mass2"   , &m_mass2   , "mass2/D");
+  m_treeCut->Branch("muon_pt" , &m_muon_pt , "muon_pt/D");
+  m_treeCut->Branch("muon_phi", &m_muon_phi, "muon_phi/D");
+  m_treeCut->Branch("muon_eta", &m_muon_eta, "muon_eta/D");
+
+  m_treeCut->Branch("beta", &m_beta, "beta/D");
+  m_treeCut->Branch("mtt", &m_mtt, "mtt/D");
+
+}
+
+void MYTMVATree::Fill()
+{
+  // fill the histograms
+  
+  EventCalc* calc = EventCalc::Instance();
+  bool IsRealData = calc->IsRealData();
+  LuminosityHandler* lumih = calc->GetLumiHandler();
+
+  BaseCycleContainer* bcc = calc->GetBaseCycleContainer();
+
+  // important: get the event weight
+  double weight = calc->GetWeight();
+
+  int run = calc->GetRunNum();
+  int lumiblock = calc->GetLumiBlock();
+  int Npvs = calc->GetPrimaryVertices()->size();
+  
+  std::vector< TopJet >* tjets = calc->GetCAJets();
+  std::vector< Jet >* jets = calc->GetJets();
+ 
+  ReconstructionHypothesis* hyp = m_discr->GetBestHypothesis();
+
+  ClearCutVariables();
+
+
+  MET* met = calc->GetMET();
+
+  Muon muon  = bcc->muons->at(0);
+
+
+
+  m_muon_pt=muon.pt(); 
+  m_muon_phi=muon.phi();
+  m_muon_eta=muon.eta();
+  
+  Particle neutrino;
+  neutrino.set_v4(hyp->neutrino_v4());
+  Particle wlep;
+  wlep.set_v4(hyp->wlep_v4());
+  Particle bjet;
+  bjet.set_v4(hyp->blep_v4());
+
+  LorentzVector toplep = hyp->toplep_v4();
+  LorentzVector tophad = hyp->tophad_v4();
+
+  TVector3 plepT;
+  plepT.SetPtEtaPhi(toplep.pt(),0,toplep.phi());
+  TVector3 phadT;
+  phadT.SetPtEtaPhi(tophad.pt(),0,tophad.phi());
+  TVector3 pwlepT; 
+  pwlepT.SetPtEtaPhi(wlep.pt(),0,wlep.phi());
+  TVector3 met3Vec; 
+  met3Vec.SetPtEtaPhi(met->pt(),0,met->phi());
+  TVector3 blepT;
+  blepT.SetPtEtaPhi(bjet.pt(),0,bjet.phi());
+  TVector3 muonT;
+  muonT.SetPtEtaPhi(muon.pt(),0,muon.phi());
+
+  double exp_tophad_mass = 181;
+  double exp_tophad_sig = 15;
+  double exp_toplep_mass = 174;
+  double exp_toplep_sig = 18;
+
+
+ 
+  m_pTrel_muon_jet = pTrel(&muon,jets);
+  m_pTrel_muon_neutrino = pTrel(muon,neutrino);
+  m_pTrel_muon_bjet = pTrel(muon,bjet);    
+  m_pTrel_neutrino_bjet = pTrel(neutrino,bjet);         
+  m_pTrel_neutrino_jet = pTrel(&neutrino, jets);
+
+
+  m_deltaR_muon_jet = deltaRmin(&muon,jets);   
+  m_deltaR_neutrino_jet = deltaRmin(&neutrino,jets);   
+  m_deltaR_muon_bjet =  deltaR(muon.v4(),bjet.v4());      
+  m_deltaR_neutrino_bjet= deltaR(neutrino.v4(),bjet.v4());      
+    
+
+  m_razor_mrt_w_tophad = sqrt(met->pt()*(wlep.pt()+tophad.pt())- met3Vec*(pwlepT+phadT));   
+  m_razor_mr_w_tophad  = sqrt(pow(wlep.v4().E()+tophad.E(),2)-pow(wlep.v4().Pz()+tophad.Pz(),2));
+
+  m_razor_mrt_w_tophad_addmiss = sqrt((met->pt()+bjet.pt())*(wlep.pt()+tophad.pt())- (met3Vec+blepT)*(pwlepT+phadT));   
+  m_razor_mr_w_tophad_addmiss  = sqrt(pow(wlep.v4().E()+tophad.E(),2)-pow(wlep.v4().Pz()+tophad.Pz(),2));
+
+  m_razor_mrt_toplep_tophad=sqrt(met->pt()*(toplep.pt()+tophad.pt())- met3Vec*(plepT+phadT));
+  m_razor_mr_toplep_tophad =sqrt(pow(toplep.E()+tophad.E(),2)-pow(toplep.Pz()+tophad.Pz(),2));
+
+  TVector3 v3(0,0,0);
+  double lepE=0;
+  TVector3 v4(0,0,0);
+  double hadE =0;
+
+  for(unsigned int i =0; i<jets->size(); ++i){
+    TVector3 vjet(jets->at(i).v4().px(),jets->at(i).v4().py(),jets->at(i).v4().pz());
+    
+    if(deltaR(toplep,jets->at(i).v4())<1.5){
+      v3 +=  vjet;
+      lepE += jets->at(i).v4().E();
+    }
+    if(deltaR(tophad,jets->at(i).v4())<1.5){
+      v4 +=   vjet;
+      hadE += jets->at(i).v4().E();
+    }
+    
+  }
+
+  m_mass2=sqrt(pow(0.5*((toplep+tophad).M2() - exp_tophad_mass*exp_tophad_mass - exp_toplep_mass*exp_toplep_mass)+ v3*v4 - lepE* hadE,2));   
+
+
+  m_beta = abs(toplep.pz()+tophad.pz())/(toplep.E()+tophad.E());
+
+  m_mtt = (toplep+tophad).isTimelike() ? (toplep+tophad).M() : - sqrt((toplep+tophad).M2());
+  m_weight = weight;
+
+
+
+  m_treeCut->Fill();
+
+ 
+}
+
+void MYTMVATree::Finish()
+{
+  // final calculations, like division and addition of certain histograms
+
+}
+
+void MYTMVATree::ClearCutVariables()
+{
+  m_weight =0;
+  m_mass2=0;    
+  m_muon_pt=0;  
+  m_muon_phi=0; 
+  m_muon_eta=0; 
+
+  m_mtt=0; 
+
+  m_pTrel_muon_jet=0;       
+  m_pTrel_muon_neutrino =0; 
+  m_pTrel_muon_bjet   =0;   
+  m_pTrel_neutrino_bjet =0; 
+  m_pTrel_neutrino_jet =0; 
+
+  m_deltaR_muon_jet=0;
+  m_deltaR_neutrino_jet =0;
+  m_deltaR_muon_bjet    =0;
+  m_deltaR_neutrino_bjet =0;
+
+       
+  m_razor_mrt_w_tophad =0;    
+  m_razor_mr_w_tophad =0;    
+  m_razor_mrt_toplep_tophad=0;
+  m_razor_mr_toplep_tophad =0;
+
+  m_razor_mrt_w_tophad_addmiss =0;    
+  m_razor_mr_w_tophad_addmiss =0;    
+
+}
+
+

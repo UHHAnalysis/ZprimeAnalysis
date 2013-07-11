@@ -24,5 +24,16 @@
 #pragma link C++ class TopTagTMVACycle+;
 #pragma link C++ class GenTTbarCycle+;
 
+#pragma link C++ class DelRHists+;
+#pragma link C++ class ConstituentsHists+;
+#pragma link C++ class QCDCycle+;
+#pragma link C++ class RazorHists+;
+#pragma link C++ class TopTagDelRHists+;
+#pragma link C++ class TreeCycle+;
+#pragma link C++ class ZPrimeTopTaggerCycle+;
+#pragma link C++ class MJetsHists+;
+#pragma link C++ class NeutrinoHists+;
+#pragma link C++ class TopEffiHists+;
+#pragma link C++ class ExampleHists+;
 
 #endif // __CINT__
