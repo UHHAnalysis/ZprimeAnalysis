@@ -4,18 +4,18 @@
 ]>
 
 <JobConfiguration JobName="ZprimeSelectionCycle" OutputLevel="INFO">
-	<Library Name="libfastjet" />
-	<Library Name="libfastjettools" />
-	<Library Name="libJetMETObjects" />
-	<Library Name="libSFrameTools" />
-	<Library Name="libAnalysis" />
-	<Library Name="libSFramePlugIns" />
+
+	<Library Name="libfastjet"/>
+	<Library Name="libfastjettools"/>
+	<Library Name="libSFramePlugIns"/>
+	<Library Name="libSFrameTools"/>
+	<Library Name="libAnalysis"/>
+	<Library Name="libZprimeAnalysis"/>
 
 	<Package Name="SFrameCore.par" />
 	<Package Name="SFramePlugIns.par" />
-	<Package Name="SFrameTools.par" />
 	<Package Name="Analysis.par" />
-
+	<Package Name="ZprimAnalysis.par" />
 
 	<Cycle Name="ZprimeSelectionCycle"  RunMode="PROOF" ProofServer="lite://"  ProofWorkDir="/scratch/hh/dust/naf/cms/user/kogler/PROOF/" OutputDirectory="/scratch/hh/dust/naf/cms/user/kogler/Zprime/SelectionMuon/SysVar/" PostFix="JECdown" TargetLumi="1" >
 <!--	<Cycle Name="ZprimeSelectionCycle"  OutputDirectory="/scratch/hh/dust/naf/cms/user/kogler/Zprime/SelectionMuon/" PostFix="test" TargetLumi="1.0" > -->
