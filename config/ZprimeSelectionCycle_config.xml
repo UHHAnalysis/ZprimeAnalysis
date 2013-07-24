@@ -7,18 +7,21 @@
 
 	<Library Name="libfastjet"/>
 	<Library Name="libfastjettools"/>
+	<Library Name="libJetMETObjects" />
 	<Library Name="libSFramePlugIns"/>
 	<Library Name="libSFrameTools"/>
+	<Library Name="libNtuple"/>
 	<Library Name="libAnalysis"/>
 	<Library Name="libZprimeAnalysis"/>
 
 	<Package Name="SFrameCore.par" />
 	<Package Name="SFramePlugIns.par" />
+	<Package Name="Ntuple.par" />
 	<Package Name="Analysis.par" />
 	<Package Name="ZprimAnalysis.par" />
 
-	<Cycle Name="ZprimeSelectionCycle"  RunMode="PROOF" ProofServer="lite://"  ProofWorkDir="/scratch/hh/dust/naf/cms/user/kogler/PROOF/" OutputDirectory="/scratch/hh/dust/naf/cms/user/kogler/Zprime/SelectionMuon/SysVar/" PostFix="JECdown" TargetLumi="1" >
-<!--	<Cycle Name="ZprimeSelectionCycle"  OutputDirectory="/scratch/hh/dust/naf/cms/user/kogler/Zprime/SelectionMuon/" PostFix="test" TargetLumi="1.0" > -->
+<!--	<Cycle Name="ZprimeSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/scratch/hh/dust/naf/cms/user/peiffer/PROOF/" OutputDirectory="/scratch/hh/dust/naf/cms/user/peiffer/Analysis53X_v3/SelectionMuon/" PostFix="" TargetLumi="1" > -->
+	<Cycle Name="ZprimeSelectionCycle"  OutputDirectory="/scratch/hh/dust/naf/cms/user/peiffer/Analysis53X_v3/SelectionMuon/" PostFix="" TargetLumi="1" > 
 
 <!--
 		<InputData Lumi="1.0" NEventsMax="-1"  Type="DATA" Version="DATA" Cacheable="False">
@@ -29,14 +32,14 @@
 		</InputData> 
 -->
 
-<!--
+
 		<InputData Lumi="92270" NEventsMax="-1" Type="MC" Version="TTbar" Cacheable="False">
-		        <In FileName="/scratch/hh/dust/naf/cms/user/peiffer/Analysis53X/PreSelectionMuon/ZprimePreSelectionCycle.MC.TTbar.root" Lumi="0.0"/> 
+		        <In FileName="/scratch/hh/dust/naf/cms/user/peiffer/Analysis53X_v3/PreSelectionMuon/ZprimePreSelectionCycle.MC.TTbar.root" Lumi="0.0"/> 
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
 
-
+<!--
 		<InputData Lumi="118975" NEventsMax="-1" Type="MC" Version="ZP500w5" Cacheable="False">
 		        <In FileName="/scratch/hh/dust/naf/cms/user/peiffer/Analysis53X/PreSelectionMuon/ZprimePreSelectionCycle.MC.ZP500w5.root" Lumi="0.0"/> 
 			<InputTree Name="AnalysisTree" /> 
@@ -190,14 +193,13 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
--->
 	        <InputData Lumi="301123" NEventsMax="-1" Type="MC" Version="WZ" Cacheable="False">
  		        <In FileName="/scratch/hh/dust/naf/cms/user/peiffer/Analysis53X/PreSelectionMuon/ZprimePreSelectionCycle.MC.WZ.root" Lumi="0.0"/>       
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
 
-<!--
+
 	        <InputData Lumi="29589" NEventsMax="-1" Type="MC" Version="TTbar_MadGraph" Cacheable="False">
  		        <In FileName="/scratch/hh/dust/naf/cms/user/peiffer/Analysis53X/PreSelectionMuon/ZprimePreSelectionCycle.MC.TTbar_MadGraph.root" Lumi="0.0"/>       
 			<InputTree Name="AnalysisTree" /> 
@@ -428,36 +430,37 @@
    		   <Item Name="readTTbarReco" Value="False" /> 
 
 		   <Item Name="JetCollection" Value="goodPatJetsPFlow" />  
+		   <Item Name="GenJetCollection" Value="ak5GenJetsNoNu" /> 
 		   <Item Name="ElectronCollection" Value="selectedPatElectronsPFlowLoose" /> 
 		   <Item Name="MuonCollection" Value="selectedPatMuonsPFlowLoose" /> 
 		   <Item Name="TauCollection" Value="selectedPatTausPFlow" /> 
 <!--		   <Item Name="PhotonCollection" Value="patPhotons" /> -->
 		   <Item Name="PrimaryVertexCollection" Value="goodOfflinePrimaryVertices" /> 
 		   <Item Name="METName" Value="patMETsPFlow" />  
-		   <Item Name="TopJetCollection" Value="goodPatJetsCATopTagPF" />
+		   <Item Name="TopJetCollection" Value="goodPatJetsCATopTagPFPacked" />
 		   <Item Name="TopJetCollectionGen" Value="caTopTagGen" />
-		   <Item Name="PrunedJetCollection" Value="goodPatJetsCA8PrunedPF" />  
+<!--		   <Item Name="PrunedJetCollection" Value="goodPatJetsCA8PrunedPF" /> --> 
 		   <Item Name="GenParticleCollection" Value="GenParticles" /> 
 
-                   <Item Name="JECFileLocation" Value="/afs/naf.desy.de/user/k/kogler/JECFiles" />
-                   <Item Name="JECDataGlobalTag" Value="GR_R_53_V11" />           
-                   <Item Name="JECMCGlobalTag" Value="START53_V20" />
+                   <Item Name="JECFileLocation" Value="/scratch/hh/dust/naf/cms/user/peiffer/CMSSW_5_3_10/src" />
+                   <Item Name="JECDataGlobalTag" Value="FT_53_V21_AN4" />           
+                   <Item Name="JECMCGlobalTag" Value="START53_V27" />
                    <Item Name="JECJetCollection" Value="AK5PFchs" />
 
-		   <Item Name="PU_Filename_MC" Value="/scratch/hh/dust/naf/cms/user/peiffer/Analysis53X/PileUpHistos/PileUpHistoCycle" />
+		   <Item Name="PU_Filename_MC" Value="/scratch/hh/dust/naf/cms/user/peiffer/Analysis53X_v3/PileUpHistos/PileUpHistoCycle" />
 		   <Item Name="PU_Filename_Data" Value="/scratch/hh/dust/naf/cms/user/peiffer/Analysis53X/PileUpHistos/MyDataPileupHistogram_69p3_208686.root" />
 		   <Item Name="PU_Histname_Data" Value="pileup" />
 		   <Item Name="PU_Histname_MC" Value="N_pileup_hist" />
 
-		   <Item Name="LumiFilePath" Value="/scratch/hh/dust/naf/cms/user/peiffer/Analysis53X/LumiFiles/" /> 
-		   <Item Name="LumiFileName" Value="Mu40_208686_ECALRecover.root" /> 
+		   <Item Name="LumiFilePath" Value="/scratch/hh/dust/naf/cms/user/peiffer/Analysis53X_v3/LumiFiles/" /> 
+		   <Item Name="LumiFileName" Value="Mu40.root" /> 
 		   <Item Name="LumiTrigger" Value="HLT_Mu40_eta2p1_v" /> 
 
-  	           <Item Name="LeptonScaleFactors" Value="MuonRunA 864 MuonRunB 4357 MuonRunC 7018 MuonRunD 7221" /> 
-
+  	           <Item Name="LeptonScaleFactors" Value="MuonRunA 889 MuonRunB 4429 MuonRunC 7152 MuonRunD 7318" /> 
+<!--
                    <Item Name="SystematicUncertainty" Value="JEC" />
                    <Item Name="SystematicVariation" Value="down" />
-
+-->
                    <Item Name="ReversedElectronSelection" Value="false" />
 
 		</UserConfig>
