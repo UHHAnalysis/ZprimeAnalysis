@@ -4,16 +4,21 @@
 <!-- <JobConfiguration JobName="ZprimePostSelectionCycleJob" OutputLevel="VERBOSE"> -->
 <JobConfiguration JobName="ZprimePostSelectionCycleJob" OutputLevel="INFO">
 
-	<Library Name="libfastjet"/>
-	<Library Name="libfastjettools"/>
-	<Library Name="libSFramePlugIns"/>
-	<Library Name="libSFrameTools"/>
-	<Library Name="libAnalysis"/>
-
+	<Library Name="libfastjet" />
+	<Library Name="libfastjettools" />
+	<Library Name="libJetMETObjects" />
+	<Library Name="libSFrameTools" />
+	<Library Name="libNtuple" />
+	<Library Name="libAnalysis" />
+	<Library Name="libSFramePlugIns" />
+	<Library Name="libZprimeAnalysis" />
 
 	<Package Name="SFrameCore.par" />
 	<Package Name="SFramePlugIns.par" />
+	<Package Name="SFrameTools.par" />
+	<Package Name="Ntuple.par" />
 	<Package Name="Analysis.par" />
+	<Package Name="ZprimeAnalysis.par" />
 
 <!--	<Cycle Name="ZprimePostSelectionCycle" RunMode="PROOF" ProofServer="lite://"  ProofWorkDir="" OutputDirectory="./" PostFix="" TargetLumi="1.0"> -->
 
