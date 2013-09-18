@@ -1,5 +1,4 @@
 #include "include/DelRHists.h"
-#include "include/ObjectHandler.h"
 #include "include/EventCalc.h"
 #include "include/SelectionModules.h"
 #include "include/TopFitCalc.h"
@@ -11,46 +10,6 @@ using namespace std;
 
 double distance(LorentzVector v1, LorentzVector v2, double metrik , double R=1);
 double jade(LorentzVector v1,LorentzVector v2, double mass);
-
-
-double pTrel_Part( Particle p1, Particle p2)
-{
-
- double ptrel=0;
-
- TVector3 p3(p1.v4().Px(),p1.v4().Py(),p1.v4().Pz());
- TVector3 p4(p2.v4().Px(),p2.v4().Py(),p2.v4().Pz());
-
- if(p3.Mag()!=0 && p4.Mag()!=0) {
- double sin_alpha = (p3.Cross(p4)).Mag()/p3.Mag()/p4.Mag();
- ptrel = p3.Mag()*sin_alpha;
- } else {
- std::cout << "something strange happend in the ptrel calculation: either lepton or jet momentum is 0" <<std::endl;
- }
-
- return ptrel;
- }
-
-double pTrel_Part( LorentzVector p1, LorentzVector p2)
-{
-
- double ptrel=0;
-
- TVector3 p3(p1.Px(),p1.Py(),p1.Pz());
- TVector3 p4(p2.Px(),p2.Py(),p2.Pz());
-
- if(p3.Mag()!=0 && p4.Mag()!=0) {
- double sin_alpha = (p3.Cross(p4)).Mag()/p3.Mag()/p4.Mag();
- ptrel = p3.Mag()*sin_alpha;
- } else {
- std::cout << "something strange happend in the ptrel calculation: either lepton or jet momentum is 0" <<std::endl;
- }
-
- return ptrel;
- }
-
-
-
 
 double distance(LorentzVector v1, LorentzVector v2, double metrik , double R){
   if(metrik == 0)
@@ -245,8 +204,7 @@ void DelRHists::Fill()
   TopFitCalc* fitcalc = TopFitCalc::Instance();
   double weight = calc -> GetWeight();
 
-  ObjectHandler* objs = ObjectHandler::Instance();
-  BaseCycleContainer* bcc = objs->GetBaseCycleContainer();
+  BaseCycleContainer* bcc = calc->GetBaseCycleContainer();
 
   ReconstructionHypothesis* hyp = m_discr->GetBestHypothesis();
 
@@ -287,6 +245,8 @@ void DelRHists::Fill()
   blepT.SetPtEtaPhi(bjet.pt(),0,bjet.phi());
   TVector3 muonT;
   muonT.SetPtEtaPhi(muon.pt(),0,muon.phi());
+
+  cout<<"top"<<toplep.pt()<<" wlep"<<wlep.pt()<<"bjet"<<bjet.pt()<<"muon"<<muon.pt()<<endl;
 
   double mrazorT = sqrt(met->pt()*(toplep.pt()+tophad.pt())- met3Vec*(plepT+phadT));
   double mrazor = sqrt(pow(toplep.E()+tophad.E(),2)-pow(toplep.Pz()+tophad.Pz(),2));
@@ -447,36 +407,36 @@ void DelRHists::Fill()
   Hist("eta_tops_ly")->Fill((toplep+tophad).eta(),weight);
   Hist("deleta_top_ly")->Fill(abs(toplep.eta()+tophad.eta()),weight);
 
-  Hist("muon_bjet_pTrel")->Fill(pTrel_Part(muon,bjet),weight);
-  Hist("neutrino_bjet_pTrel")->Fill(pTrel_Part(neutrino,bjet),weight);
-  Hist("muon_neutrino_pTrel")->Fill(pTrel_Part(muon,neutrino),weight);
+  Hist("muon_bjet_pTrel")->Fill(pTrel(muon,bjet),weight);
+  Hist("neutrino_bjet_pTrel")->Fill(pTrel(neutrino,bjet),weight);
+  Hist("muon_neutrino_pTrel")->Fill(pTrel(muon,neutrino),weight);
 
-  Hist("muon_bjet_pTrel_ly")->Fill(pTrel_Part(muon,bjet),weight);
-  Hist("neutrino_bjet_pTrel_ly")->Fill(pTrel_Part(neutrino,bjet),weight);
-  Hist("muon_neutrino_pTrel_ly")->Fill(pTrel_Part(muon,neutrino),weight);
+  Hist("muon_bjet_pTrel_ly")->Fill(pTrel(muon,bjet),weight);
+  Hist("neutrino_bjet_pTrel_ly")->Fill(pTrel(neutrino,bjet),weight);
+  Hist("muon_neutrino_pTrel_ly")->Fill(pTrel(muon,neutrino),weight);
   
 
-  ((TH2F*)Hist("muon_bjet_pTrel_delR"))->Fill(pTrel_Part(muon,bjet),deltaR(muon.v4(),bjet.v4()),weight);
-  ((TH2F*)Hist("muon_bjet_pTrel_muon_jet_delR"))->Fill(pTrel_Part(muon,bjet),deltaRmin(&muon,antikjets),weight);
-  Hist("muon_bjet_pTrel_bjet_jet_delR")->Fill(pTrel_Part(muon,bjet),deltaRmin(&bjet,antikjets));
-  Hist("muon_bjet_pTrel_muon_neutrino_delR")->Fill(pTrel_Part(muon,bjet),deltaR(muon.v4(),neutrino.v4()));
-  Hist("neutrino_bjet_pTrel_muon_bjet_delR")->Fill(pTrel_Part(bjet,neutrino),deltaR(muon.v4(),bjet.v4()));
-  Hist("neutrino_bjet_pTrel_neutrino_bjet_delR")->Fill(pTrel_Part(bjet,neutrino),deltaR(neutrino.v4(),bjet.v4()));
+  ((TH2F*)Hist("muon_bjet_pTrel_delR"))->Fill(pTrel(muon,bjet),deltaR(muon.v4(),bjet.v4()),weight);
+  ((TH2F*)Hist("muon_bjet_pTrel_muon_jet_delR"))->Fill(pTrel(muon,bjet),deltaRmin(&muon,antikjets),weight);
+  Hist("muon_bjet_pTrel_bjet_jet_delR")->Fill(pTrel(muon,bjet),deltaRmin(&bjet,antikjets));
+  Hist("muon_bjet_pTrel_muon_neutrino_delR")->Fill(pTrel(muon,bjet),deltaR(muon.v4(),neutrino.v4()));
+  Hist("neutrino_bjet_pTrel_muon_bjet_delR")->Fill(pTrel(bjet,neutrino),deltaR(muon.v4(),bjet.v4()));
+  Hist("neutrino_bjet_pTrel_neutrino_bjet_delR")->Fill(pTrel(bjet,neutrino),deltaR(neutrino.v4(),bjet.v4()));
 
 
-  Hist("wlep_bjet_pTrel_delR"                  )->Fill(pTrel_Part(wlep,bjet),deltaR(wlep.v4(),bjet.v4()));
-  Hist("wlep_neutrino_pTrel_delR"              )->Fill(pTrel_Part(wlep,neutrino),deltaR(wlep.v4(),neutrino.v4()));
-  Hist("wlep_muon_pTrel_delR"                  )->Fill(pTrel_Part(wlep,muon),deltaR(wlep.v4(),muon.v4()));
-  Hist("wlep_neutrino_pTrel_wlep_muon_delR"    )->Fill(pTrel_Part(wlep,neutrino),deltaR(wlep.v4(),muon.v4()));
-  Hist("wlep_bjet_pTrel_wlep_muon_delR"        )->Fill(pTrel_Part(wlep,bjet),deltaR(wlep.v4(),muon.v4()));
-  Hist("wlep_bjet_pTrel_wlep_neutrino_delR"    )->Fill(pTrel_Part(wlep,bjet),deltaR(wlep.v4(),neutrino.v4()));
-  Hist("wlep_neutrino_pTrel_wlep_bjet_delR"    )->Fill(pTrel_Part(wlep,neutrino),deltaR(wlep.v4(),bjet.v4()));
-  Hist("wlep_muon_pTrel_wlep_bjet_delR"        )->Fill(pTrel_Part(wlep,muon),deltaR(wlep.v4(),bjet.v4()));
+  Hist("wlep_bjet_pTrel_delR"                  )->Fill(pTrel(wlep,bjet),deltaR(wlep.v4(),bjet.v4()));
+  Hist("wlep_neutrino_pTrel_delR"              )->Fill(pTrel(wlep,neutrino),deltaR(wlep.v4(),neutrino.v4()));
+  Hist("wlep_muon_pTrel_delR"                  )->Fill(pTrel(wlep,muon),deltaR(wlep.v4(),muon.v4()));
+  Hist("wlep_neutrino_pTrel_wlep_muon_delR"    )->Fill(pTrel(wlep,neutrino),deltaR(wlep.v4(),muon.v4()));
+  Hist("wlep_bjet_pTrel_wlep_muon_delR"        )->Fill(pTrel(wlep,bjet),deltaR(wlep.v4(),muon.v4()));
+  Hist("wlep_bjet_pTrel_wlep_neutrino_delR"    )->Fill(pTrel(wlep,bjet),deltaR(wlep.v4(),neutrino.v4()));
+  Hist("wlep_neutrino_pTrel_wlep_bjet_delR"    )->Fill(pTrel(wlep,neutrino),deltaR(wlep.v4(),bjet.v4()));
+  Hist("wlep_muon_pTrel_wlep_bjet_delR"        )->Fill(pTrel(wlep,muon),deltaR(wlep.v4(),bjet.v4()));
 
-  Hist("toplep_tophad_pTrel_delR"              )->Fill(pTrel_Part(toplep,tophad),deltaR(toplep,tophad));
-  Hist("tophad_muon_pTrel_delR"                )->Fill(pTrel_Part(muon.v4(),tophad),deltaR(muon.v4(),tophad));
-  Hist("tophad_neutrino_pTrel_delR"            )->Fill(pTrel_Part(neutrino.v4(),tophad),deltaR(neutrino.v4(),tophad));
-  Hist("tophad_bjet_pTrel_delR"                )->Fill(pTrel_Part(bjet.v4(),tophad),deltaR(bjet.v4(),tophad));
+  Hist("toplep_tophad_pTrel_delR"              )->Fill(pTrel(toplep,tophad),deltaR(toplep,tophad));
+  Hist("tophad_muon_pTrel_delR"                )->Fill(pTrel(muon.v4(),tophad),deltaR(muon.v4(),tophad));
+  Hist("tophad_neutrino_pTrel_delR"            )->Fill(pTrel(neutrino.v4(),tophad),deltaR(neutrino.v4(),tophad));
+  Hist("tophad_bjet_pTrel_delR"                )->Fill(pTrel(bjet.v4(),tophad),deltaR(bjet.v4(),tophad));
 
   bool nbtag = false;	  
   double delR_btag_bjet=100;	
@@ -515,7 +475,7 @@ void DelRHists::Fill()
     mttbar_chi2 = pow(-sqrt(tophad.mass2())- exp_tophad_mass,2)/(exp_tophad_sig*exp_tophad_sig);
 
 
-  Hist("chi2_pTrel_muon_bjet")->Fill(mttbar_chi2,pTrel_Part(muon,bjet));
+  Hist("chi2_pTrel_muon_bjet")->Fill(mttbar_chi2,pTrel(muon,bjet));
   Hist("chi2_delR_muon_bjet" )->Fill(mttbar_chi2,deltaR(muon.v4(),bjet.v4()));
   Hist("chi2_distance_max"    )->Fill(mttbar_chi2,distance_max);
 
@@ -568,8 +528,8 @@ void DelRHists::Fill()
   Hist("test_ly")->Fill(test,weight);
   Hist("test2_ly")->Fill(test2,weight);
 
-  Hist("test2_pTrel_muon_bjet")->Fill(pTrel_Part(muon,bjet),test2);
-  ((TH2F*)Hist("test_pTrel_muon_bjet" ))->Fill(pTrel_Part(muon,bjet),test,weight);
+  Hist("test2_pTrel_muon_bjet")->Fill(pTrel(muon,bjet),test2);
+  ((TH2F*)Hist("test_pTrel_muon_bjet" ))->Fill(pTrel(muon,bjet),test,weight);
 
   //((TH3F*)Hist("test_pTrel_muon_bjet_delR_muon_jet"))->Fill(pTrel_Part(muon,bjet),test,deltaRmin(&muon,antikjets));
   //((TH3F*)Hist("test_pTrel_muon_bjet_delR_neutrino_jet"))->Fill(pTrel_Part(muon,bjet),test,deltaRmin(&neutrino,antikjets));

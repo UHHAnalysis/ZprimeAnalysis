@@ -74,6 +74,8 @@ private:
   int m_Nbtags_min;  
 
 
+  TTree* m_tree;
+
   Chi2Discriminator* m_chi2discr;
   Chi2Discriminator* m_tagchi2discr;
   BestPossibleDiscriminator* m_bpdiscr;

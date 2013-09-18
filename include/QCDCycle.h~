@@ -8,7 +8,6 @@
 #include "HypothesisDiscriminator.h"
 #include "HypothesisHists.h"
 #include "include/SelectionModules.h"
-#include "include/ObjectHandler.h"
 #include "HypothesisStatistics.h"
 #include "Cleaner.h"
 #include "JetCorrectionUncertainty.h"

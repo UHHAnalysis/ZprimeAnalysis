@@ -207,6 +207,12 @@ void ZprimeSelectionCycle::EndInputData( const SInputData& id ) throw( SError )
     m_cm_sumdr->PrintStatistics();
     m_cm_bp->PrintStatistics();
 
+    delete m_bp_chi2;
+    delete m_bp_sumdr;
+    delete m_cm_chi2;
+    delete m_cm_sumdr;
+    delete m_cm_bp;
+
     return;
 }
 

@@ -179,6 +179,8 @@ void RazorHists::Fill()
   TLorentzVector muon_t;
   muon_t.SetPtEtaPhiE(muon.pt(),muon.eta(),muon.phi(),muon.v4().E());
 
+
+
   TVector3 wlep_boost = wlep_t.BoostVector(); 
 
   neutrino_t.Boost(-wlep_boost);
@@ -205,6 +207,7 @@ void RazorHists::Fill()
   Hist("boost_phi_muon_nu")->Fill(deltaphi,weight);
 
 
+
   TLorentzVector topboost;
   topboost.SetPtEtaPhiE(toplep.pt(),toplep.eta(),toplep.phi(),toplep.E());
   TLorentzVector neutrino_top;
@@ -217,11 +220,16 @@ void RazorHists::Fill()
   muon_top.SetPtEtaPhiE(muon.pt(),muon.eta(),muon.phi(),muon.v4().E());
 
   TVector3 toplep_boost = topboost.BoostVector(); 
+  
+
+  if(toplep_boost.Mag2()>1) return;
 
   neutrino_top.Boost(-toplep_boost);
   bjet_top.Boost(-toplep_boost);
   muon_top.Boost(-toplep_boost);
   wlep_top.Boost(-toplep_boost);
+
+  
 
   deltaphi = fabs(muon_top.Phi() - neutrino_top.Phi());
   if(deltaphi > PI) deltaphi = 2* PI - deltaphi;
@@ -232,6 +240,8 @@ void RazorHists::Fill()
   Hist("topboost_delR_muon_nu")->Fill(deltaR,weight);
   Hist("topboost_phi_muon_nu")->Fill(deltaphi,weight);
 
+
+
   deltaphi = fabs(wlep_top.Phi() - bjet_top.Phi());
   if(deltaphi > PI) deltaphi = 2* PI - deltaphi;
 
@@ -240,6 +250,8 @@ void RazorHists::Fill()
 
   Hist("topboost_phi_wlep_blep" )->Fill(deltaR,weight);
   Hist("topboost_delR_wlep_blep")->Fill(deltaphi,weight);
+
+ 
 
   deltaphi = fabs(neutrino_top.Phi() - bjet_top.Phi());
   if(deltaphi > PI) deltaphi = 2* PI - deltaphi;
@@ -251,7 +263,7 @@ void RazorHists::Fill()
   Hist("topboost_delR_neutrino_blep")->Fill(deltaR,weight);
 
 
-
+  
 }
 
 void RazorHists::Finish()

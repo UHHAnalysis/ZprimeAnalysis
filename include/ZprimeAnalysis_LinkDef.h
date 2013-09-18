@@ -26,6 +26,7 @@
 
 #pragma link C++ class DelRHists+;
 #pragma link C++ class ConstituentsHists+;
+#pragma link C++ class MetaTreeFiller+;
 #pragma link C++ class QCDCycle+;
 #pragma link C++ class RazorHists+;
 #pragma link C++ class TopTagDelRHists+;

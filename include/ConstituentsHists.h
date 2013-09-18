@@ -24,7 +24,7 @@ class ConstituentsHists : public BaseHists {
 
 public:
    /// Named constructor
-   ConstituentsHists(const char* name, HypothesisDiscriminator *discr);
+  ConstituentsHists(const char* name, HypothesisDiscriminator *discr);
 
    /// Default destructor
    ~ConstituentsHists();
@@ -36,6 +36,8 @@ public:
    void Finish();
 
 private:
+ 
+  
 
    HypothesisDiscriminator* m_discr;
 

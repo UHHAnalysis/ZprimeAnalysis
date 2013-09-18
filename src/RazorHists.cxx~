@@ -1,5 +1,4 @@
 #include "include/RazorHists.h"
-#include "include/ObjectHandler.h"
 #include "include/EventCalc.h"
 #include <iostream>
 #include "include/SelectionModules.h"
@@ -75,9 +74,7 @@ void RazorHists::Fill()
   double weight = calc -> GetWeight();
   bool IsRealData = calc->IsRealData();
 
-
-  ObjectHandler* objs = ObjectHandler::Instance();
-  BaseCycleContainer* bcc = objs->GetBaseCycleContainer();
+  BaseCycleContainer* bcc = calc->GetBaseCycleContainer();
 
   ReconstructionHypothesis* hyp = m_discr->GetBestHypothesis();
 
