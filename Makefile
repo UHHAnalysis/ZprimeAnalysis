@@ -4,8 +4,10 @@ OBJDIR  = obj
 DEPDIR  = $(OBJDIR)/dep
 SRCDIR  = src
 INCDIR  = include
+
 INCLUDES += -I$(SFRAME_DIR)/SFrameTools/include
 INCLUDES += -I$(SFRAME_DIR)/SFrameAnalysis/include
+INCLUDES += -I$(SFRAME_DIR)/ZprimeAnalysis/include
 INCLUDES += -I$(SFRAME_DIR)/SFrameTools/JetMETObjects/interface
 
 # configure FastJet
@@ -14,6 +16,7 @@ INCLUDES += -I$(FASTJETDIR)/../include
 
 INCLUDES += -I$(SFRAME_DIR)/SFrameTools
 INCLUDES += -I$(SFRAME_DIR)/SFrameAnalysis
+INCLUDES += -I$(SFRAME_DIR)/ZprimeAnalysis
 INCLUDES += -I$(SFRAME_DIR)/core
 INCLUDES += -I$(SFRAME_DIR)/core/include
 INCLUDES += -I$(SFRAME_DIR)/include

@@ -21,6 +21,10 @@
 #pragma link C++ class ZprimeSelectionDataTrigTestCycle+;
 #pragma link C++ class ZprimeEleTrigCycle+;
 
+
+#pragma link C++ class TopFitCalc+;
+
+
 #pragma link C++ class TopTagTMVACycle+;
 #pragma link C++ class GenTTbarCycle+;
 

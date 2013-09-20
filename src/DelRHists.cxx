@@ -19,7 +19,7 @@ double distance(LorentzVector v1, LorentzVector v2, double metrik , double R){
   else if(pow(v1.pt(),metrik) > pow(v2.pt(),2*metrik))
     return v2.pt()*deltaR(v1,v2)/R;
   else
-    cerr<<"Could not measure the distance"<<endl;
+    throw runtime_error("Could not measure the distance");
 }
 
 double jade(LorentzVector v1,LorentzVector v2, double mass){

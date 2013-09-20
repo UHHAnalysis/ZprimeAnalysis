@@ -294,7 +294,7 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     }
 
     //do reconstruction here
-
+    //if(!bcc->recoHyps)  cout<<"no Hyp list"<<endl;
     calc->FillHighMassTTbarHypotheses();
 
     m_chi2discr->FillDiscriminatorValues();
