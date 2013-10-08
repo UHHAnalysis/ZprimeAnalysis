@@ -99,12 +99,12 @@ void ConstituentsHists::Init()
   Book( TH1F("mu_pt_ly"  ," #mu p_{T}" ,50,0,900));
   Book( TH1F("mu_E"  ," #mu Energy" ,50,0,1000));
   Book( TH1F("mu_eta"  ," #eta #mu" ,50,-4,4));
-  Book( TH1F("mu_phi"  ," #phi #mu" ,50,-PI,PI));
+  Book( TH1F("mu_phi"  ," #phi #mu" ,50,-M_PI,M_PI));
   Book( TH1F("mu_reliso"  ," relIso #mu" ,100,0,5));
 
   // jets
   Book( TH1F("mu_nextJet_pt_ly"  ," p_{T} nextJet to #mu" ,50,0,600));
-  Book( TH1F("mu_nextJet_phi"  ,"#phi nextJet to #mu" ,50,-PI,PI));
+  Book( TH1F("mu_nextJet_phi"  ,"#phi nextJet to #mu" ,50,-M_PI,M_PI));
   Book( TH1F("mu_nextJet_eta"  ,"#eta nextJet to #mu" ,50,-4,4));
   Book( TH1F("mu_nextJet_delR"  ,"#Delta R nextJet to #mu " ,50,0,6));
 
@@ -115,12 +115,12 @@ void ConstituentsHists::Init()
   Book( TH1F("con_size_ly"  ,"Number of Constituents" ,100,-1,100));
   Book( TH1F("con_pt_ly"  ,"Constituents  p_{T}" ,50,0,100));
   Book( TH1F("con_eta"  ," #eta Constituents" ,50,-4,4));
-  Book( TH1F("con_phi"  ," #phi Constituents" ,50,-PI,PI));
+  Book( TH1F("con_phi"  ," #phi Constituents" ,50,-M_PI,M_PI));
 
-  Book( TH1F("con_muondelphi"  ,"#Delta #phi muon-Constituents" ,100,0,PI/2));
+  Book( TH1F("con_muondelphi"  ,"#Delta #phi muon-Constituents" ,100,0,M_PI/2));
   Book( TH1F("con_muondelR"  ," #Delta R muon-Constituents" ,100,0,2.5));
 
-  Book( TH1F("con_neutrinodelphi"  ,"#Delta #phi #nu -Constituents" ,100,0,PI));
+  Book( TH1F("con_neutrinodelphi"  ,"#Delta #phi #nu -Constituents" ,100,0,M_PI));
   Book( TH1F("con_neutrinodelR_ly"  ," #Delta R #nu -Constituents" ,100,0,5));
   Book( TH1F("filter"  ," ",100,40,900));
 

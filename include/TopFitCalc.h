@@ -47,7 +47,7 @@ class TopFitCalc
 
   double delPhi(double x1, double x2) const{// x1 & x2 are two Phi expected in the range [-PI,PI]
     double deltaphi = fabs(x1 - x2);
-    if(deltaphi > PI) deltaphi = 2*PI - deltaphi;
+    if(deltaphi > M_PI) deltaphi = 2*M_PI - deltaphi;
     return deltaphi;
   }
 
