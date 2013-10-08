@@ -20,7 +20,7 @@
 #pragma link C++ class ZprimeSelectionTrigTestCycle+;
 #pragma link C++ class ZprimeSelectionDataTrigTestCycle+;
 #pragma link C++ class ZprimeEleTrigCycle+;
-
+#pragma link C++ class DileptonPreSelectionCycle+;
 
 #pragma link C++ class TopFitCalc+;
 
@@ -31,6 +31,7 @@
 #pragma link C++ class DelRHists+;
 #pragma link C++ class ConstituentsHists+;
 #pragma link C++ class MetaTreeFiller+;
+#pragma link C++ class CleanerFiller+;
 #pragma link C++ class QCDCycle+;
 #pragma link C++ class RazorHists+;
 #pragma link C++ class TopTagDelRHists+;

@@ -45,6 +45,7 @@ private:
    Double_t m_mtt;
    Double_t m_met_pt; 
    Double_t m_Jet_pt_max;
+   Double_t m_btag;
 
    Double_t m_Iso05; 
    Double_t m_Iso04; 

@@ -101,6 +101,8 @@ void MetaTreeFiller::Init()
   m_tree->Branch("mtt"       , &m_mtt        , "mtt/D");
   m_tree->Branch("met_pt"    , &m_met_pt     , "met_pt/D");
   m_tree->Branch("Jet_pt_max", &m_Jet_pt_max , "Jet_pt_max/D");
+  m_tree->Branch("btag"      , &m_btag       , "btag/D");
+
 
   m_tree->Branch("Iso02"   , &m_Iso02   , "Iso02/D");
   m_tree->Branch("Iso018"  , &m_Iso018  , "Iso018/D");
@@ -194,6 +196,12 @@ void MetaTreeFiller::Fill()
   m_Iso004 = IsoMuonTree(muon,0.04); 
   m_Iso002 = IsoMuonTree(muon,0.02);  
  
+
+  m_btag = 0; 
+
+  for(int i= 0; i<antikjets->size(); ++i)
+    if(IsTagged(antikjets->at(i),e_CSVT)) m_btag += 1; 
+
   m_tree->Fill();
   
 
