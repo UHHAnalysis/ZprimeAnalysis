@@ -35,7 +35,6 @@
 #pragma link C++ class QCDCycle+;
 #pragma link C++ class RazorHists+;
 #pragma link C++ class TopTagDelRHists+;
-#pragma link C++ class TreeCycle+;
 #pragma link C++ class ZPrimeTopTaggerCycle+;
 #pragma link C++ class MJetsHists+;
 #pragma link C++ class NeutrinoHists+;
