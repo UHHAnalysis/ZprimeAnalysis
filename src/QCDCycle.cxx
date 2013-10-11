@@ -593,17 +593,17 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
 
 
 
-  
+  /*
   // b tagging scale factor
   if(m_bsf && m_addGenInfo) {
     calc->ProduceWeight(m_bsf->GetWeight());
   }
-  
-
+  if(!NJetSel->passSelection()) ClearEvent();
+  */
 
   bcc->recoHyps->clear();    
  
-  if(!NJetSel->passSelection()) ClearEvent();
+  
 
 
   //bool topfit_flag = false;

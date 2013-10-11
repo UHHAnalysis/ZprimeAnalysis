@@ -573,10 +573,10 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
 
   
   
-  if(bcc->jets) m_cleaner->JetCleaner(50,2.5,true);
+  if(bcc->jets) m_cleaner->JetCleaner(49,2.5,true);
  
 
-  
+  /*
   //RazorHists->Fill();
   FillControlHistos("_PTSel");
   Control_one->Fill();
@@ -587,7 +587,7 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
   FillControlHistos("_HTmuonSel");
   Control_third->Fill();
   if(!HTmuonSel->passSelection()) ClearEvent();
-  
+  */
   //if(bcc->taus) m_cleaner->TauCleaner(double_infinity(),0.0);
 
 
