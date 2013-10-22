@@ -58,15 +58,10 @@
 	<Library Name="libSFramePlugIns" />
 	<Library Name="libZprimeAnalysis" />
 
-	<Package Name="SFrameCore.par" />
-	<Package Name="SFramePlugIns.par" />
-	<Package Name="SFrameTools.par" />
-	<Package Name="Ntuple.par" />
-	<Package Name="Analysis.par" />
 	<Package Name="ZprimeAnalysis.par" />
 
-<!--	<Cycle Name="ZprimePreSelectionCycle"  RunMode="PROOF" ProofServer="lite://"  ProofWorkDir="/scratch/hh/dust/naf/cms/user/peiffer/PROOF/" OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="_FromZprimeAnalysis" TargetLumi="1" >  -->
-	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="_FromZprimeAnalysis" TargetLumi="1" >
+	<Cycle Name="ZprimePreSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/scratch/hh/dust/naf/cms/user/peiffer/PROOF/" OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="_FromZprimeAnalysis" TargetLumi="1" > 
+<!--	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="_FromZprimeAnalysis" TargetLumi="1" > -->
 
 <!--
                 <InputData Lumi="1" NEventsMax="-1" Type="DATA" Version="DATA_A" Cacheable="True">
@@ -80,8 +75,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
--->
-<!--
+
                 <InputData Lumi="1" NEventsMax="-1" Type="DATA" Version="DATA_C" Cacheable="True">
                         &MuDataC;
 			<InputTree Name="AnalysisTree" /> 
@@ -182,14 +176,14 @@
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
 -->
-
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="TTbar" Cacheable="True">
                        &TTbar;
 		       <InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData>
 
-<!--
+
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="TTbar_700to1000" Cacheable="True">
                         &TTbar_700to1000;
 			<InputTree Name="AnalysisTree" /> 
@@ -363,7 +357,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
-
+-->
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDMu30to50" Cacheable="True">
                         &QCDMu30to50;
 			<InputTree Name="AnalysisTree" /> 
@@ -414,7 +408,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
--->
+
 <!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DYJets_scaleup" Cacheable="True">
                         &DYJets_scaleup;
@@ -507,6 +501,7 @@
 		   <Item Name="PrimaryVertexCollection" Value="goodOfflinePrimaryVertices" /> 
 		   <Item Name="METName" Value="patMETsPFlow" />  
 		   <Item Name="TopJetCollection" Value="goodPatJetsCATopTagPFPacked" />
+		   <Item Name="TopTagJetCollection" Value="goodPatJetsCAHEPTopTagPFPacked" />
 		   <Item Name="TopJetCollectionGen" Value="caTopTagGen" />
 <!--		   <Item Name="PrunedJetCollection" Value="goodPatJetsCA8PrunedPF" />  -->
 		   <Item Name="GenParticleCollection" Value="GenParticles" />  
