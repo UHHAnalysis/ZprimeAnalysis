@@ -4,7 +4,6 @@
 <!ENTITY MuDataB SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/SingleMu_B.xml">
 <!ENTITY MuDataC SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/SingleMu_C.xml">
 <!ENTITY MuDataD SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/SingleMu_D.xml">
-<!ENTITY TTbar SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Powheg.xml">
 <!ENTITY ZP500w5 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZP500W5.xml">
 <!ENTITY ZP500w50 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZP500W50.xml">
 <!ENTITY ZP750w7p5 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZP750W7p5.xml">
@@ -21,7 +20,8 @@
 <!ENTITY ZP3000w300 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZP3000W300.xml">
 <!ENTITY ZP4000w40 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZP4000W40.xml">
 <!ENTITY ZP4000w400 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZP4000W400.xml">
-<!ENTITY TTbar_700to1000 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Mtt-700to1000.xml">
+<!ENTITY TTbar SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Powheg.xml">
+<!ENTITY TTbar_700to1000 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Mtt-700to1000_CT10_AUET2_8TeV-powheg-herwig.xml">
 <!ENTITY TTbar_1000toInf SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Mtt-1000toInf.xml">
 <!ENTITY SingleTop_T_tch SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/T_t-channel.xml">
 <!ENTITY SingleTop_T_tWch SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/T_tW-channel.xml">
@@ -31,6 +31,13 @@
 <!ENTITY SingleTop_Tbar_sch SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/Tbar_s-channel.xml">
 <!ENTITY SingleTop_T_sch SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/T_s-channel.xml">
 <!ENTITY DY1Jets_50toInf SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/DY1Jets.xml">
+<!ENTITY DY2Jets_50toInf SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/DY2Jets.xml">
+<!ENTITY DY3Jets_50toInf SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/DY3Jets.xml">
+<!ENTITY DY4Jets_50toInf SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/DY4Jets.xml">
+<!ENTITY W1Jets SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W1JetsToLNu.xml">
+<!ENTITY W2Jets SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W2JetsToLNu.xml">
+<!ENTITY W3Jets SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W3JetsToLNu.xml">
+<!ENTITY W4Jets SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W4JetsToLNu.xml">
 <!ENTITY QCDMu15to20 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-15to20_MuEnriched.xml" >
 <!ENTITY QCDMu20to30 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-20to30_MuEnriched.xml" >
 <!ENTITY QCDMu30to50 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-30to50_MuEnriched.xml" >
@@ -60,10 +67,10 @@
 
 	<Package Name="ZprimeAnalysis.par" />
 
-	<Cycle Name="ZprimePreSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/scratch/hh/dust/naf/cms/user/peiffer/PROOF/" OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="_FromZprimeAnalysis" TargetLumi="1" > 
-<!--	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="_FromZprimeAnalysis" TargetLumi="1" > -->
+	<Cycle Name="ZprimePreSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/scratch/hh/dust/naf/cms/user/gonzalez/PROOF/" OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="" TargetLumi="1" >
+<!--	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="_FromZprimeAnalysis" TargetLumi="1" > --> 
 
-<!--
+
                 <InputData Lumi="1" NEventsMax="-1" Type="DATA" Version="DATA_A" Cacheable="True">
                         &MuDataA;
 			<InputTree Name="AnalysisTree" /> 
@@ -175,8 +182,8 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
--->
-<!--
+
+
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="TTbar" Cacheable="True">
                        &TTbar;
 		       <InputTree Name="AnalysisTree" /> 
@@ -229,7 +236,7 @@
 		</InputData> 
 
 
-
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="Wjets" Cacheable="True">
                         &Wjets;
 			<InputTree Name="AnalysisTree" /> 
@@ -265,7 +272,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData>
-
+-->
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DY1Jets_50toInf" Cacheable="True">
                         &DY1Jets_50toInf;
 			<InputTree Name="AnalysisTree" /> 
@@ -307,7 +314,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData>
--->
+
 <!--
  	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="RSG1000" Cacheable="True">
                         &RSG1000;
@@ -505,6 +512,7 @@
 		   <Item Name="TopJetCollectionGen" Value="caTopTagGen" />
 <!--		   <Item Name="PrunedJetCollection" Value="goodPatJetsCA8PrunedPF" />  -->
 		   <Item Name="GenParticleCollection" Value="GenParticles" />  
+		   <Item Name="PFParticleCollection" Value="PFParticles" />
 
            <Item Name="JECFileLocation" Value="/scratch/hh/dust/naf/cms/user/peiffer/CMSSW_5_3_10/src" />
            <Item Name="JECDataGlobalTag" Value="FT_53_V21_AN4" />           
