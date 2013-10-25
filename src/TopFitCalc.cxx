@@ -316,12 +316,15 @@ void TopFitCalc::CalculateTopTag()
 
       if(TopTag(cajet, mjet, nsubjets, mmin) && deltaR_Lep_Tophad < delR(cajet.v4(),lepton->v4())){
 	caposi = m;
-	deltaR_Lep_Tophad = delR(cajet.v4(),lepton->v4());
+	//deltaR_Lep_Tophad = delR(cajet.v4(),lepton->v4());
 	
 	//if(caposi==-1) return;  
 	LorentzVector top_had = cajet.v4();
  
-
+	unsigned int n_jets = antikjets->size();
+	if(n_jets>10) n_jets=10;
+	unsigned int max_j = myPow(3, n_jets);
+	
 
 	for(unsigned int i = 0; i < neutrinos.size();i++){
 	  
@@ -329,12 +332,12 @@ void TopFitCalc::CalculateTopTag()
 	  wboson_lep.set_v4(lepton->v4()+neutrinos.at(i));
 	  
 
-	  for(unsigned int j=0; j<antikjets->size(); ++j){
+	  for(unsigned int j=0; j<max_j; ++j){
 	    LorentzVector top_lep(0,0,0,0);  
 	    unsigned int num = j;
 	    
 	    for(unsigned int m=0; m<antikjets->size(); ++m){
-	      if(delR(top_had,m_bcc->jets->at(m).v4())> deltaR_Jet_Tophad && num%2==0){
+	      if(delR(top_had,m_bcc->jets->at(m).v4())> deltaR_Jet_Tophad && num%3==0){
 		top_lep = wboson_lep.v4() + m_bcc->jets->at(m).v4();
 		hyp.set_blep_index(m);
 		hyp.set_blep_v4(m_bcc->jets->at(m).v4());
@@ -348,7 +351,7 @@ void TopFitCalc::CalculateTopTag()
 		  
 		m_bcc->recoHyps->push_back(hyp);
 	      }
-	      num/=2;
+	      num/=3;
 	    }
 	  }  
 	}
