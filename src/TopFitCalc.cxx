@@ -329,22 +329,26 @@ void TopFitCalc::CalculateTopTag()
 	  wboson_lep.set_v4(lepton->v4()+neutrinos.at(i));
 	  
 
-
-	  for(unsigned int m=0; m<antikjets->size(); ++m){
-	    if(delR(top_had,m_bcc->jets->at(m).v4())> deltaR_Jet_Tophad){
-	      LorentzVector top_lep = wboson_lep.v4() + m_bcc->jets->at(m).v4();
-	      hyp.set_blep_index(m);
-	      hyp.set_blep_v4(m_bcc->jets->at(m).v4());
-	      hyp.add_toplep_jet_index(m);
-	      hyp.add_tophad_jet_index(caposi);
-	      
-	      
-	      hyp.set_neutrino_v4(neutrinos[i]);
-	      hyp.set_tophad_v4(top_had);
-	      hyp.set_toplep_v4(top_lep);
-	      
-	      m_bcc->recoHyps->push_back(hyp);
-	      
+	  for(unsigned int j=0; j<antikjets->size(); ++j){
+	    LorentzVector top_lep(0,0,0,0);  
+	    unsigned int num = j;
+	    
+	    for(unsigned int m=0; m<antikjets->size(); ++m){
+	      if(delR(top_had,m_bcc->jets->at(m).v4())> deltaR_Jet_Tophad && num%2==0){
+		top_lep = wboson_lep.v4() + m_bcc->jets->at(m).v4();
+		hyp.set_blep_index(m);
+		hyp.set_blep_v4(m_bcc->jets->at(m).v4());
+		hyp.add_toplep_jet_index(m);
+		hyp.add_tophad_jet_index(caposi);
+		  
+		
+		hyp.set_neutrino_v4(neutrinos[i]);
+		hyp.set_tophad_v4(top_had);
+		hyp.set_toplep_v4(top_lep);
+		  
+		m_bcc->recoHyps->push_back(hyp);
+	      }
+	      num/=2;
 	    }
 	  }  
 	}
