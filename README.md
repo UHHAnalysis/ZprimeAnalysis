@@ -22,6 +22,9 @@ ZprimeAnalysis is a library for sframe that defines the cycles needed for the Zp
 * Makefile
   * Makefile for this library
 
+* log
+  * Logfile for updates/changes
+
 * README.md
   * This file.
 
