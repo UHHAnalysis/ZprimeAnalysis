@@ -8,6 +8,7 @@ using namespace std;
 #include "include/JetEffiHists.h"
 #include "include/QCDCycle.h"
 #include "include/SelectionModules.h"
+#include "include/ZprimeSelectionModules.h"
 #include "include/ExampleHists.h"
 #include "include/HypothesisHists.h"
 #include "include/JetHists.h"
@@ -134,20 +135,28 @@ void QCDCycle::BeginInputData( const SInputData& id ) throw( SError )
 
   Selection* NJetSel = new Selection("NJetSelection");
   NJetSel->addSelectionModule(new NJetSelection(2,int_infinity(),50,2.5));
-  NJetSel->addSelectionModule(new NJetSelection(1,int_infinity(),150,2.5));
+  NJetSel->addSelectionModule(new NJetSelection(1,int_infinity(),210,2.5));
 
   Selection* TwoDMuonSel = new Selection("TwoDSelection");
   TwoDMuonSel->addSelectionModule(new TwoDCutMuon(.5,25));
 
+  Selection* IsoConeSel = new Selection("IsoConeSelection");
+  IsoConeSel->addSelectionModule(new IsoConeSelection());
+
+
   static Selection* mttbar_gen_selection = new Selection("Mttbar_Gen_Selection");
- 
-  /*
-  if ((id.GetVersion() == "TTbar") ||(id.GetVersion() == "TTbar_700to1000") ||(id.GetVersion() == "TTbar_1000toInf")){
-    m_logger << INFO << "Applying mttbar generator cut from 1500 to inf GeV." << SLogger::endmsg;
-    mttbar_gen_selection->addSelectionModule(new MttbarGenCut(1500));
+  
+  if ((id.GetVersion() == "TTbar")&& m_mttgencut){
+    m_logger << INFO << "Applying mttbar generator cut from 700 to inf GeV." << SLogger::endmsg;
+    mttbar_gen_selection->addSelectionModule(new MttbarGenCut(700));
     mttbar_gen_selection->EnableSelection();
-    }*/
-  if ((id.GetVersion() == "TTbar") ){
+    }
+  else {
+    m_logger << INFO << "Disabling mttbar generator cut." << SLogger::endmsg;
+    mttbar_gen_selection->DisableSelection();
+  }
+  /*
+  if ((id.GetVersion() == "TTbar")||(id.GetVersion() == "TT_scaleup")|| (id.GetVersion() == "TT_scaledown")){
     m_logger << INFO << "Applying mttbar generator cut from 0 to 700 GeV." << SLogger::endmsg;
     mttbar_gen_selection->addSelectionModule(new MttbarGenCut(0,700));
     mttbar_gen_selection->EnableSelection();
@@ -156,7 +165,7 @@ void QCDCycle::BeginInputData( const SInputData& id ) throw( SError )
     m_logger << INFO << "Disabling mttbar generator cut." << SLogger::endmsg;
     mttbar_gen_selection->DisableSelection();
   }
-  
+  */
 
   //Selection* TopSel = new Selection("TopSelection");
   //TopSel->addSelectionModule(new NJetSelection (1, int_infinity(), 150., 2.5));
@@ -166,13 +175,13 @@ void QCDCycle::BeginInputData( const SInputData& id ) throw( SError )
 
 
   Selection* PTSel = new Selection("PTSelection");
-  PTSel->addSelectionModule(new NJetSelection (1, int_infinity(), 150., 2.5));
+  PTSel->addSelectionModule(new NJetSelection (1, int_infinity(), 230., 2.5));
 
   Selection* METSel = new Selection("METSelelection");
   METSel->addSelectionModule(new METCut(50));
 
   Selection* HTmuonSel = new Selection("HTmuonSelelection");
-  HTmuonSel->addSelectionModule(new HTmuonCut(150));
+  HTmuonSel->addSelectionModule(new HTmuonCut(130));
 
 
   //TopSel->addSelectionModule(new NBTagSelection(m_Nbtags_min,m_Nbtags_max));
@@ -191,15 +200,12 @@ void QCDCycle::BeginInputData( const SInputData& id ) throw( SError )
   TopTagSel->addSelectionModule(new NTopTagSelection(1));
   TopTagSel->addSelectionModule(new TopTagOverlapSelection());
 
-  //TopTagSel->addSelectionModule(new TopTagAntiktJetSelection(1,2,0.8,int_infinity(),int_infinity()));
-  //Selection* TTreco = new Selection("TTreco");
-
- 
-  //RegisterSelection(TTreco);
-
-
   Selection* Chi2Seletion = new Selection("Chi2Selection");
-  Chi2Seletion->addSelectionModule(new HypothesisDiscriminatorCut( m_chi2discr, -1*double_infinity(), 10));
+  Chi2Seletion->addSelectionModule(new HypothesisDiscriminatorCut(m_chi2discr, -1*double_infinity(), 50));
+
+  Selection* Chi2NoTagSeletion = new Selection("Chi2NoTagSelection");
+  Chi2NoTagSeletion->addSelectionModule(new HypothesisDiscriminatorCut(m_chi2discr, -1*double_infinity(), 30));
+
 
   RegisterSelection(PTSel);
   RegisterSelection(METSel);
@@ -209,6 +215,8 @@ void QCDCycle::BeginInputData( const SInputData& id ) throw( SError )
   //RegisterSelection(HCALlaser);
   RegisterSelection(RazorSel);
   RegisterSelection(Chi2Seletion);
+  RegisterSelection(Chi2NoTagSeletion);
+
   RegisterSelection(mttbar_gen_selection);
   RegisterSelection(BSel);
   RegisterSelection(NoBSel);
@@ -216,7 +224,7 @@ void QCDCycle::BeginInputData( const SInputData& id ) throw( SError )
   RegisterSelection(TopTagSel);
   RegisterSelection(MuonSel);	     
   RegisterSelection(TwoDMuonSel);
-
+  RegisterSelection(IsoConeSel);
 
   //TString unc_file = m_JECFileLocation + "/" + m_JECDataGlobalTag + "_Uncertainty_" + m_JECJetCollection + ".txt";
   //m_jes_unc = new JetCorrectionUncertainty(unc_file.Data());
@@ -244,10 +252,11 @@ void QCDCycle::BeginInputData( const SInputData& id ) throw( SError )
   RegisterHistCollection( new MJetsHists("NoTagBSel", m_chi2discr,10));
   RegisterHistCollection( new MJetsHists("NoTagNoBSel", m_chi2discr,10));
 
+  
   RegisterHistCollection( new MJetsHists("Control_one", m_tagchi2discr,10));
   RegisterHistCollection( new MJetsHists("Control_two", m_tagchi2discr,10));
   RegisterHistCollection( new MJetsHists("Control_third", m_tagchi2discr,10));
-
+  
 
   RegisterHistCollection( new HypothesisHists("Chi2_BTag", m_chi2discr ) );
 
@@ -322,7 +331,13 @@ void QCDCycle::BeginInputData( const SInputData& id ) throw( SError )
   RegisterHistCollection( new TopJetHists(    "TopJets_NoTopTag") );
   RegisterHistCollection( new JetEffiHists(   "JetEffi_NoTopTag") );
 
-
+  
+  //LumiControl
+  RegisterHistCollection( new EventHists(       "Event_MJetsHists") );
+  RegisterHistCollection( new EventHists(       "Event_TagBSel") );
+  RegisterHistCollection( new EventHists(       "Event_TagNoBSel") );
+  RegisterHistCollection( new EventHists(       "Event_NoTagBSel") );
+  RegisterHistCollection( new EventHists(       "Event_NoTagNoBSel") );
 
   //Neutrino 
   RegisterHistCollection( new NeutrinoHists("Neutrino"        , m_chi2discr) );
@@ -422,6 +437,9 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
   static Selection* TwoDMuon = GetSelection("TwoDSelection");
   static Selection* HCALlaser = GetSelection("HCAL_laser_events");
   static Selection* ChiSelection = GetSelection("Chi2Selection");
+  static Selection* ChiNoTag = GetSelection("Chi2NoTagSelection");
+
+  static Selection* IsoSel = GetSelection("IsoConeSelection");
 
   static Selection* PTSel = GetSelection("PTSelection");
   static Selection* METSel = GetSelection("METSelelection");
@@ -439,8 +457,15 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
 
   //if(!TwoDMuonSel->passSelection())  throw SError( SError::SkipEvent );
  
+
+  
+
+
+
+
   if(!MuonSel->passSelection()) ClearEvent();
-  static Selection* mttbar_gen_selection = GetSelection("Mttbar_Gen_Selection");
+  //static Selection* mttbar_gen_selection = GetSelection("Mttbar_Gen_Selection");
+  //if(mttbar_gen_selection->passSelection()) ClearEvent();
 
   //if(calc->GetMuons()->at(0).relIso() > 0.4) throw SError( SError::SkipEvent );
 
@@ -451,10 +476,21 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
   }
   */
 
-  if(!mttbar_gen_selection->passSelection()) ClearEvent();
-
+  
   m_cleaner = new Cleaner();
   m_cleaner->SetJECUncertainty(m_jes_unc);
+
+
+  // settings for jet correction uncertainties
+  if (m_sys_unc==e_JEC){
+    if (m_sys_var==e_Up) m_cleaner->ApplyJECVariationUp();
+    if (m_sys_var==e_Down) m_cleaner->ApplyJECVariationDown();
+  }
+  if (m_sys_unc==e_JER){
+    if (m_sys_var==e_Up) m_cleaner->ApplyJERVariationUp();
+    if (m_sys_var==e_Down) m_cleaner->ApplyJERVariationDown();
+  }
+
 
   //if(bcc->jets) m_cleaner->JetCleaner(50,2.5,true);
   //do reconstruction here
@@ -472,35 +508,36 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
    
 
   if(TopTagSel->passSelection()){
-    //topfit->CalculateTopTag();
-    calc->FillHighMassTTbarHypotheses();
+    topfit->CalculateTopTag();
+    //calc->FillHighMassTTbarHypotheses();
   }
   else{
     //topfit->CalculateSelection();
     calc->FillHighMassTTbarHypotheses();
   }
   
-  //if(!bcc->recoHyps || bcc->recoHyps->size()==0) ClearEvent();
-
+  if(!bcc->recoHyps || bcc->recoHyps->size()==0) ClearEvent();
+ 
 
 
   m_tagchi2discr->FillDiscriminatorValues();
+   
   
-
   static Selection* RazorSelection = GetSelection("RazorSelection");
   BaseHists* Control_one   = GetHistCollection("Control_one");
   BaseHists* Control_two   = GetHistCollection("Control_two");
   BaseHists* Control_third = GetHistCollection("Control_third");
-
+ 
   BaseHists* Constituents_before2D = GetHistCollection("Constituents_before2D");
   BaseHists* Constituents_after2D = GetHistCollection("Constituents_after2D");
+  /*
   BaseHists* Constituents_relIso05 = GetHistCollection("Constituents_relIso05");
   BaseHists* MetaTree = GetHistCollection("MetaTree");
 
   ReconstructionHypothesis *discr = m_tagchi2discr->GetBestHypothesis();
   
   BaseHists* RazorHists = GetHistCollection("RazorHists");
-
+  */
   
   
   Muon muon = bcc->muons->at(0);
@@ -535,8 +572,8 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
   //if(test < 40 && pTrel(muon,blep_discr)< 15) ClearEvent();
   //if((pTrel(muon,blep_discr)<20 && deltaRmin(&muon,antikjets_before)<0.2) || deltaRmin(&muon,antikjets_before)<0.1) ClearEvent();
 
-  Constituents_before2D->Fill();
-  MetaTree->Fill();
+  //Constituents_before2D->Fill();
+  //MetaTree->Fill();
 
 
   /*
@@ -547,19 +584,23 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
     if(relIsoMuon(muon,0.1)>0.1) ClearEvent();
   }
   */
-  /*
-  double a = 136.07;
-  double b = 551.518;
-  double c = -0.024552;
+  
+  double a = 29.1356;
+  double b = 164.383;
+  double c = 0.023111;
   double y = a/(muon.pt()+b)+c;
  
   if(y<0.02) y=0.02;
 
- 
-  if(relIsoMuon(muon,0.5)>0.2) Constituents_relIso05->Fill();
+  if(!IsoSel->passSelection()) ClearEvent();
 
-  if(relIsoMuon(muon,y)>0.2 && relIsoMuon(muon,0.4)>0.2) ClearEvent();
-  */
+
+
+
+  //if(relIsoMuon(muon,0.5)>0.2) Constituents_relIso05->Fill();
+
+  //if(relIsoMuon(muon,y)>0.2 && relIsoMuon(muon,0.4)>0.2) ClearEvent();
+  
 
   //if(relIsoMuon(muon,0.5)>0.2 && relIsoMuon(muon,0.4)>0.2 && relIsoMuon(muon,0.08)>0.2) ClearEvent();
 
@@ -567,39 +608,44 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
 
   //if(!TwoDMuon->passSelection()) ClearEvent();
 
-  Constituents_after2D->Fill();
+  //Constituents_after2D->Fill();
 
   //if(!RazorSelection->passSelection()) ClearEvent();
 
   
   
-  if(bcc->jets) m_cleaner->JetCleaner(49,2.5,true);
+  if(bcc->jets) m_cleaner->JetCleaner(50,2.5,true);
  
 
-  /*
+
+
+
+  if(muon.pt()>250 && muon.pt() <350 )Constituents_after2D->Fill();
+
+
+  
   //RazorHists->Fill();
-  FillControlHistos("_PTSel");
-  Control_one->Fill();
+  //FillControlHistos("_PTSel");
+  //Control_one->Fill();
   if(!PTSel->passSelection()) ClearEvent();
-  FillControlHistos("_METSel");
-  Control_two->Fill();
+  //FillControlHistos("_METSel");
+  //Control_two->Fill();
   if(!METSel->passSelection()) ClearEvent();
-  FillControlHistos("_HTmuonSel");
-  Control_third->Fill();
+  //FillControlHistos("_HTmuonSel");
+  //Control_third->Fill();
   if(!HTmuonSel->passSelection()) ClearEvent();
-  */
-  //if(bcc->taus) m_cleaner->TauCleaner(double_infinity(),0.0);
+  
 
+  
 
-
-
-  /*
+  if(bcc->taus) m_cleaner->TauCleaner(double_infinity(),0.0);
+  
   // b tagging scale factor
-  if(m_bsf && m_addGenInfo) {
-    calc->ProduceWeight(m_bsf->GetWeight());
-  }
+  //if(m_bsf && m_addGenInfo) {
+  //  calc->ProduceWeight(m_bsf->GetWeight());
+  //}
   if(!NJetSel->passSelection()) ClearEvent();
-  */
+  
 
   bcc->recoHyps->clear();    
  
@@ -610,8 +656,8 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
   
   if(TopTagSel->passSelection()){
    
-    calc->FillHighMassTTbarHypotheses();
-    //topfit->CalculateTopTag();
+    //calc->FillHighMassTTbarHypotheses();
+    topfit->CalculateTopTag();
     
   }
   else{
@@ -621,17 +667,30 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
   }
 
    
-  //if(!bcc->recoHyps || bcc->recoHyps->size()==0) ClearEvent();
+  if(!bcc->recoHyps || bcc->recoHyps->size()==0) ClearEvent();
    
   //if((pTrel(muon,blep_discr)<20 && deltaRmin(&muon,antikjets_before)<0.2) || deltaRmin(&muon,antikjets_before)<0.1) ClearEvent();
 
   m_chi2discr->FillDiscriminatorValues();
 
-  BaseHists* Cleaner = GetHistCollection("Cleaner");
-  Cleaner->Fill();
+  
+
+
+  //WriteOutputTree();
+
+
+  //return;
+
+
+
+
+  //BaseHists* Cleaner = GetHistCollection("Cleaner");
+  //Cleaner->Fill();
 
 
   BaseHists* Constituents_afterCuts = GetHistCollection("Constituents_afterCuts");
+
+
   Constituents_afterCuts->Fill();
 
   BaseHists* DeltaRHists = GetHistCollection("DelRHists");
@@ -661,13 +720,24 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
   BaseHists* NeutrinosNoTopTag = GetHistCollection("NeutrinoNoTopTag");
 
   //BaseHists* TopTagDeltaRHists = GetHistCollection("TopTagDelRHists");
-
-
-  //DeltaRHists->Fill();
   
-  MJetsHists->Fill();
-  Neutrinos->Fill();
+  BaseHists* Event_MJetsHists = GetHistCollection("Event_MJetsHists");
+  BaseHists* Event_TagBSel = GetHistCollection("Event_TagBSel");
+  BaseHists* Event_TagNoBSel = GetHistCollection("Event_TagNoBSel");
+  BaseHists* Event_NoTagBSel = GetHistCollection("Event_NoTagBSel");
+  BaseHists* Event_NoTagNoBSel = GetHistCollection("Event_NoTagNoBSel");
 
+   //DeltaRHists->Fill();
+  
+  std::vector<TopJet>* cajets = calc->GetCAJets();
+  int NCAJets = cajets->size();
+
+
+  if(NCAJets==0)MJetsHists->Fill();
+
+  
+  //Neutrinos->Fill();
+  //Event_MJetsHists->Fill();
 
   //if(!ChiSelection->passSelection()) ClearEvent();
 
@@ -675,32 +745,43 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
   if(BSel->passSelection() && ChiSelection->passSelection()) FillControlHistos("_BTag");
   if(BSel->passSelection() && ChiSelection->passSelection()) Chi2_HistsBTag->Fill();
   if(BSel->passSelection() && ChiSelection->passSelection()) NeutrinosBSel->Fill();
-  if(NoBSel->passSelection() && ChiSelection->passSelection() ) NoBSelH->Fill();
-  if(NoBSel->passSelection() && ChiSelection->passSelection() ) FillControlHistos("_NoBTag");
-  if(NoBSel->passSelection() && ChiSelection->passSelection() ) NeutrinosNoBSel->Fill();
+  if(NoBSel->passSelection() && ChiNoTag->passSelection() ) NoBSelH->Fill();
+  if(NoBSel->passSelection() && ChiNoTag->passSelection() ) FillControlHistos("_NoBTag");
+  if(NoBSel->passSelection() && ChiNoTag->passSelection() ) NeutrinosNoBSel->Fill();
   //if(topfit_flag)TopTagDeltaRHists->Fill();
 
 
-  if(!TopTagSel->passSelection() && ChiSelection->passSelection()){
+  if(!TopTagSel->passSelection() && ChiNoTag->passSelection()){
     NoTag_Muon_bjet->Fill();
     FillControlHistos("_NoTopTag");
-    if(BSel->passSelection()) NoTagBSelH->Fill();
-    if(NoBSel->passSelection()) NoTagNoBSelH->Fill();
+    if(BSel->passSelection()) {
+      NoTagBSelH->Fill();
+      Event_NoTagBSel->Fill();
+    }
+    if(NoBSel->passSelection()){ 
+      NoTagNoBSelH->Fill();
+      Event_NoTagNoBSel->Fill();
+    }
     NeutrinosNoTopTag->Fill();
 
   }
   
-  if(!TopTagSel->passSelection()) ClearEvent();
+  if(!TopTagSel->passSelection() || !ChiSelection->passSelection()) ClearEvent();
+
   FillControlHistos("_TopTag");
   NeutrinosTopTag->Fill();
 
   //AfterTagDeltaRHists->Fill();
   Tag_Muon_bjet->Fill();
   
-  if(BSel->passSelection()) TagBSelH->Fill();
-  if(NoBSel->passSelection()) TagNoBSelH->Fill();
- 
-  
+  if(BSel->passSelection()) {
+    TagBSelH->Fill();
+    Event_TagBSel->Fill();
+  }
+  if(NoBSel->passSelection()){
+    TagNoBSelH->Fill();
+    Event_TagNoBSel->Fill();
+  }
   ClearEvent();
 
   

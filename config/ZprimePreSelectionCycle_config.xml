@@ -53,6 +53,37 @@
 <!ENTITY WW SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/WW.xml">
 <!ENTITY WZ SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/WZ.xml">
 <!ENTITY ZZ SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZZ.xml">
+
+<!ENTITY DYJets_matchingup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/DYJetsToLL_M-50_matchingup.xml">
+<!ENTITY DYJets_matchingdown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/DYJetsToLL_M-50_matchingdown.xml">
+
+<!ENTITY DYJets_scaleup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/DYJetsToLL_M-50_scaleup.xml">
+<!ENTITY DYJets_scaledown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/DYJetsToLL_M-50_scaledown.xml">
+
+<!ENTITY W1Jets_scaleup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W1JetsToLNu_scaleup.xml">
+<!ENTITY W1Jets_scaledown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W1JetsToLNu_scaledown.xml">
+<!ENTITY W1Jets_matchingup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W1JetsToLNu_matchingup.xml">
+<!ENTITY W1Jets_matchingdown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W1JetsToLNu_matchingdown.xml">
+<!ENTITY W2Jets_scaleup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W2JetsToLNu_scaleup.xml">
+<!ENTITY W2Jets_scaledown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W2JetsToLNu_scaledown.xml">
+<!ENTITY W2Jets_matchingup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W2JetsToLNu_matchingup.xml">
+<!ENTITY W2Jets_matchingdown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W2JetsToLNu_matchingdown.xml">
+<!ENTITY W3Jets_scaleup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W3JetsToLNu_scaleup.xml">
+<!ENTITY W3Jets_scaledown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W3JetsToLNu_scaledown.xml">
+<!ENTITY W3Jets_matchingup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W3JetsToLNu_matchingup.xml">
+<!ENTITY W3Jets_matchingdown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W3JetsToLNu_matchingdown.xml">
+<!ENTITY W4Jets_scaleup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W4JetsToLNu_scaleup.xml">
+<!ENTITY W4Jets_scaledown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W4JetsToLNu_scaledown.xml">
+<!ENTITY W4Jets_matchingup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W4JetsToLNu_matchingup.xml">
+<!ENTITY W4Jets_matchingdown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W4JetsToLNu_matchingdown.xml">
+<!ENTITY TT_scaleup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_scaleup.xml">
+<!ENTITY TT_scaledown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_scaledown.xml">
+
+<!ENTITY TT700to1000_scaleup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Mtt-700to1000_CT10_scaleup.xml">
+<!ENTITY TT700to1000_scaledown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Mtt-700to1000_scaledown.xml">
+<!ENTITY TT1000toInf_scaleup SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Mtt-1000toInf_CT10_scaleup.xml">
+<!ENTITY TT1000toInf_scaledown SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Mtt-1000toInf_CT10_scaledown.xml">
+
 ]>
 
 <JobConfiguration JobName="ZprimePreSelectionCycle" OutputLevel="INFO">
@@ -68,9 +99,9 @@
 	<Package Name="ZprimeAnalysis.par" />
 
 	<Cycle Name="ZprimePreSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/scratch/hh/dust/naf/cms/user/gonzalez/PROOF/" OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="" TargetLumi="1" >
-<!--	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="_FromZprimeAnalysis" TargetLumi="1" > --> 
+<!--	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="" TargetLumi="1" > --> 
 
-
+<!--
                 <InputData Lumi="1" NEventsMax="-1" Type="DATA" Version="DATA_A" Cacheable="True">
                         &MuDataA;
 			<InputTree Name="AnalysisTree" /> 
@@ -116,8 +147,9 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
-
-	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="ZP1000w10" Cacheable="True">
+-->
+<!--	        
+                <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="ZP1000w10" Cacheable="True">
                         &ZP1000w10;
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
@@ -235,7 +267,7 @@
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
 
-
+-->
 <!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="Wjets" Cacheable="True">
                         &Wjets;
@@ -273,6 +305,7 @@
 			<OutputTree Name="AnalysisTree" />  
 		</InputData>
 -->
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DY1Jets_50toInf" Cacheable="True">
                         &DY1Jets_50toInf;
 			<InputTree Name="AnalysisTree" /> 
@@ -314,7 +347,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData>
-
+-->
 <!--
  	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="RSG1000" Cacheable="True">
                         &RSG1000;
@@ -365,6 +398,7 @@
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
 -->
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDMu30to50" Cacheable="True">
                         &QCDMu30to50;
 			<InputTree Name="AnalysisTree" /> 
@@ -416,7 +450,11 @@
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
 
-<!--
+
+-->
+
+
+
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DYJets_scaleup" Cacheable="True">
                         &DYJets_scaleup;
 			<InputTree Name="AnalysisTree" /> 
@@ -427,6 +465,8 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
+
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DYJets_matchingup" Cacheable="True">
                         &DYJets_matchingup;
 			<InputTree Name="AnalysisTree" /> 
@@ -437,28 +477,109 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
-	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="WJets_scaleup" Cacheable="True">
-                        &WJets_scaleup;
+
+
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W1Jets_scaleup" Cacheable="True">
+                        &W1Jets_scaleup;	
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
-	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="WJets_scaledown" Cacheable="True">
-                        &WJets_scaledown;
-			<InputTree Name="AnalysisTree" /> 
-			<OutputTree Name="AnalysisTree" />
-		</InputData>
-	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="WJets_matchingup" Cacheable="True">
-                        &WJets_matchingup;
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W2Jets_scaleup" Cacheable="True">
+                       	&W2Jets_scaleup;
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
 
-	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="WJets_matchingdown" Cacheable="True">
-                        &WJets_matchingdown;
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W3Jets_scaleup" Cacheable="True">
+                      	&W3Jets_scaleup;
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
 
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W4Jets_scaleup" Cacheable="True">
+                  	&W4Jets_scaleup;		
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+
+
+
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W1Jets_scaledown" Cacheable="True">
+                        &W1Jets_scaledown;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W2Jets_scaledown" Cacheable="True">
+			&W2Jets_scaledown;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W3Jets_scaledown" Cacheable="True">
+ 			&W3Jets_scaledown;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W4Jets_scaledown" Cacheable="True">
+                        &W4Jets_scaledown;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W1Jets_matchingup" Cacheable="True">
+                        &W1Jets_matchingup;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W2Jets_matchingup" Cacheable="True">
+			&W2Jets_matchingup;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W3Jets_matchingup" Cacheable="True">
+                     	&W3Jets_matchingup;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W4Jets_matchingup" Cacheable="True">
+			&W4Jets_matchingup;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+
+
+
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W1Jets_matchingdown" Cacheable="True">
+                        &W1Jets_matchingdown;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W2Jets_matchingdown" Cacheable="True">
+                       	&W2Jets_matchingdown;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+-->	
+
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W3Jets_matchingdown" Cacheable="True">
+			&W3Jets_matchingdown;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W4Jets_matchingdown" Cacheable="True">
+		        &W4Jets_matchingdown;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+
+
+
+
+
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="TT_scaleup" Cacheable="True">
                         &TT_scaleup;
 			<InputTree Name="AnalysisTree" /> 

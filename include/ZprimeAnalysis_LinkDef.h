@@ -22,8 +22,8 @@
 #pragma link C++ class ZprimeEleTrigCycle+;
 #pragma link C++ class DileptonPreSelectionCycle+;
 
-#pragma link C++ class TopFitCalc+;
 
+#pragma link C++ class TopFitCalc+;
 
 #pragma link C++ class TopTagTMVACycle+;
 #pragma link C++ class GenTTbarCycle+;
@@ -33,6 +33,7 @@
 #pragma link C++ class MetaTreeFiller+;
 #pragma link C++ class CleanerFiller+;
 #pragma link C++ class QCDCycle+;
+#pragma link C++ class PostQCDCycle+;
 #pragma link C++ class RazorHists+;
 #pragma link C++ class TopTagDelRHists+;
 #pragma link C++ class ZPrimeTopTaggerCycle+;

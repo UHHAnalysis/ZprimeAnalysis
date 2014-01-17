@@ -4,6 +4,7 @@
 #include "TSystem.h"
 #include <stdio.h>
 #include <iostream>
+#include <stdexcept>
 
 TopFitCalc* TopFitCalc::m_instance = NULL;
 
@@ -321,30 +322,31 @@ void TopFitCalc::CalculateTopTag()
 	//if(caposi==-1) return;  
 	LorentzVector top_had = cajet.v4();
  
-	unsigned int n_jets = antikjets->size();
-	if(n_jets>10) n_jets=10;
-	unsigned int max_j = myPow(3, n_jets);
+	int n_jets = antikjets->size();
+	if(n_jets>6) n_jets=6;
+	int max_j = myPow(3, n_jets);
 	
 
-	for(unsigned int i = 0; i < neutrinos.size();i++){
+	for(unsigned int i = 0; i < neutrinos.size();++i){
 	  
 	  Particle wboson_lep;
 	  wboson_lep.set_v4(lepton->v4()+neutrinos.at(i));
 	  
 
-	  for(unsigned int j=0; j<max_j; ++j){
+	  for(int j=0; j<max_j; ++j){
 	    LorentzVector top_lep(0,0,0,0);  
-	    unsigned int num = j;
-	    
-	    for(unsigned int m=0; m<antikjets->size(); ++m){
-	      if(delR(top_had,m_bcc->jets->at(m).v4())> deltaR_Jet_Tophad && num%3==0){
-		top_lep = wboson_lep.v4() + m_bcc->jets->at(m).v4();
-		hyp.set_blep_index(m);
-		hyp.set_blep_v4(m_bcc->jets->at(m).v4());
-		hyp.add_toplep_jet_index(m);
+	    LorentzVector b_lep(0,0,0,0);  
+	    int num = j;
+    
+	    for(unsigned int p=0; p<antikjets->size(); ++p){
+	      if(delR(top_had,antikjets->at(p).v4())> deltaR_Jet_Tophad && num%3==0){
+		b_lep = b_lep + antikjets->at(p).v4();
+		top_lep = wboson_lep.v4() + b_lep;
+		hyp.set_blep_index(p);
+		hyp.set_blep_v4(b_lep);
+		hyp.add_toplep_jet_index(p);
 		hyp.add_tophad_jet_index(caposi);
 		  
-		
 		hyp.set_neutrino_v4(neutrinos[i]);
 		hyp.set_tophad_v4(top_had);
 		hyp.set_toplep_v4(top_lep);
