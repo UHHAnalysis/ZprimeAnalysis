@@ -23,7 +23,6 @@ INCLUDES += -I$(SFRAME_DIR)/include
 INCLUDES += -I$(SFRAME_DIR)/NtupleWriter
 INCLUDES += -I$(SFRAME_DIR)/NtupleWriter/include
 
-USERCXXFLAGS := -g -std=c++0x
 USERLDFLAGS += $(shell root-config --libs) -lMinuit 
 
 INCLUDES += -I$(LHAPDFDIR)/include
