@@ -120,7 +120,7 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
       first_selection->addSelectionModule(new NElectronSelection(0,0));//no ided electrons
     }
 
-    //first_selection->addSelectionModule(new TwoDCut());
+    first_selection->addSelectionModule(new TwoDCut());
 
     Selection* second_selection= new Selection("second_selection");
 
@@ -279,7 +279,7 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
 
     if(!first_selection->passSelection())  throw SError( SError::SkipEvent );
 
-    /*
+    
     //apply tighter jet cleaning for further cuts and analysis steps
     if(bcc->jets) m_cleaner->JetCleaner(50,2.5,true);
 
@@ -293,7 +293,7 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     } else {
         if(!trangularcut_selection->passInvertedSelection())  throw SError( SError::SkipEvent );
     }
-    */
+    
     //do reconstruction here
     //if(!bcc->recoHyps)  cout<<"no Hyp list"<<endl;
     calc->FillHighMassTTbarHypotheses();
