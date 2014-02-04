@@ -98,8 +98,8 @@
 
 	<Package Name="ZprimeAnalysis.par" />
 
-	<Cycle Name="ZprimePreSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/scratch/hh/dust/naf/cms/user/gonzalez/PROOF/" OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="" TargetLumi="1" >
-<!--	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/scratch/hh/dust/naf/cms/user/gonzalez/Analysis53X_v3/PreSelectionMuon/" PostFix="" TargetLumi="1" > --> 
+<!--	<Cycle Name="ZprimePreSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/scratch/hh/dust/naf/cms/user/kogler/PROOF/" OutputDirectory="/nfs/dust/cms/user/kogler/Zprime/Analysis53X_v3/PreSelectionElectron/" PostFix="" TargetLumi="1" > -->
+	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/nfs/dust/cms/user/kogler/Zprime/Analysis53X_v3/PreSelectionElectron/" PostFix="" TargetLumi="1" >
 
 <!--
                 <InputData Lumi="1" NEventsMax="-1" Type="DATA" Version="DATA_A" Cacheable="True">
@@ -148,13 +148,13 @@
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
 -->
-<!--	        
-                <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="ZP1000w10" Cacheable="True">
+
+                <InputData Lumi="1" NEventsMax="10000" Type="MC" Version="ZP1000w10" Cacheable="True">
                         &ZP1000w10;
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
-
+<!--	        
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="ZP1000w100" Cacheable="True">
                         &ZP1000w100;
 			<InputTree Name="AnalysisTree" /> 
@@ -452,9 +452,7 @@
 
 
 -->
-
-
-
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DYJets_scaleup" Cacheable="True">
                         &DYJets_scaleup;
 			<InputTree Name="AnalysisTree" /> 
@@ -465,7 +463,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
-
+-->
 <!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DYJets_matchingup" Cacheable="True">
                         &DYJets_matchingup;
@@ -562,8 +560,6 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
--->	
-
 		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W3Jets_matchingdown" Cacheable="True">
 			&W3Jets_matchingdown;
 			<InputTree Name="AnalysisTree" /> 
@@ -574,9 +570,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
-
-
-
+-->	
 
 
 <!--
@@ -617,7 +611,7 @@
 -->
 		<UserConfig>
 
-		   <Item Name="Electron_Or_Muon_Selection" Value="Muon" />
+		   <Item Name="Electron_Or_Muon_Selection" Value="Electron" />
 
 		   <Item Name="PFParticles" Value="PFParticles" />  
 		   <Item Name="JetCollection" Value="goodPatJetsPFlow" />  
@@ -635,7 +629,7 @@
 		   <Item Name="GenParticleCollection" Value="GenParticles" />  
 		   <Item Name="PFParticleCollection" Value="PFParticles" />
 
-           <Item Name="JECFileLocation" Value="/scratch/hh/dust/naf/cms/user/peiffer/CMSSW_5_3_10/src" />
+           <Item Name="JECFileLocation" Value="/nfs/dust/cms/user/peiffer/CMSSW_5_3_10/src" />
            <Item Name="JECDataGlobalTag" Value="FT_53_V21_AN4" />           
            <Item Name="JECMCGlobalTag" Value="START53_V27" />
            <Item Name="JECJetCollection" Value="AK5PFchs" />

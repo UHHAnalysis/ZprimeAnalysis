@@ -128,7 +128,7 @@ void ZprimePreSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weigh
     //clean collections here
 
     if(bcc->muons) cleaner.MuonCleaner_noIso(45,2.1);
-    if(bcc->electrons) cleaner.ElectronCleaner_noIso(35,2.5,m_reversed_electron_selection);
+    if(bcc->electrons) cleaner.ElectronCleaner_noIso(35,2.5,m_reversed_electron_selection,true);
     if(bcc->jets) cleaner.JetLeptonSubtractor(m_corrector,false);
     if(!bcc->isRealData && bcc->jets) cleaner.JetEnergyResolutionShifter();
     if(bcc->jets) cleaner.JetCleaner(30,2.5,true);

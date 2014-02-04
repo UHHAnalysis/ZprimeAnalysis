@@ -33,7 +33,6 @@
 #pragma link C++ class MetaTreeFiller+;
 #pragma link C++ class CleanerFiller+;
 #pragma link C++ class QCDCycle+;
-#pragma link C++ class PostQCDCycle+;
 #pragma link C++ class RazorHists+;
 #pragma link C++ class TopTagDelRHists+;
 #pragma link C++ class ZPrimeTopTaggerCycle+;
