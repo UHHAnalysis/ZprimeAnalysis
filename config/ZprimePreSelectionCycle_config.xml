@@ -4,6 +4,10 @@
 <!ENTITY MuDataB SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/SingleMu_B.xml">
 <!ENTITY MuDataC SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/SingleMu_C.xml">
 <!ENTITY MuDataD SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/SingleMu_D.xml">
+<!ENTITY EleDataA SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/EleHad_A.xml">
+<!ENTITY EleDataB SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/EleHad_A.xml">
+<!ENTITY EleDataC SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/EleHad_A.xml">
+<!ENTITY EleDataD SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/EleHad_A.xml">
 <!ENTITY ZP500w5 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZP500W5.xml">
 <!ENTITY ZP500w50 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZP500W50.xml">
 <!ENTITY ZP750w7p5 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZP750W7p5.xml">
@@ -101,26 +105,26 @@
 <!--	<Cycle Name="ZprimePreSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/scratch/hh/dust/naf/cms/user/kogler/PROOF/" OutputDirectory="/nfs/dust/cms/user/kogler/Zprime/Analysis53X_v3/PreSelectionElectron/" PostFix="" TargetLumi="1" > -->
 	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/nfs/dust/cms/user/kogler/Zprime/Analysis53X_v3/PreSelectionElectron/" PostFix="" TargetLumi="1" >
 
-<!--
-                <InputData Lumi="1" NEventsMax="-1" Type="DATA" Version="DATA_A" Cacheable="True">
-                        &MuDataA;
+
+                <InputData Lumi="1" NEventsMax="10000" Type="DATA" Version="DATA_A" Cacheable="True">
+                        &EleDataA;
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
-
+<!--
                 <InputData Lumi="1" NEventsMax="-1" Type="DATA" Version="DATA_B" Cacheable="True">
-                        &MuDataB;
+                        &EleDataB;
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
 
                 <InputData Lumi="1" NEventsMax="-1" Type="DATA" Version="DATA_C" Cacheable="True">
-                        &MuDataC;
+                        &EleDataC;
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
                 <InputData Lumi="1" NEventsMax="-1" Type="DATA" Version="DATA_D" Cacheable="True">
-                        &MuDataD;
+                        &EleDataD;
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
@@ -148,13 +152,13 @@
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
 -->
-
-                <InputData Lumi="1" NEventsMax="10000" Type="MC" Version="ZP1000w10" Cacheable="True">
+<!--
+                <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="ZP1000w10" Cacheable="True">
                         &ZP1000w10;
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
-<!--	        
+
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="ZP1000w100" Cacheable="True">
                         &ZP1000w100;
 			<InputTree Name="AnalysisTree" /> 
