@@ -42,6 +42,7 @@
 <!ENTITY W2Jets SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W2JetsToLNu.xml">
 <!ENTITY W3Jets SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W3JetsToLNu.xml">
 <!ENTITY W4Jets SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/W4JetsToLNu.xml">
+
 <!ENTITY QCDMu15to20 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-15to20_MuEnriched.xml" >
 <!ENTITY QCDMu20to30 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-20to30_MuEnriched.xml" >
 <!ENTITY QCDMu30to50 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-30to50_MuEnriched.xml" >
@@ -54,6 +55,20 @@
 <!ENTITY QCDMu600to800 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-600to800_MuEnriched.xml" >
 <!ENTITY QCDMu800to1000 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-800to1000_MuEnriched.xml" >
 <!ENTITY QCDMu1000 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-1000_MuEnriched.xml" >
+
+<!ENTITY QCDEm20to30 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-20to30_EMEnriched.xml" >
+<!ENTITY QCDEm30to80 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-30to80_EMEnriched.xml" >
+<!ENTITY QCDEm80to170 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-80to170_EMEnriched.xml" >
+<!ENTITY QCDEm170to250 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-170to250_EMEnriched.xml" >
+<!ENTITY QCDEm250to350 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-250to350_EMEnriched.xml" >
+<!ENTITY QCDEm350 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt-350_EMEnriched.xml" >
+<!ENTITY QCDBCtoE20to30 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt_20_30_BCtoE.xml" >
+<!ENTITY QCDBCtoE30to80 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt_30_80_BCtoE.xml" >
+<!ENTITY QCDBCtoE80to170 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt_80_170_BCtoE.xml" >
+<!ENTITY QCDBCtoE170to250 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt_170_250_BCtoE.xml" >
+<!ENTITY QCDBCtoE250to350 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt_250_350_BCtoE.xml" >
+<!ENTITY QCDBCtoE350 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/QCD_Pt_350_BCtoE.xml" >
+
 <!ENTITY WW SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/WW.xml">
 <!ENTITY WZ SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/WZ.xml">
 <!ENTITY ZZ SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZZ.xml">
@@ -111,7 +126,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
-<!--
+
                 <InputData Lumi="1" NEventsMax="-1" Type="DATA" Version="DATA_B" Cacheable="True">
                         &EleDataB;
 			<InputTree Name="AnalysisTree" /> 
@@ -151,8 +166,8 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
--->
-<!--
+
+
                 <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="ZP1000w10" Cacheable="True">
                         &ZP1000w10;
 			<InputTree Name="AnalysisTree" /> 
@@ -271,7 +286,7 @@
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
 
--->
+
 <!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="Wjets" Cacheable="True">
                         &Wjets;
@@ -283,7 +298,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData>
-
+-->
 
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="WW" Cacheable="True">
                         &WW;
@@ -302,14 +317,14 @@
 		</InputData> 
 
 
-
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="TTbar_MadGraph" Cacheable="True">
                         &TTbar_MadGraph;
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData>
 -->
-<!--
+
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DY1Jets_50toInf" Cacheable="True">
                         &DY1Jets_50toInf;
 			<InputTree Name="AnalysisTree" /> 
@@ -351,8 +366,8 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData>
--->
-<!--
+
+
  	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="RSG1000" Cacheable="True">
                         &RSG1000;
 			<InputTree Name="AnalysisTree" /> 
@@ -391,6 +406,7 @@
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
 
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDMu15to20" Cacheable="True">
                         &QCDMu15to20;
 			<InputTree Name="AnalysisTree" /> 
@@ -401,8 +417,6 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
--->
-<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDMu30to50" Cacheable="True">
                         &QCDMu30to50;
 			<InputTree Name="AnalysisTree" /> 
@@ -453,9 +467,71 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
-
-
 -->
+
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDEm20to30" Cacheable="True">
+                        &QCDEm20to30;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDEm30to80" Cacheable="True">
+                        &QCDEm30to80;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDEm80to170" Cacheable="True">
+                        &QCDEm80to170;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDEm170to250" Cacheable="True">
+                        &QCDEm170to250;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDEm250to350" Cacheable="True">
+                        &QCDEm250to350;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDEm350" Cacheable="True">
+                        &QCDEm350;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDBCtoE20to30" Cacheable="True">
+                        &QCDBCtoE20to30;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDBCtoE30to80" Cacheable="True">
+                        &QCDBCtoE30to80;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDBCtoE80to170" Cacheable="True">
+                        &QCDBCtoE80to170;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDBCtoE170to250" Cacheable="True">
+                        &QCDBCtoE170to250;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDBCtoE250to350" Cacheable="True">
+                        &QCDBCtoE250to350;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDBCtoE350" Cacheable="True">
+                        &QCDBCtoE350;
+			<InputTree Name="AnalysisTree" /> 
+			<OutputTree Name="AnalysisTree" />
+		</InputData>
+
+
 <!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DYJets_scaleup" Cacheable="True">
                         &DYJets_scaleup;
@@ -467,8 +543,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
--->
-<!--
+
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DYJets_matchingup" Cacheable="True">
                         &DYJets_matchingup;
 			<InputTree Name="AnalysisTree" /> 
@@ -479,7 +554,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
-
+-->
 
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W1Jets_scaleup" Cacheable="True">
                         &W1Jets_scaleup;	
@@ -574,10 +649,8 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
--->	
 
 
-<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="TT_scaleup" Cacheable="True">
                         &TT_scaleup;
 			<InputTree Name="AnalysisTree" /> 
@@ -612,7 +685,8 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
--->
+
+
 		<UserConfig>
 
 		   <Item Name="Electron_Or_Muon_Selection" Value="Electron" />
