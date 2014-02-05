@@ -102,8 +102,8 @@
 
 	<Package Name="ZprimeAnalysis.par" />
 
-<!--	<Cycle Name="ZprimePreSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/scratch/hh/dust/naf/cms/user/kogler/PROOF/" OutputDirectory="/nfs/dust/cms/user/kogler/Zprime/Analysis53X_v3/PreSelectionElectron/" PostFix="" TargetLumi="1" > -->
-	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/nfs/dust/cms/user/kogler/Zprime/Analysis53X_v3/PreSelectionElectron/" PostFix="" TargetLumi="1" >
+	<Cycle Name="ZprimePreSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/nfs/dust/cms/user/kogler/PROOF/" OutputDirectory="/nfs/dust/cms/user/kogler/Zprime/Analysis53X_v3/PreSelectionElectron/" PostFix="" TargetLumi="1" >
+<!--	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/nfs/dust/cms/user/kogler/Zprime/Analysis53X_v3/PreSelectionElectron/" PostFix="" TargetLumi="1" > -->
 
 
                 <InputData Lumi="1" NEventsMax="10000" Type="DATA" Version="DATA_A" Cacheable="True">
@@ -634,7 +634,7 @@
 		   <Item Name="PFParticleCollection" Value="PFParticles" />
 
            <Item Name="JECFileLocation" Value="/nfs/dust/cms/user/peiffer/CMSSW_5_3_10/src" />
-           <Item Name="JECDataGlobalTag" Value="FT_53_V21_AN4" />           
+           <Item Name="JECDataGlobalTag" Value="FT_53_V21_AN6" />           
            <Item Name="JECMCGlobalTag" Value="START53_V27" />
            <Item Name="JECJetCollection" Value="AK5PFchs" />
 
