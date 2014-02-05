@@ -25,7 +25,7 @@
 <!ENTITY ZP4000w40 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZP4000W40.xml">
 <!ENTITY ZP4000w400 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/ZP4000W400.xml">
 <!ENTITY TTbar SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Powheg.xml">
-<!ENTITY TTbar_700to1000 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Mtt-700to1000_CT10_AUET2_8TeV-powheg-herwig.xml">
+<!ENTITY TTbar_700to1000 SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Mtt-700to1000.xml">
 <!ENTITY TTbar_1000toInf SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/TT_Mtt-1000toInf.xml">
 <!ENTITY SingleTop_T_tch SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/T_t-channel.xml">
 <!ENTITY SingleTop_T_tWch SYSTEM "../../SFrameAnalysis/config/Samples_TTBSM53/T_tW-channel.xml">
@@ -106,7 +106,7 @@
 <!--	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/nfs/dust/cms/user/kogler/Zprime/Analysis53X_v3/PreSelectionElectron/" PostFix="" TargetLumi="1" > -->
 
 
-                <InputData Lumi="1" NEventsMax="10000" Type="DATA" Version="DATA_A" Cacheable="True">
+                <InputData Lumi="1" NEventsMax="-1" Type="DATA" Version="DATA_A" Cacheable="True">
                         &EleDataA;
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
