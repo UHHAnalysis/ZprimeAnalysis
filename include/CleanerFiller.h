@@ -41,7 +41,7 @@ private:
    Double_t m_toptag;
    Double_t m_chi2;	
    Double_t m_mtt_clean;	
-    
+   Double_t m_heptoptag;
 
    HypothesisDiscriminator* m_discr;
 

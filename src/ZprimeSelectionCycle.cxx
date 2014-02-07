@@ -110,14 +110,14 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
     first_selection->addSelectionModule(new NJetSelection(2,int_infinity(),50,2.4));//at least two jets
 
     if(doEle) {
-        first_selection->addSelectionModule(new NElectronSelection(1,int_infinity()));//at least one electron
-        first_selection->addSelectionModule(new NElectronSelection(1,1));//exactly one electron
-        first_selection->addSelectionModule(new NMuonSelection(0,0));//no muons
+      first_selection->addSelectionModule(new NElectronSelection(1,int_infinity()));//at least one electron
+      first_selection->addSelectionModule(new NElectronSelection(1,1));//exactly one electron
+      first_selection->addSelectionModule(new NMuonSelection(0,0));//no muons
     }
     if(doMu) {
-        first_selection->addSelectionModule(new NMuonSelection(1,int_infinity()));//at least one muon
-        first_selection->addSelectionModule(new NMuonSelection(1,1));//exactly one muon
-        first_selection->addSelectionModule(new NElectronSelection(0,0));//no ided electrons
+      first_selection->addSelectionModule(new NMuonSelection(1,int_infinity()));//at least one muon
+      first_selection->addSelectionModule(new NMuonSelection(1,1));//exactly one muon
+      first_selection->addSelectionModule(new NElectronSelection(0,0));//no ided electrons
     }
 
   //  first_selection->addSelectionModule(new IsoConeSelection());
@@ -279,6 +279,7 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
 
     if(!first_selection->passSelection())  throw SError( SError::SkipEvent );
 
+    
     //apply tighter jet cleaning for further cuts and analysis steps
     if(bcc->jets) m_cleaner->JetCleaner(50,2.5,true);
 
@@ -292,7 +293,7 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     } else {
         if(!trangularcut_selection->passInvertedSelection())  throw SError( SError::SkipEvent );
     }
-
+    
     //do reconstruction here
     //if(!bcc->recoHyps)  cout<<"no Hyp list"<<endl;
     calc->FillHighMassTTbarHypotheses();

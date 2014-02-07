@@ -28,11 +28,11 @@ void CleanerFiller::Init()
   //book output tree branches
   
   //m_tree->Branch("data");
-  
+ 
   m_tree->Branch("toptag"    , &m_toptag     , "toptag/D");
   m_tree->Branch("chi2"      , &m_chi2       , "chi2/D");
   m_tree->Branch("mtt_clean" , &m_mtt_clean  , "mtt_clean/D");
-
+  m_tree->Branch("heptoptag" , &m_heptoptag  , "heptoptag/D");
 }
 
 void CleanerFiller::Fill()
@@ -63,18 +63,27 @@ void CleanerFiller::Fill()
   
   std::vector<TopJet>* cajets = calc->GetCAJets();
   std::vector<Jet>* antikjets = calc->GetJets();
+  std::vector<TopJet>* hepjets = bcc->toptagjets;
+
 
   m_mtt_clean = (toplep+tophad).isTimelike() ? (toplep+tophad).M() : -sqrt((toplep+tophad).M2());
   m_chi2 = hyp->discriminator("Chi2");
   
   m_toptag = 0; 
-   
+  m_heptoptag =0;
+
+
   double mjet = 0;
   double mmin = 0;
   int nsubjets = 0;
 
-  for(int i =0; i<cajets->size(); ++i) 
+  for(unsigned int i =0; i<cajets->size(); ++i) 
      if(TopTag(cajets->at(i),mjet,nsubjets,mmin)) m_toptag += 1;	
+
+
+  for(unsigned int i =0; i<hepjets->size();++i)
+    if(variableHepTopTag(hepjets->at(i))) m_heptoptag += 1;
+
 
   m_tree->Fill();
   

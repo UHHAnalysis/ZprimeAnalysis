@@ -160,17 +160,33 @@ void ConstituentsHists::Init()
   Book( TH2F("IsoMuon04_pt","",100,0,500,100,0,500)); 
 
 
-  Book( TH1F("relIsoMuon_004","relIsoMuon #Delta R 0.04",100,0,5));
-  Book( TH1F("relIsoMuon_05" ,"relIsoMuon #Delta R 0.5",100,0,5));
-  Book( TH1F("relIsoMuon_01" ,"relIsoMuon #Delta R 0.1",100,0,5));
-  Book( TH1F("relIsoMuon_008","relIsoMuon #Delta R 0.08",100,0,5));
-  Book( TH1F("relIsoMuon_002","relIsoMuon #Delta R 0.02",100,0,5));
+  Book( TH1F("relIsoMuon_004","relIsoMuon #Delta R 0.04",100,0,0.3));
+  Book( TH1F("relIsoMuon_05" ,"relIsoMuon #Delta R 0.5",100,0,0.3));
+  Book( TH1F("relIsoMuon_01" ,"relIsoMuon #Delta R 0.1",100,0,0.3));
+  Book( TH1F("relIsoMuon_008","relIsoMuon #Delta R 0.08",100,0,0.3));
+  Book( TH1F("relIsoMuon_002","relIsoMuon #Delta R 0.02",100,0,0.3));
 
   Book( TH1F("relIsoSub_004","relIsoSub #Delta R 0.04",100,0,5));
   Book( TH1F("relIsoSub_05" ,"relIsoSub #Delta R 0.5",100,0,5));
   Book( TH1F("relIsoSub_01" ,"relIsoSub #Delta R 0.1",100,0,5));
   Book( TH1F("relIsoSub_008","relIsoSub #Delta R 0.08",100,0,5));
   Book( TH1F("relIsoSub_002","relIsoSub #Delta R 0.02",100,0,5));
+
+  Book( TH1F("relIsoMuon_004_ly","relIsoMuon #Delta R 0.04",100,0,0.3));
+  Book( TH1F("relIsoMuon_05_ly" ,"relIsoMuon #Delta R 0.5",100,0,0.3));
+  Book( TH1F("relIsoMuon_01_ly" ,"relIsoMuon #Delta R 0.1",100,0,0.3));
+  Book( TH1F("relIsoMuon_008_ly","relIsoMuon #Delta R 0.08",100,0,0.3));
+  Book( TH1F("relIsoMuon_002_ly","relIsoMuon #Delta R 0.02",100,0,0.3));
+
+  Book( TH1F("relIsoSub_004_ly","relIsoSub #Delta R 0.04",100,0,5));
+  Book( TH1F("relIsoSub_05_ly" ,"relIsoSub #Delta R 0.5",100,0,5));
+  Book( TH1F("relIsoSub_01_ly" ,"relIsoSub #Delta R 0.1",100,0,5));
+  Book( TH1F("relIsoSub_008_ly","relIsoSub #Delta R 0.08",100,0,5));
+  Book( TH1F("relIsoSub_002_ly","relIsoSub #Delta R 0.02",100,0,5));
+
+
+
+
 
   Book( TH1F("HT","HT",100,0,3000));
 
@@ -331,7 +347,11 @@ void ConstituentsHists::Fill()
     Hist("relIsoSub_01" )->Fill(relIsoParticle01 ,weight);
     Hist("relIsoSub_008")->Fill(relIsoParticle008,weight);
     Hist("relIsoSub_002")->Fill(relIsoParticle002,weight);
-
+    Hist("relIsoSub_004_ly")->Fill(relIsoParticle004,weight);
+    Hist("relIsoSub_05_ly" )->Fill(relIsoParticle05 ,weight);
+    Hist("relIsoSub_01_ly" )->Fill(relIsoParticle01 ,weight);
+    Hist("relIsoSub_008_ly")->Fill(relIsoParticle008,weight);
+    Hist("relIsoSub_002_ly")->Fill(relIsoParticle002,weight);
 
 
     Hist("nearcon")->Fill(minDelR,weight);
@@ -394,7 +414,12 @@ void ConstituentsHists::Fill()
     Hist("relIsoMuon_05" )->Fill(relIsoMuon(muon,0.5),weight);
     Hist("relIsoMuon_01" )->Fill(relIsoMuon(muon,0.1),weight);
     Hist("relIsoMuon_008")->Fill(relIsoMuon(muon,0.08),weight);
-    Hist("relIsoMuon_002")->Fill(relIsoMuon(muon,0.08),weight);
+    Hist("relIsoMuon_002")->Fill(relIsoMuon(muon,0.02),weight);
+    Hist("relIsoMuon_004_ly")->Fill(relIsoMuon(muon,0.04),weight);
+    Hist("relIsoMuon_05_ly" )->Fill(relIsoMuon(muon,0.5),weight);
+    Hist("relIsoMuon_01_ly" )->Fill(relIsoMuon(muon,0.1),weight);
+    Hist("relIsoMuon_008_ly")->Fill(relIsoMuon(muon,0.08),weight);
+    Hist("relIsoMuon_002_ly")->Fill(relIsoMuon(muon,0.02),weight);
 
    
 

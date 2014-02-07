@@ -23,8 +23,8 @@
 #pragma link C++ class ZprimeEleTrigCycle+;
 #pragma link C++ class DileptonPreSelectionCycle+;
 
-#pragma link C++ class TopFitCalc+;
 
+#pragma link C++ class TopFitCalc+;
 
 #pragma link C++ class TopTagTMVACycle+;
 #pragma link C++ class GenTTbarCycle+;
