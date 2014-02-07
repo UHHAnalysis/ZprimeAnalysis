@@ -120,11 +120,11 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
         first_selection->addSelectionModule(new NElectronSelection(0,0));//no ided electrons
     }
 
-    first_selection->addSelectionModule(new TwoDCut());
-
+  //  first_selection->addSelectionModule(new IsoConeSelection());
+	first_selection->addSelectionModule(new TwoDCut());
     Selection* second_selection= new Selection("second_selection");
 
-    second_selection->addSelectionModule(new NJetSelection(1,int_infinity(),150,2.5));//leading jet with pt>150 GeV
+    second_selection->addSelectionModule(new NJetSelection(1,int_infinity(),150,2.5)); //leading jet with pt>150 GeV
     second_selection->addSelectionModule(new NBTagSelection(m_Nbtags_min,m_Nbtags_max)); //b tags from config file
     second_selection->addSelectionModule(new HTlepCut(150));
     second_selection->addSelectionModule(new METCut(20));
