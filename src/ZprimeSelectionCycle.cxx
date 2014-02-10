@@ -107,8 +107,8 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
         m_logger << ERROR << "Electron_Or_Muon_Selection is not defined in your xml config file --- should be either `ELE` or `MU`" << SLogger::endmsg;
     }
     
-    Selection* vetoEleTrig_selection= new Selection("vetoEleTrig_selection");
-    vetoEleTrig_selection->addSelectionModule(new TriggerSelection("HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v"));
+    Selection* Ele30trig_selection= new Selection("Ele30trig_selection");
+    Ele30trig_selection->addSelectionModule(new TriggerSelection("HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v"));
 
     Selection* PFJet320trig_selection = new Selection("PFJet320trig_selection");
     PFJet320trig_selection->addSelectionModule(new TriggerSelection("HLT_PFJet320_v"));
@@ -156,7 +156,7 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
     matchable_selection->addSelectionModule(new HypothesisDiscriminatorCut( m_cmdiscr, -1*double_infinity(), 999));
 
     RegisterSelection(mttbar_gen_selection);
-    RegisterSelection(vetoEleTrig_selection);
+    RegisterSelection(Ele30trig_selection);
     RegisterSelection(PFJet320trig_selection);
     RegisterSelection(trig_selection);
     RegisterSelection(first_selection);
@@ -257,7 +257,7 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     // control histograms
     FillControlHists("_Presel");
 
-    static Selection* vetoEleTrig_selection = GetSelection("vetoEleTrig_selection");
+    static Selection* Ele30trig_selection = GetSelection("Ele30trig_selection");
     static Selection* PFJet320trig_selection = GetSelection("PFJet320trig_selection");
     static Selection* trig_selection = GetSelection("trig_selection");
     static Selection* first_selection = GetSelection("first_selection");
@@ -294,7 +294,7 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     // control histograms
     FillControlHists("_Cleaned");
 
-    if(m_veto_electron_trigger && vetoEleTrig_selection->passSelection()){
+    if(m_veto_electron_trigger && Ele30trig_selection->passSelection()){
       throw SError( SError::SkipEvent );
     }
 
