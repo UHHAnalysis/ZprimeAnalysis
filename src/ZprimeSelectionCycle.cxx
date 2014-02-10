@@ -33,6 +33,14 @@ ZprimeSelectionCycle::ZprimeSelectionCycle()
     // steering property for data-driven qcd in electron channel
     m_reversed_electron_selection = false;
     DeclareProperty( "ReversedElectronSelection", m_reversed_electron_selection);
+
+    // veto electron trigger when running on the JetHT data stream
+    m_veto_electron_trigger = false;
+    DeclareProperty( "vetoElectronTrigger", m_veto_electron_trigger);
+
+    // put the selected trigger in OR with HLT_PFJet320_v* (electron channel)
+    m_useORTriggerWithPFJet320 = false;
+    DeclareProperty( "useORTriggerWithPFJet320", m_useORTriggerWithPFJet320);
 }
 
 ZprimeSelectionCycle::~ZprimeSelectionCycle()
@@ -99,13 +107,16 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
         m_logger << ERROR << "Electron_Or_Muon_Selection is not defined in your xml config file --- should be either `ELE` or `MU`" << SLogger::endmsg;
     }
     
+    Selection* vetoEleTrig_selection= new Selection("vetoEleTrig_selection");
+    vetoEleTrig_selection->addSelectionModule(new TriggerSelection("HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v"));
+
+    Selection* PFJet320trig_selection = new Selection("PFJet320trig_selection");
+    PFJet320trig_selection->addSelectionModule(new TriggerSelection("HLT_PFJet320_v"));
+
+    Selection* trig_selection= new Selection("trig_selection");
+    trig_selection->addSelectionModule(new TriggerSelection(m_lumi_trigger));
+
     Selection* first_selection= new Selection("first_selection");
-
-    if(doEle)
-        first_selection->addSelectionModule(new TriggerSelection(m_lumi_trigger));
-    if(doMu)
-        first_selection->addSelectionModule(new TriggerSelection(m_lumi_trigger));
-
     first_selection->addSelectionModule(new NPrimaryVertexSelection(1)); //at least one good PV
     first_selection->addSelectionModule(new NJetSelection(2,int_infinity(),50,2.4));//at least two jets
 
@@ -120,8 +131,8 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
       first_selection->addSelectionModule(new NElectronSelection(0,0));//no ided electrons
     }
 
-  //  first_selection->addSelectionModule(new IsoConeSelection());
-	first_selection->addSelectionModule(new TwoDCut());
+    first_selection->addSelectionModule(new TwoDCut());
+
     Selection* second_selection= new Selection("second_selection");
 
     second_selection->addSelectionModule(new NJetSelection(1,int_infinity(),150,2.5)); //leading jet with pt>150 GeV
@@ -145,6 +156,9 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
     matchable_selection->addSelectionModule(new HypothesisDiscriminatorCut( m_cmdiscr, -1*double_infinity(), 999));
 
     RegisterSelection(mttbar_gen_selection);
+    RegisterSelection(vetoEleTrig_selection);
+    RegisterSelection(PFJet320trig_selection);
+    RegisterSelection(trig_selection);
     RegisterSelection(first_selection);
     RegisterSelection(second_selection);
     RegisterSelection(trangularcut_selection);
@@ -243,6 +257,9 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     // control histograms
     FillControlHists("_Presel");
 
+    static Selection* vetoEleTrig_selection = GetSelection("vetoEleTrig_selection");
+    static Selection* PFJet320trig_selection = GetSelection("PFJet320trig_selection");
+    static Selection* trig_selection = GetSelection("trig_selection");
     static Selection* first_selection = GetSelection("first_selection");
     static Selection* second_selection = GetSelection("second_selection");
     static Selection* trangularcut_selection = GetSelection("trangularcut_selection");
@@ -266,7 +283,7 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     BaseCycleContainer* bcc = calc->GetBaseCycleContainer();
 
     if(bcc->pvs)  m_cleaner->PrimaryVertexCleaner(4, 24., 2.);
-    if(bcc->electrons) m_cleaner->ElectronCleaner_noIso(35,2.5, m_reversed_electron_selection);
+    if(bcc->electrons) m_cleaner->ElectronCleaner_noIso(35,2.5, m_reversed_electron_selection,true);
     if(bcc->muons) m_cleaner->MuonCleaner_noIso(45,2.1);
     if(bcc->jets) m_cleaner->JetLeptonSubtractor(m_corrector,false);
     if(!bcc->isRealData && bcc->jets) m_cleaner->JetEnergyResolutionShifter();
@@ -277,8 +294,18 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     // control histograms
     FillControlHists("_Cleaned");
 
-    if(!first_selection->passSelection())  throw SError( SError::SkipEvent );
+//    if(m_veto_electron_trigger && !vetoEleTrig_selection->passInvertedSelection()){
+    if(m_veto_electron_trigger && vetoEleTrig_selection->passSelection()){
+      throw SError( SError::SkipEvent );
+    }
 
+    bool triggerbit(0);
+    if(!m_useORTriggerWithPFJet320) triggerbit = trig_selection->passSelection();
+    else triggerbit = trig_selection->passSelection() || PFJet320trig_selection->passSelection();
+
+    if(!triggerbit)  throw SError( SError::SkipEvent );
+
+    if(!first_selection->passSelection())  throw SError( SError::SkipEvent );
     
     //apply tighter jet cleaning for further cuts and analysis steps
     if(bcc->jets) m_cleaner->JetCleaner(50,2.5,true);

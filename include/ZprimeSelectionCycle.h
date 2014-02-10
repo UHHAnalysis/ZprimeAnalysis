@@ -66,6 +66,9 @@ private:
   int m_Nbtags_max;
   int m_Nbtags_min;  
 
+  bool m_veto_electron_trigger;
+  bool m_useORTriggerWithPFJet320;
+
   Cleaner* m_cleaner;
   Chi2Discriminator* m_chi2discr;
   BestPossibleDiscriminator* m_bpdiscr;
