@@ -342,14 +342,16 @@ void ZprimePostSelectionCycle_Extended::ExecuteEvent( const SInputData& id, Doub
 //      if (!HCALlaser->passSelection()) throw SError( SError::SkipEvent );
 //    }
 
-    // Ele30_OR_PFJet320 trigger Scale Factor
-    if(m_applyEleORJetTriggerSF && !calc->IsRealData()) m_lsf->GetElectronORJetTrigWeight();
-  
     if(!mttbar_gen_selection->passSelection())  throw SError( SError::SkipEvent );
+
     // b tagging scale factor
     if(m_bsf && m_addGenInfo) {
         calc->ProduceWeight(m_bsf->GetWeight());
     }
+
+    // Ele30_OR_PFJet320 trigger Scale Factor
+    if(m_applyEleORJetTriggerSF && !calc->IsRealData()) calc->ProduceWeight( m_lsf->GetElectronORJetTrigWeight() );
+  
     if(calc->GetJets()->size()>=12) {
         std::cout << "run: " << calc->GetRunNum() << "   lb: " << calc->GetLumiBlock() << "  event: " << calc->GetEventNum() << "   N(jets): " << calc->GetJets()->size() << std::endl;
     }
