@@ -85,6 +85,8 @@ private:
   std::string m_flavor_selection; 
   std::string m_filter_file;
 
+  bool m_applyEleORJetTriggerSF;
+
   Chi2Discriminator* m_chi2discr;
 
   // Macro adding the functions for dictionary generation

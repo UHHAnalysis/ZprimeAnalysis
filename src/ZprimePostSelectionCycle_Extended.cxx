@@ -34,6 +34,10 @@ ZprimePostSelectionCycle_Extended::ZprimePostSelectionCycle_Extended()
     // set the btagging operating point
     m_btagtype = e_CSVT; 
     x_btagtype = e_CSVL;
+
+    // put the selected trigger in OR with HLT_PFJet320_v* (electron channel)
+    m_applyEleORJetTriggerSF = false;
+    DeclareProperty( "applyEleORJetTriggerSF", m_applyEleORJetTriggerSF);
 }
 
 ZprimePostSelectionCycle_Extended::~ZprimePostSelectionCycle_Extended()
@@ -338,7 +342,8 @@ void ZprimePostSelectionCycle_Extended::ExecuteEvent( const SInputData& id, Doub
 //      if (!HCALlaser->passSelection()) throw SError( SError::SkipEvent );
 //    }
 
-
+    // Ele30_OR_PFJet320 trigger Scale Factor
+    if(m_applyEleORJetTriggerSF && !calc->IsRealData()) m_lsf->GetElectronORJetTrigWeight();
   
     if(!mttbar_gen_selection->passSelection())  throw SError( SError::SkipEvent );
     // b tagging scale factor
