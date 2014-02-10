@@ -428,11 +428,15 @@
 
 		      <!-- UPDATE REQUIRED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		      <Item Name="LeptonScaleFactors" Value="MuonRunABCD 1" />
-		      <!--
+<!--
 		      <Item Name="SystematicUncertainty" Value="JEC" />
 		      <Item Name="SystematicVariation" Value="down" />
-		      -->
-		                      <Item Name="ReversedElectronSelection" Value="false" />
+-->
+
+                      <Item Name="ReversedElectronSelection" Value="false" />
+
+                      <Item Name="applyEleORJetTriggerSF" Value="False" />
+
                 </UserConfig>	   
 </Cycle>
 </JobConfiguration>

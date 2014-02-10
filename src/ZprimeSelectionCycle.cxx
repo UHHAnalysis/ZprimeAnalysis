@@ -294,7 +294,6 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     // control histograms
     FillControlHists("_Cleaned");
 
-//    if(m_veto_electron_trigger && !vetoEleTrig_selection->passInvertedSelection()){
     if(m_veto_electron_trigger && vetoEleTrig_selection->passSelection()){
       throw SError( SError::SkipEvent );
     }
