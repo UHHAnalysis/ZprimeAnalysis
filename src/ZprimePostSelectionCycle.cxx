@@ -32,6 +32,10 @@ ZprimePostSelectionCycle::ZprimePostSelectionCycle()
 
     // set the btagging operating point
     m_btagtype = e_CSVT; 
+
+    // apply SF for the "Ele30 OR PFJet320" trigger (electron channel)
+    m_applyEleORJetTriggerSF = false;
+    DeclareProperty( "applyEleORJetTriggerSF", m_applyEleORJetTriggerSF);
 }
 
 ZprimePostSelectionCycle::~ZprimePostSelectionCycle()
@@ -321,6 +325,9 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     if(m_bsf && m_addGenInfo) {
         calc->ProduceWeight(m_bsf->GetWeight());
     }
+
+    // Ele30_OR_PFJet320 trigger Scale Factor
+    if(m_applyEleORJetTriggerSF && !calc->IsRealData()) calc->ProduceWeight( m_lsf->GetElectronORJetTrigWeight() );
 
     if(calc->GetJets()->size()>=12) {
         std::cout << "run: " << calc->GetRunNum() << "   lb: " << calc->GetLumiBlock() << "  event: " << calc->GetEventNum() << "   N(jets): " << calc->GetJets()->size() << std::endl;

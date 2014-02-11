@@ -75,6 +75,8 @@ private:
   std::string m_flavor_selection; 
   std::string m_filter_file;
 
+  bool m_applyEleORJetTriggerSF;
+
   // Macro adding the functions for dictionary generation
   ClassDef( ZprimePostSelectionCycle, 0 );
 }; // class ZprimePostSelectionCycle
