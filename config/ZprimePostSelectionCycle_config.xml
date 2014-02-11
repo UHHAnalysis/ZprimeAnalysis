@@ -426,17 +426,21 @@
 		      <Item Name="PU_Histname_Data" Value="pileup" />
 		      <Item Name="PU_Histname_MC" Value="N_pileup_hist" />
 
-		      <Item Name="LumiFilePath" Value="/nfs/dust/cms/user/peiffer/Analysis53X_v3/LumiFiles/" />
-		      <Item Name="LumiFileName" Value="Mu40.root" />
+		      <Item Name="LumiFilePath" Value="/nfs/dust/cms/user/missirol/Analysis53X/LumiFiles" />
+		      <Item Name="LumiFileName" Value="Mu40_pixel.root" />
 		      <Item Name="LumiTrigger" Value="HLT_Mu40_eta2p1_v" />
 
 		      <!-- UPDATE REQUIRED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		      <Item Name="LeptonScaleFactors" Value="MuonRunABCD 1" />
-		      <!--
+<!--
 		      <Item Name="SystematicUncertainty" Value="JEC" />
 		      <Item Name="SystematicVariation" Value="down" />
-		      -->
-		                      <Item Name="ReversedElectronSelection" Value="false" />
+-->
+
+                      <Item Name="ReversedElectronSelection" Value="false" />
+
+                      <Item Name="applyEleORJetTriggerSF" Value="False" />
+
                 </UserConfig>	   
 </Cycle>
 </JobConfiguration>
