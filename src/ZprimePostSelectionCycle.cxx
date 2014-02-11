@@ -132,8 +132,11 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
         m_logger << ERROR << "Unknown ApplyFlavorSelection option --- should be either `BFlavor`, `CFlavor` or `LFlavor`" << SLogger::endmsg;        
     }
 
-    Selection* Chi2Seletion = new Selection("Chi2Selection");
-    Chi2Seletion->addSelectionModule(new HypothesisDiscriminatorCut( m_chi2discr, -1*double_infinity(), 40));
+    Selection* Chi2Seletion40 = new Selection("Chi2Selection40");
+    Chi2Seletion40->addSelectionModule(new HypothesisDiscriminatorCut( m_chi2discr, -1*double_infinity(), 40));
+
+    Selection* Chi2Seletion10 = new Selection("Chi2Selection10");
+    Chi2Seletion10->addSelectionModule(new HypothesisDiscriminatorCut( m_chi2discr, -1*double_infinity(), 10));
 
     Selection* BTagSelection = new Selection("BTagSelection");
     BTagSelection->addSelectionModule(new NBTagSelection(1,int_infinity(),m_btagtype)); //at least one b tag
@@ -168,7 +171,8 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     RegisterSelection(LeadingJetSelection);
     RegisterSelection(KinematicSelection);
     RegisterSelection(TopTagSelection);
-    RegisterSelection(Chi2Seletion);
+    RegisterSelection(Chi2Seletion40);
+    RegisterSelection(Chi2Seletion10);
     RegisterSelection(BTagSelection);
     RegisterSelection(NoBTagSelection);
     RegisterSelection(CMSSubBTagNsubjSelection);
@@ -372,7 +376,8 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     static Selection* LeadingJetSelection = GetSelection("LeadingJetSelection");
     static Selection* KinematicSelection = GetSelection("KinematicSelection");
     static Selection* TopTagSelection = GetSelection("TopTagSelection");
-    static Selection* Chi2Selection = GetSelection("Chi2Selection");
+    static Selection* Chi2Selection40 = GetSelection("Chi2Selection40");
+    static Selection* Chi2Selection10 = GetSelection("Chi2Selection10");
     static Selection* BTagSelection = GetSelection("BTagSelection");
     static Selection* NoBTagSelection = GetSelection("NoBTagSelection");
     static Selection* CMSSubBTagNsubjSelection = GetSelection("CMSSubBTagNsubjSelection");
@@ -433,20 +438,22 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     Chi2_HistsKinesel->Fill();
     FillControlHistos("_Kinesel");
 
-    if(!Chi2Selection->passSelection()) throw SError( SError::SkipEvent ); 
+    if(!Chi2Selection40->passSelection()) throw SError( SError::SkipEvent ); 
 
     Chi2_HistsChi2sel->Fill();
     if(m_addGenInfo) BTagEff_HistsChi2sel->Fill();
     FillControlHistos("_Chi2sel");
 
-    // BTag-NoBTag categories
-    if(BTagSelection->passSelection()) {
+    // BTag-NoBTag categories: do a chi2 selection of 10 for comparison with published analysis
+    if(Chi2Selection10->passSelection()){
+      if(BTagSelection->passSelection()) {
         Chi2_HistsBTag->Fill();
         FillControlHistos("_BTag");
-    }
-    if(NoBTagSelection->passSelection()) {
+      }
+      if(NoBTagSelection->passSelection()) {
         Chi2_HistsNoBTag->Fill();
         FillControlHistos("_NoBTag");
+      }
     }
 
     // NoTopTag categories
