@@ -35,7 +35,7 @@ ZprimePostSelectionCycle_Extended::ZprimePostSelectionCycle_Extended()
     m_btagtype = e_CSVT; 
     x_btagtype = e_CSVL;
 
-    // put the selected trigger in OR with HLT_PFJet320_v* (electron channel)
+    // apply SF for the "Ele30 OR PFJet320" trigger (electron channel)
     m_applyEleORJetTriggerSF = false;
     DeclareProperty( "applyEleORJetTriggerSF", m_applyEleORJetTriggerSF);
 }
