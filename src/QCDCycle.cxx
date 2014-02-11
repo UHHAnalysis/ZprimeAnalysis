@@ -8,7 +8,6 @@ using namespace std;
 #include "include/JetEffiHists.h"
 #include "include/QCDCycle.h"
 #include "include/SelectionModules.h"
-#include "include/ZprimeSelectionModules.h"
 #include "include/ExampleHists.h"
 #include "include/HypothesisHists.h"
 #include "include/JetHists.h"
