@@ -32,6 +32,7 @@ ZprimePostSelectionCycle::ZprimePostSelectionCycle()
 
     // set the btagging operating point
     m_btagtype = e_CSVT; 
+    x_btagtype = e_CSVL;
 
     // apply SF for the "Ele30 OR PFJet320" trigger (electron channel)
     m_applyEleORJetTriggerSF = false;
@@ -91,8 +92,9 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     static Chi2Discriminator* m_chi2discr = new Chi2Discriminator();
 
     // event filter for HCAL laser events
-    Selection* HCALlaser = new Selection("HCAL_laser_events");
-    HCALlaser->addSelectionModule(new EventFilterSelection(m_filter_file.c_str()) );
+    // NOTE: the file is missing, therefore the HCAL laser selection is commented out
+    //Selection* HCALlaser = new Selection("HCAL_laser_events");
+    //HCALlaser->addSelectionModule(new EventFilterSelection(m_filter_file.c_str()) );
 
     // Leading jet selection
     Selection* LeadingJetSelection = new Selection("LeadingJetSelection");
@@ -131,7 +133,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     }
 
     Selection* Chi2Seletion = new Selection("Chi2Selection");
-    Chi2Seletion->addSelectionModule(new HypothesisDiscriminatorCut( m_chi2discr, -1*double_infinity(), 10));
+    Chi2Seletion->addSelectionModule(new HypothesisDiscriminatorCut( m_chi2discr, -1*double_infinity(), 40));
 
     Selection* BTagSelection = new Selection("BTagSelection");
     BTagSelection->addSelectionModule(new NBTagSelection(1,int_infinity(),m_btagtype)); //at least one b tag
@@ -139,20 +141,42 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     Selection* NoBTagSelection = new Selection("NoBTagSelection");
     NoBTagSelection->addSelectionModule(new NBTagSelection(0,0,m_btagtype)); //no b tags
 
+    Selection* BTagAntiktJetSelection = new Selection("BTagAntiktJetSelection");
+    BTagAntiktJetSelection->addSelectionModule(new NBTagAntiktJetSelection(1,int_infinity(),m_btagtype,1.3)); //at least one AK5 b jet
+
     Selection* TopTagSelection = new Selection("TopTagSelection");
-    //DO NOT use trigger selection in PROOF mode at the moment
-    //TopSel->addSelectionModule(new TriggerSelection("HLT_PFJet320_v"));
-    TopTagSelection->addSelectionModule(new NTopJetSelection(1,int_infinity(),350,2.5));
-    TopTagSelection->addSelectionModule(new NTopTagSelection(1,int_infinity()));
+    TopTagSelection->addSelectionModule(new NTopJetSelection(1,int_infinity(),350,2.5));// top jet
+    TopTagSelection->addSelectionModule(new NTopTagSelection(1,int_infinity())); //top tag
+
+    Selection* CMSSubBTagNsubjSelection = new Selection ("CMSSubBTagNsubjSelection");
+    CMSSubBTagNsubjSelection->addSelectionModule(new NCMSSubBTagSelection(1,int_infinity(),1,int_infinity(),x_btagtype,0.7)); // with Nsubjettiness cut
+     
+    Selection* CMSSubBTagSelection = new Selection ("CMSSubBTagSelection");
+    CMSSubBTagSelection->addSelectionModule(new NCMSSubBTagSelection(1,int_infinity(),1,int_infinity(),x_btagtype,int_infinity())); // without Nsubjettiness 
+
+    Selection* SumBTags0Selection = new Selection ("SumBTags0Selection");
+    SumBTags0Selection->addSelectionModule(new NSumBTagsSelection(0,0,x_btagtype)); //Sum B-Tags
+
+    Selection* SumBTags1Selection = new Selection ("SumBTags1Selection");
+    SumBTags1Selection->addSelectionModule(new NSumBTagsSelection(1,1,x_btagtype)); //Sum B-Tags
+
+    Selection* SumBTags2Selection = new Selection ("SumBTags2Selection");
+    SumBTags2Selection->addSelectionModule(new NSumBTagsSelection(2,int_infinity(),x_btagtype)); //Sum B-Tags
 
     RegisterSelection(mttbar_gen_selection);
-    RegisterSelection(HCALlaser);
+    //RegisterSelection(HCALlaser);
     RegisterSelection(LeadingJetSelection);
     RegisterSelection(KinematicSelection);
     RegisterSelection(TopTagSelection);
     RegisterSelection(Chi2Seletion);
     RegisterSelection(BTagSelection);
     RegisterSelection(NoBTagSelection);
+    RegisterSelection(CMSSubBTagNsubjSelection);
+    RegisterSelection(CMSSubBTagSelection);
+    RegisterSelection(BTagAntiktJetSelection);
+    RegisterSelection(SumBTags0Selection);
+    RegisterSelection(SumBTags1Selection);
+    RegisterSelection(SumBTags2Selection);
 
     // ---------------- set up the histogram collections --------------------
 
@@ -225,6 +249,58 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     RegisterHistCollection( new TauHists("Tau_TopTag") );
     RegisterHistCollection( new TopJetHists("TopJets_TopTag") );
 
+    //histograms of Top-Tags with SumBTags 
+
+    // No-TopTag (+0,1,>=2 SumBTag)
+    RegisterHistCollection( new HypothesisHists("Chi2_NoTopTagSumBTag0",m_chi2discr));
+    RegisterHistCollection( new EventHists("Event_NoTopTagSumBTag0") );
+    RegisterHistCollection( new JetHists("Jets_NoTopTagSumBTag0") );
+    RegisterHistCollection( new ElectronHists("Electron_NoTopTagSumBTag0") );
+    RegisterHistCollection( new MuonHists("Muon_NoTopTagSumBTag0") );
+    RegisterHistCollection( new TauHists("Tau_NoTopTagSumBTag0") );
+    RegisterHistCollection( new TopJetHists("TopJets_NoTopTagSumBTag0") );
+
+    RegisterHistCollection( new HypothesisHists("Chi2_NoTopTagSumBTag1",m_chi2discr));
+    RegisterHistCollection( new EventHists("Event_NoTopTagSumBTag1") );
+    RegisterHistCollection( new JetHists("Jets_NoTopTagSumBTag1") );
+    RegisterHistCollection( new ElectronHists("Electron_NoTopTagSumBTag1") );
+    RegisterHistCollection( new MuonHists("Muon_NoTopTagSumBTag1") );
+    RegisterHistCollection( new TauHists("Tau_NoTopTagSumBTag1") );
+    RegisterHistCollection( new TopJetHists("TopJets_NoTopTagSumBTag1") );
+
+    RegisterHistCollection( new HypothesisHists("Chi2_NoTopTagSumBTag2",m_chi2discr));
+    RegisterHistCollection( new EventHists("Event_NoTopTagSumBTag2") );
+    RegisterHistCollection( new JetHists("Jets_NoTopTagSumBTag2") );
+    RegisterHistCollection( new ElectronHists("Electron_NoTopTagSumBTag2") );
+    RegisterHistCollection( new MuonHists("Muon_NoTopTagSumBTag2") );
+    RegisterHistCollection( new TauHists("Tau_NoTopTagSumBTag2") );
+    RegisterHistCollection( new TopJetHists("TopJets_NoTopTagSumBTag2") );
+
+    // TopTag (+0,1,>=2 SumBTag)
+    RegisterHistCollection( new HypothesisHists("Chi2_TopTagSumBTag0",m_chi2discr));
+    RegisterHistCollection( new EventHists("Event_TopTagSumBTag0") );
+    RegisterHistCollection( new JetHists("Jets_TopTagSumBTag0") );
+    RegisterHistCollection( new ElectronHists("Electron_TopTagSumBTag0") );
+    RegisterHistCollection( new MuonHists("Muon_TopTagSumBTag0") );
+    RegisterHistCollection( new TauHists("Tau_TopTagSumBTag0") );
+    RegisterHistCollection( new TopJetHists("TopJets_TopTagSumBTag0") );
+
+    RegisterHistCollection( new HypothesisHists("Chi2_TopTagSumBTag1",m_chi2discr));
+    RegisterHistCollection( new EventHists("Event_TopTagSumBTag1") );
+    RegisterHistCollection( new JetHists("Jets_TopTagSumBTag1") );
+    RegisterHistCollection( new ElectronHists("Electron_TopTagSumBTag1") );
+    RegisterHistCollection( new MuonHists("Muon_TopTagSumBTag1") );
+    RegisterHistCollection( new TauHists("Tau_TopTagSumBTag1") );
+    RegisterHistCollection( new TopJetHists("TopJets_TopTagSumBTag1") );
+
+    RegisterHistCollection( new HypothesisHists("Chi2_TopTagSumBTag2",m_chi2discr));
+    RegisterHistCollection( new EventHists("Event_TopTagSumBTag2") );
+    RegisterHistCollection( new JetHists("Jets_TopTagSumBTag2") );
+    RegisterHistCollection( new ElectronHists("Electron_TopTagSumBTag2") );
+    RegisterHistCollection( new MuonHists("Muon_TopTagSumBTag2") );
+    RegisterHistCollection( new TauHists("Tau_TopTagSumBTag2") );
+    RegisterHistCollection( new TopJetHists("TopJets_TopTagSumBTag2") );
+
     // important: initialise histogram collections after their definition
     InitHistos();
 
@@ -292,13 +368,18 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     AnalysisCycle::ExecuteEvent( id, weight );
 
     // get the selections
-    static Selection* HCALlaser = GetSelection("HCAL_laser_events");
+    //static Selection* HCALlaser = GetSelection("HCAL_laser_events");
     static Selection* LeadingJetSelection = GetSelection("LeadingJetSelection");
     static Selection* KinematicSelection = GetSelection("KinematicSelection");
     static Selection* TopTagSelection = GetSelection("TopTagSelection");
     static Selection* Chi2Selection = GetSelection("Chi2Selection");
     static Selection* BTagSelection = GetSelection("BTagSelection");
     static Selection* NoBTagSelection = GetSelection("NoBTagSelection");
+    static Selection* CMSSubBTagNsubjSelection = GetSelection("CMSSubBTagNsubjSelection");
+    static Selection* CMSSubBTagSelection = GetSelection("CMSSubBTagSelection");
+    static Selection* SumBTags0Selection = GetSelection("SumBTags0Selection");
+    static Selection* SumBTags1Selection = GetSelection("SumBTags1Selection");
+    static Selection* SumBTags2Selection = GetSelection("SumBTags2Selection");
 
     // get the histogram collections
     BaseHists* Chi2_HistsPresel = GetHistCollection("Chi2_Presel");
@@ -308,14 +389,20 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     BaseHists* Chi2_HistsBTag = GetHistCollection("Chi2_BTag");
     BaseHists* Chi2_HistsNoBTag = GetHistCollection("Chi2_NoBTag");
     BaseHists* Chi2_HistsTopTag = GetHistCollection("Chi2_TopTag");
+    BaseHists* Chi2_HistsNoTopTagSumBTag0 = GetHistCollection("Chi2_NoTopTagSumBTag0");
+    BaseHists* Chi2_HistsNoTopTagSumBTag1 = GetHistCollection("Chi2_NoTopTagSumBTag1");
+    BaseHists* Chi2_HistsNoTopTagSumBTag2 = GetHistCollection("Chi2_NoTopTagSumBTag2");
+    BaseHists* Chi2_HistsTopTagSumBTag0 = GetHistCollection("Chi2_TopTagSumBTag0");
+    BaseHists* Chi2_HistsTopTagSumBTag1 = GetHistCollection("Chi2_TopTagSumBTag1");
+    BaseHists* Chi2_HistsTopTagSumBTag2 = GetHistCollection("Chi2_TopTagSumBTag2");
     BaseHists* BTagEff_HistsChi2sel = GetHistCollection("BTagEff_Chi2sel");
 
     EventCalc* calc = EventCalc::Instance();
 
     // reject laser events only for data
-    if (calc->IsRealData()){
-      if (!HCALlaser->passSelection()) throw SError( SError::SkipEvent );
-    }
+    //if (calc->IsRealData()){
+    //  if (!HCALlaser->passSelection()) throw SError( SError::SkipEvent );
+    //}
 
     // cut out events from the inclusive ttbar sample to avoid double counting
     static Selection* mttbar_gen_selection = GetSelection("Mttbar_Gen_Selection");
@@ -346,17 +433,13 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     Chi2_HistsKinesel->Fill();
     FillControlHistos("_Kinesel");
 
-    if(TopTagSelection->passSelection()) {
-        Chi2_HistsTopTag->Fill();
-        FillControlHistos("_TopTag");
-    }
-
     if(!Chi2Selection->passSelection()) throw SError( SError::SkipEvent ); 
 
     Chi2_HistsChi2sel->Fill();
     if(m_addGenInfo) BTagEff_HistsChi2sel->Fill();
     FillControlHistos("_Chi2sel");
 
+    // BTag-NoBTag categories
     if(BTagSelection->passSelection()) {
         Chi2_HistsBTag->Fill();
         FillControlHistos("_BTag");
@@ -364,6 +447,43 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     if(NoBTagSelection->passSelection()) {
         Chi2_HistsNoBTag->Fill();
         FillControlHistos("_NoBTag");
+    }
+
+    // NoTopTag categories
+    if(!TopTagSelection->passSelection()){
+
+      if(SumBTags0Selection->passSelection()){
+        Chi2_HistsNoTopTagSumBTag0->Fill();
+        FillControlHistos("_NoTopTagSumBTag0");
+      }
+      if(SumBTags1Selection->passSelection()){
+        Chi2_HistsNoTopTagSumBTag1->Fill();
+        FillControlHistos("_NoTopTagSumBTag1");
+      }
+      if(SumBTags2Selection->passSelection()){
+        Chi2_HistsNoTopTagSumBTag2->Fill();
+        FillControlHistos("_NoTopTagSumBTag2");
+      }
+    }
+
+    // TopTag categories
+    if(TopTagSelection->passSelection()){
+
+      Chi2_HistsTopTag->Fill();
+      FillControlHistos("_TopTag");
+
+      if(SumBTags0Selection->passSelection()){
+        Chi2_HistsTopTagSumBTag0->Fill();
+        FillControlHistos("_TopTagSumBTag0");
+      }
+      if(SumBTags1Selection->passSelection()){
+        Chi2_HistsTopTagSumBTag1->Fill();
+        FillControlHistos("_TopTagSumBTag1");
+      }
+      if(SumBTags2Selection->passSelection()){
+        Chi2_HistsTopTagSumBTag2->Fill();
+        FillControlHistos("_TopTagSumBTag2");
+      }
     }
 
     if(m_writeeventlist){

@@ -65,6 +65,7 @@ private:
 
   std::string m_dobsf;
   E_BtagType m_btagtype;
+  E_BtagType x_btagtype;  
   BTaggingScaleFactors* m_bsf;
 
   bool m_mttgencut;
