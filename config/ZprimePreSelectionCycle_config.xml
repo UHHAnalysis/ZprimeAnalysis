@@ -132,7 +132,7 @@
 
 	<Package Name="ZprimeAnalysis.par" />
 
-	<Cycle Name="ZprimePreSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/nfs/dust/cms/user/kogler/PROOF/" OutputDirectory="/nfs/dust/cms/user/kogler/Zprime/Analysis53X_v3/PreSelectionElectron/" PostFix="" TargetLumi="1" >
+	<Cycle Name="ZprimePreSelectionCycle"  RunMode="PROOF" ProofServer="lite://"  ProofWorkDir="/nfs/dust/cms/user/kogler/PROOF/" OutputDirectory="/nfs/dust/cms/user/kogler/Zprime/Analysis53X_v3/PreSelectionElectron/" PostFix="" TargetLumi="1" >
 <!--	<Cycle Name="ZprimePreSelectionCycle"  OutputDirectory="/nfs/dust/cms/user/kogler/Zprime/Analysis53X_v3/PreSelectionElectron/" PostFix="" TargetLumi="1" > -->
 
 
@@ -158,7 +158,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
-
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="ZP500w5" Cacheable="True">
                         &ZP500w5;
 			<InputTree Name="AnalysisTree" /> 
@@ -301,20 +301,6 @@
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
 
-
-<!--
-	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="Wjets" Cacheable="True">
-                        &Wjets;
-			<InputTree Name="AnalysisTree" /> 
-			<OutputTree Name="AnalysisTree" />  
-		</InputData> 
-	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DY_50toInf" Cacheable="True">
-                        &DY_50toInf;
-			<InputTree Name="AnalysisTree" /> 
-			<OutputTree Name="AnalysisTree" />  
-		</InputData>
--->
-
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="WW" Cacheable="True">
                         &WW;
 			<InputTree Name="AnalysisTree" /> 
@@ -331,7 +317,7 @@
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
 
-
+-->
 <!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="TTbar_MadGraph" Cacheable="True">
                         &TTbar_MadGraph;
@@ -339,7 +325,7 @@
 			<OutputTree Name="AnalysisTree" />  
 		</InputData>
 -->
-
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DY1Jets_50toInf" Cacheable="True">
                         &DY1Jets_50toInf;
 			<InputTree Name="AnalysisTree" /> 
@@ -361,6 +347,8 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData>
+-->
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W1Jets" Cacheable="True">
                         &W1Jets;
 			<InputTree Name="AnalysisTree" /> 
@@ -444,7 +432,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
-
+-->
 <!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDMu15to20" Cacheable="True">
                         &QCDMu15to20;
@@ -507,7 +495,7 @@
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
 -->
-
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDEm20to30" Cacheable="True">
                         &QCDEm20to30;
 			<InputTree Name="AnalysisTree" /> 
@@ -523,6 +511,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
+
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCDEm170to250" Cacheable="True">
                         &QCDEm170to250;
 			<InputTree Name="AnalysisTree" /> 
@@ -569,7 +558,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
-
+-->
 
 <!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="DYJets_scaleup" Cacheable="True">
@@ -594,7 +583,7 @@
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
 -->
-
+<!--
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W1Jets_scaleup" Cacheable="True">
                         &W1Jets_scaleup;	
 			<InputTree Name="AnalysisTree" /> 
@@ -625,6 +614,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
+
 		<InputData Lumi="1" NEventsMax="-1" Type="MC" Version="W2Jets_scaledown" Cacheable="True">
 			&W2Jets_scaledown;
 			<InputTree Name="AnalysisTree" /> 
@@ -695,6 +685,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
+
 	        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="TT_scaledown" Cacheable="True">
                         &TT_scaledown;
 			<InputTree Name="AnalysisTree" /> 
@@ -724,7 +715,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />
 		</InputData>
-
+-->
 
 		<UserConfig>
 

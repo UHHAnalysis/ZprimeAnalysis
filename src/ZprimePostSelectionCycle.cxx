@@ -150,6 +150,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     Selection* TopTagSelection = new Selection("TopTagSelection");
     TopTagSelection->addSelectionModule(new NTopJetSelection(1,int_infinity(),350,2.5));// top jet
     TopTagSelection->addSelectionModule(new NTopTagSelection(1,int_infinity())); //top tag
+    TopTagSelection->addSelectionModule(new TopTagOverlapSelection()); //top tag
 
     Selection* CMSSubBTagNsubjSelection = new Selection ("CMSSubBTagNsubjSelection");
     CMSSubBTagNsubjSelection->addSelectionModule(new NCMSSubBTagSelection(1,int_infinity(),1,int_infinity(),x_btagtype,0.7)); // with Nsubjettiness cut
@@ -371,6 +372,8 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     // also, the good-run selection is performed there and the calculator is reset
     AnalysisCycle::ExecuteEvent( id, weight );
 
+    EventCalc* calc = EventCalc::Instance();
+
     // get the selections
     //static Selection* HCALlaser = GetSelection("HCAL_laser_events");
     static Selection* LeadingJetSelection = GetSelection("LeadingJetSelection");
@@ -402,7 +405,6 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     BaseHists* Chi2_HistsTopTagSumBTag2 = GetHistCollection("Chi2_TopTagSumBTag2");
     BaseHists* BTagEff_HistsChi2sel = GetHistCollection("BTagEff_Chi2sel");
 
-    EventCalc* calc = EventCalc::Instance();
 
     // reject laser events only for data
     //if (calc->IsRealData()){
