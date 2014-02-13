@@ -4,6 +4,8 @@ using namespace std;
 
 // Local include(s):
 #include "include/ZprimeSelectionCycle.h"
+#include "include/TopFitCalc.h"
+#include "include/NeutrinoHists.h"
 
 ClassImp( ZprimeSelectionCycle );
 
@@ -155,6 +157,11 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
     Selection* matchable_selection = new Selection("matchable_selection");
     matchable_selection->addSelectionModule(new HypothesisDiscriminatorCut( m_cmdiscr, -1*double_infinity(), 999));
 
+    Selection* TopTagSel = new Selection("TopTagSelection");
+    TopTagSel->addSelectionModule(new NTopJetSelection(1,int_infinity(),350,2.5));// top jet
+    TopTagSel->addSelectionModule(new NTopTagSelection(1));
+    TopTagSel->addSelectionModule(new TopTagOverlapSelection());
+
     RegisterSelection(mttbar_gen_selection);
     RegisterSelection(Ele30trig_selection);
     RegisterSelection(PFJet320trig_selection);
@@ -164,6 +171,7 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
     RegisterSelection(trangularcut_selection);
     RegisterSelection(chi2_selection);
     RegisterSelection(matchable_selection);
+    RegisterSelection(TopTagSel);
 
 
     
@@ -182,7 +190,7 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
     RegisterHistCollection( new MuonHists("Muon_Presel") );
     RegisterHistCollection( new TauHists("Tau_Presel") );
     RegisterHistCollection( new TopJetHists("TopJets_Presel") );
-    
+
     RegisterHistCollection( new EventHists("Event_Cleaned") );
     RegisterHistCollection( new JetHists("Jets_Cleaned") );
     RegisterHistCollection( new ElectronHists("Electron_Cleaned") );
@@ -196,6 +204,7 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
     RegisterHistCollection( new MuonHists("Muon_Postsel") );
     RegisterHistCollection( new TauHists("Tau_Postsel") );
     RegisterHistCollection( new TopJetHists("TopJets_Postsel") );
+    RegisterHistCollection( new NeutrinoHists("Neutrino_Postsel" , m_chi2discr) );    
 
     // important: initialise histogram collections after their definition
     InitHistos();
@@ -251,6 +260,12 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
 
     AnalysisCycle::ExecuteEvent( id, weight);
 
+    EventCalc* calc = EventCalc::Instance();
+    BaseCycleContainer* bcc = calc->GetBaseCycleContainer();
+
+    TopFitCalc* topcalc = TopFitCalc::Instance();
+    topcalc->Reset();
+
     static Selection* mttbar_gen_selection = GetSelection("Mttbar_Gen_Selection");
     if(!mttbar_gen_selection->passSelection())  throw SError( SError::SkipEvent );
 
@@ -265,6 +280,7 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     static Selection* trangularcut_selection = GetSelection("trangularcut_selection");
     static Selection* chi2_selection = GetSelection("chi2_selection");
     static Selection* matchable_selection = GetSelection("matchable_selection");
+    static Selection* TopTagSel = GetSelection("TopTagSelection");
 
     m_cleaner = new Cleaner();
     m_cleaner->SetJECUncertainty(m_jes_unc);
@@ -278,9 +294,6 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
       if (m_sys_var==e_Up) m_cleaner->ApplyJERVariationUp();
       if (m_sys_var==e_Down) m_cleaner->ApplyJERVariationDown();
     }
-
-    EventCalc* calc = EventCalc::Instance();
-    BaseCycleContainer* bcc = calc->GetBaseCycleContainer();
 
     if(bcc->pvs)  m_cleaner->PrimaryVertexCleaner(4, 24., 2.);
     if(bcc->electrons) m_cleaner->ElectronCleaner_noIso(35,2.5, m_reversed_electron_selection,true);
@@ -322,7 +335,11 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     
     //do reconstruction here
     //if(!bcc->recoHyps)  cout<<"no Hyp list"<<endl;
-    calc->FillHighMassTTbarHypotheses();
+    if(TopTagSel->passSelection()){
+      topcalc->CalculateTopTag();
+    } else{
+      topcalc->FillHighMassTTbarHypotheses();
+    }
 
     m_chi2discr->FillDiscriminatorValues();
     m_bpdiscr->FillDiscriminatorValues();
@@ -354,6 +371,10 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
 
     // control histograms
     FillControlHists("_Postsel");
+
+    // neutrino hists
+    BaseHists* nuhists = GetHistCollection("Neutrino_Postsel");
+    nuhists->Fill();
 
     // get the histogram collections
     BaseHists* Chi2Hists = GetHistCollection("Chi2");
