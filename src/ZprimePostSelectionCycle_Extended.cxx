@@ -217,8 +217,7 @@ void ZprimePostSelectionCycle_Extended::BeginInputData( const SInputData& id ) t
     RegisterHistCollection( new MuonHists("Muon_NoTopTagSumBTag2") );
     RegisterHistCollection( new TopJetHists("TopJets_NoTopTagSumBTag2") );
 
-
-
+    RegisterHistCollection( new BTagEffHists("BTagEff_Chi2sel", m_btagtype) );
 
     // important: initialise histogram collections after their definition
     InitHistos();
@@ -311,6 +310,11 @@ void ZprimePostSelectionCycle_Extended::ExecuteEvent( const SInputData& id, Doub
 	BaseHists* Chi2_HistsNoTopTagSumBTag0 = GetHistCollection("Chi2_NoTopTagSumBTag0");
     	BaseHists* Chi2_HistsNoTopTagSumBTag1 = GetHistCollection("Chi2_NoTopTagSumBTag1");
 	BaseHists* Chi2_HistsNoTopTagSumBTag2 = GetHistCollection("Chi2_NoTopTagSumBTag2");
+        BaseHists* BTagEff_HistsChi2sel = GetHistCollection("BTagEff_Chi2sel");
+
+
+
+
 
     EventCalc* calc = EventCalc::Instance();
     //--------TOPFIT-IMPLEMENTATION-----------------// 
@@ -362,6 +366,13 @@ void ZprimePostSelectionCycle_Extended::ExecuteEvent( const SInputData& id, Doub
     FillControlHistos("_Presel");
     if(!Chi2Selection->passSelection()) throw SError( SError::SkipEvent );
  
+    if(m_addGenInfo) BTagEff_HistsChi2sel->Fill();
+
+
+
+
+
+
     if(TopTagSelection->passSelection() && SumBTags0Selection->passSelection()) {
     Chi2_HistsTopTagSumBTag0->Fill();
     FillControlHistos("_TopTagSumBTag0");
