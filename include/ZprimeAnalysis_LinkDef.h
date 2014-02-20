@@ -14,6 +14,7 @@
 
 #pragma link C++ class JetLeptonCleanerCycle+;
 #pragma link C++ class ZprimePreSelectionCycle+;
+#pragma link C++ class ZprimeJetHTPreSelectionCycle+;
 #pragma link C++ class ZprimeSelectionCycle+;
 #pragma link C++ class ZprimePostSelectionCycle+;
 #pragma link C++ class ZprimeEleTrigCycle+;
