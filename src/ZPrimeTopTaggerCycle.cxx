@@ -379,7 +379,7 @@ void ZPrimeTopTaggerCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
   }
   else{
     topfit->CalculateSelection();
-    //calc->FillHighMassTTbarHypotheses();
+    //topfit->FillHighMassTTbarHypotheses();
     notoptag = 1;
    
 
@@ -394,7 +394,7 @@ void ZPrimeTopTaggerCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
  
 
   // topfit->CalculateEvent();
-  //calc->FillHighMassTTbarHypotheses();
+  //topfit->FillHighMassTTbarHypotheses();
   
   if(!bcc->recoHyps || bcc->recoHyps->size()==0) throw SError( SError::SkipEvent );
   //m_tagchi2discr->FillDiscriminatorValues();

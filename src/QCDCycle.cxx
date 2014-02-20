@@ -508,13 +508,10 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
 
   if(TopTagSel->passSelection()){
     topfit->CalculateTopTag();
-    //calc->FillHighMassTTbarHypotheses();
+  } else{
+    topfit->FillHighMassTTbarHypotheses();
   }
-  else{
-    //topfit->CalculateSelection();
-    calc->FillHighMassTTbarHypotheses();
-  }
-  
+
   if(!bcc->recoHyps || bcc->recoHyps->size()==0) ClearEvent();
  
 
@@ -655,14 +652,14 @@ void QCDCycle::ExecuteEvent( const SInputData& id, Double_t weight) throw( SErro
   
   if(TopTagSel->passSelection()){
    
-    //calc->FillHighMassTTbarHypotheses();
+    //topfit->FillHighMassTTbarHypotheses();
     topfit->CalculateTopTag();
     
   }
   else{
     //ClearEvent();
     //topfit->CalculateSelection();
-    calc->FillHighMassTTbarHypotheses();
+    topfit->FillHighMassTTbarHypotheses();
   }
 
    

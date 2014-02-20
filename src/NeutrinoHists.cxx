@@ -1,5 +1,6 @@
 #include "include/NeutrinoHists.h"
 #include "include/SelectionModules.h"
+#include "include/Utils.h"
 #include "include/TopFitCalc.h"
 
 #include <iostream>
@@ -125,7 +126,7 @@ void NeutrinoHists::Fill()
   Hist("neutrino_eta")->Fill(neutrino.eta(),weight);
   Hist("neutrino_phi")->Fill(neutrino.phi(),weight);  
   Hist("neutrino_pz_ly" )->Fill(neutrino.pz(),weight);
-  Hist("diff_met_neutrino_phi_ly")->Fill(fitcalc->delPhi(neutrino.phi(),bcc->met->v4().phi()),weight); 
+  Hist("diff_met_neutrino_phi_ly")->Fill(deltaPhiAbs(neutrino.phi(),bcc->met->v4().phi()),weight); 
   
 	
   if(calc->GetGenParticles() ){
@@ -172,7 +173,7 @@ void NeutrinoHists::Fill()
     Hist("neutrino0_px"    )->Fill(neutrinos.at(0).px(),weight); 
     Hist("neutrino0_py"    )->Fill(neutrinos.at(0).py(),weight); 
     
-    Hist("diff_met_neutrino0_phi"    )->Fill(fitcalc->delPhi(neutrinos.at(0).phi(),bcc->met->v4().phi()),weight); 
+    Hist("diff_met_neutrino0_phi"    )->Fill(deltaPhiAbs(neutrinos.at(0).phi(),bcc->met->v4().phi()),weight); 
 
     Hist("neutrino_diff_pt")->Fill(neutrino_std.at(0).pt()-neutrinos.at(0).pt(),weight);
 

@@ -1,6 +1,7 @@
 #include "include/MJetsHists.h"
 #include "include/SelectionModules.h"
 #include "include/TopFitCalc.h"
+#include "include/Utils.h"
 #include "TH3F.h"
 #include <iostream>
 #include <cmath>
@@ -449,7 +450,7 @@ void MJetsHists::Fill()
 	  Hist("neutrino_eta")->Fill(neutrino.eta(),weight);
 	  Hist("neutrino_phi")->Fill(neutrino.phi(),weight);  
 	  Hist("neutrino_pz_ly" )->Fill(neutrino.pz(),weight);
-	  Hist("diff_met_neutrino_phi_ly")->Fill(fitcalc->delPhi(neutrino.phi(),bcc->met->v4().phi()),weight); 
+	  Hist("diff_met_neutrino_phi_ly")->Fill(deltaPhiAbs(neutrino.phi(),bcc->met->v4().phi()),weight); 
 	  
 	  //WBoson Hists 
 
@@ -613,7 +614,7 @@ void MJetsHists::Fill()
 	  if(NCAJets>0)
 	    {
 
-	      double cajets_delphi =  fitcalc->delPhi(phisum_delphi, cajets->at(0).phi());
+	      double cajets_delphi =  deltaPhiAbs(phisum_delphi, cajets->at(0).phi());
 	      double cajets_delR   =  antiMJets_delR.deltaR(cajets->at(0));
 
 	      int caposi_delphi = 0;
@@ -624,9 +625,9 @@ void MJetsHists::Fill()
 		  Jet cajet = cajets->at(m);
 		  //if( muon.phi()>=cajet.phi()-.5 && muon.phi()<=cajet.phi()+.5 ) Hist("cajet_muon_pt")->Fill(muon.pt(),cajet.pt());//cajet.set_v4(cajet.v4()-muon.v4());		 
 
-		  if(cajets_delphi > fitcalc->delPhi(phisum_delphi, cajets->at(m).phi()))
+		  if(cajets_delphi > deltaPhiAbs(phisum_delphi, cajets->at(m).phi()))
 		    {
-		      cajets_delphi = fitcalc->delPhi(phisum_delphi, cajets->at(m).phi());
+		      cajets_delphi = deltaPhiAbs(phisum_delphi, cajets->at(m).phi());
 		      caposi_delphi = m;
 		    }
 		 
@@ -659,9 +660,9 @@ void MJetsHists::Fill()
 		{
 		  TopJet cajet_subjets = cajets->at(m);
 
-		  if(TopTag(cajet_subjets, mjet_subjets, nsubjets_subjets, mmin_subjets) && deltaR_Lep_Tophad < fitcalc->delR(cajet_subjets.v4(),muon.v4())){
+		  if(TopTag(cajet_subjets, mjet_subjets, nsubjets_subjets, mmin_subjets) && deltaR_Lep_Tophad < deltaR(cajet_subjets.v4(),muon.v4())){
 		    caposi_subjets = m;
-		    deltaR_Lep_Tophad = fitcalc->delR(cajet_subjets.v4(),muon.v4());
+		    deltaR_Lep_Tophad = deltaR(cajet_subjets.v4(),muon.v4());
 		  }
 		}
 	      

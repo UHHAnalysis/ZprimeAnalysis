@@ -258,7 +258,7 @@ void ZprimeSelectionTrigTestCycle::ExecuteEvent( const SInputData& id, Double_t 
 
 
 
-  calc->FillHighMassTTbarHypotheses();
+  //calc->FillHighMassTTbarHypotheses();
 
   m_chi2discr->FillDiscriminatorValues();
 
