@@ -159,7 +159,7 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
 
     Selection* TopTagSel = new Selection("TopTagSelection");
     TopTagSel->addSelectionModule(new NTopJetSelection(1,int_infinity(),350,2.5));// top jet
-    TopTagSel->addSelectionModule(new NTopTagSelection(1));
+    TopTagSel->addSelectionModule(new NTopTagSelection(1,int_infinity()));
     TopTagSel->addSelectionModule(new TopTagOverlapSelection());
 
     RegisterSelection(mttbar_gen_selection);
