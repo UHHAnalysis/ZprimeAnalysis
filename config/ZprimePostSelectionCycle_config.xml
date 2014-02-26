@@ -16,7 +16,8 @@
 
 
  <!-- <Cycle Name="ZprimePostSelectionCycle_Extended"  RunMode="PROOF" ProofServer="lite://"  ProofWorkDir="/nfs/dust/cms/user/kripav/PROOF/" OutputDirectory="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/PostSelectionMuon/subjettiness/test_Chi2_CSVL/" PostFix="" TargetLumi="1" > -->
-	 <Cycle Name="ZprimePostSelectionCycle_Extended"  OutputDirectory="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/PostSelectionMuon/PostSelection_4_Marino/" PostFix="" TargetLumi="1" > 
+	 <Cycle Name="ZprimePostSelectionCycle"  OutputDirectory="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/PostSelectionMuon/PostSelection_6_Marino/" PostFix="" TargetLumi="1" > 
+		 
 		<InputData Lumi="1.0" NEventsMax="-1"  Type="DATA" Version="DATA" Cacheable="False">
 		        <In FileName="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Select_3_Marino/ZprimeSelectionCycle.DATA.DATA.root" Lumi="0.0"/> 
 			<InputTree Name="AnalysisTree" /> 
@@ -91,8 +92,8 @@
 		        <In FileName="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Select_3_Marino/ZprimeSelectionCycle.MC.ZP4000w400.root" Lumi="0.0"/> 
 			<InputTree Name="AnalysisTree" /> 
 		</InputData>
--->
-<!--
+
+
 		<InputData Lumi="88185" NEventsMax="-1" Type="MC" Version="TTbar" Cacheable="False">
 		        <In FileName="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Select_3_Marino/ZprimeSelectionCycle.MC.TTbar.root" Lumi="0.0"/> 
 			<InputTree Name="AnalysisTree" /> 
@@ -105,7 +106,7 @@
 		        <In FileName="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Select_3_Marino/ZprimeSelectionCycle.MC.TTbar_1000toInf.root" Lumi="0.0"/> 
 			<InputTree Name="AnalysisTree" /> 
 		</InputData> 
--->
+
 <!--
 		<InputData Lumi="2097.3" NEventsMax="-1" Type="MC" Version="Wjets" Cacheable="False">
 		        <In FileName="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Select_3_Marino/ZprimeSelectionCycle.MC.Wjets.root" Lumi="0.0"/ >
@@ -117,7 +118,7 @@
 			<InputTree Name="AnalysisTree" /> 
 		</InputData> 
 -->	
-<!--
+
 	        <InputData Lumi="66635" NEventsMax="-1" Type="MC" Version="SingleTop_T_tch" Cacheable="False">
 		        <In FileName="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Select_3_Marino/ZprimeSelectionCycle.MC.SingleTop_T_tch.root" Lumi="0.0"/> 
 			<InputTree Name="AnalysisTree" /> 
@@ -142,9 +143,8 @@
  		        <In FileName="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Select_3_Marino/ZprimeSelectionCycle.MC.SingleTop_Tbar_sch.root" Lumi="0.0"/>       
 			<InputTree Name="AnalysisTree" /> 
 		</InputData> 
-		
-	
-<!--
+	<!--	
+
 	        <InputData Lumi="182490" NEventsMax="-1" Type="MC" Version="WW" Cacheable="False">
  		        <In FileName="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Select_3_Marino/ZprimeSelectionCycle.MC.WW.root" Lumi="0.0"/>       
 			<InputTree Name="AnalysisTree" /> 
@@ -302,7 +302,7 @@
 		        <In FileName="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Select_3_Marino/ZprimeSelectionCycle.MC.QCDMu1000.root" Lumi="0.0"/>
 			<InputTree Name="AnalysisTree" /> 
 		</InputData>
--->
+
 <!--
 	        <InputData Lumi="573.26" NEventsMax="-1" Type="MC" Version="WJets_scaleup" Cacheable="False">
 		        <In FileName="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Select_3_Marino/ZprimeSelectionCycle.MC.WJets_scaleup.root" Lumi="0.0"/>
@@ -389,6 +389,12 @@
 			<!-- <Item Name="PrunedJetCollection" Value="goodPatJetsCA8PrunedPF" /> -->
 			<Item Name="GenParticleCollection" Value="GenParticles" />
 			<Item Name="PFParticleCollection" Value="PFParticles" />
+			
+			<Item Name="BTaggingScaleFactors" Value="Default" /> 
+			
+			
+			
+			
 
 			              <Item Name="JECFileLocation" Value="/nfs/dust/cms/user/peiffer/CMSSW_5_3_10/src" />
 		                      <Item Name="JECDataGlobalTag" Value="FT_53_V21_AN6" />
