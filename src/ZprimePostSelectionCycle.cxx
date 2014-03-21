@@ -224,7 +224,9 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     RegisterHistCollection( new MuonHists("Muon_Chi2sel") );
     RegisterHistCollection( new TauHists("Tau_Chi2sel") );
     RegisterHistCollection( new TopJetHists("TopJets_Chi2sel") ); 
-    RegisterHistCollection( new BTagEffHists("BTagEff_Chi2sel", m_btagtype) );
+    RegisterHistCollection( new BTagEffHists("BTagEff_Chi2selCSVT", m_btagtype) );
+    RegisterHistCollection( new BTagEffHists("BTagEff_Chi2selCSVL", x_btagtype) );
+
 
     // histograms with Btag and NoBtag and Chi2
     RegisterHistCollection( new HypothesisHists("Chi2_BTag", m_chi2discr ) );
@@ -333,9 +335,9 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
         else 
             m_logger << ERROR << "Unknown BTaggingScaleFactors option, default option is applied --- should be either `Default`, `Up-bjets`, `Down-bjets`, `Up-ljets`, or `Down-ljets`" << SLogger::endmsg; 
         if(doEle)  
-            m_bsf = new BTaggingScaleFactors(m_btagtype, e_Electron, sys_bjets, sys_ljets);
+            m_bsf = new BTaggingScaleFactors(x_btagtype, e_Electron, sys_bjets, sys_ljets);
         else if(doMu)
-            m_bsf = new BTaggingScaleFactors(m_btagtype, e_Muon, sys_bjets, sys_ljets);
+            m_bsf = new BTaggingScaleFactors(x_btagtype, e_Muon, sys_bjets, sys_ljets);
     }
 
     if(m_writeeventlist)
@@ -403,8 +405,9 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     BaseHists* Chi2_HistsTopTagSumBTag0 = GetHistCollection("Chi2_TopTagSumBTag0");
     BaseHists* Chi2_HistsTopTagSumBTag1 = GetHistCollection("Chi2_TopTagSumBTag1");
     BaseHists* Chi2_HistsTopTagSumBTag2 = GetHistCollection("Chi2_TopTagSumBTag2");
-    BaseHists* BTagEff_HistsChi2sel = GetHistCollection("BTagEff_Chi2sel");
 
+    BaseHists* BTagEff_HistsChi2selCSVT = GetHistCollection("BTagEff_Chi2selCSVT");
+    BaseHists* BTagEff_HistsChi2selCSVL = GetHistCollection("BTagEff_Chi2selCSVL");
 
     // reject laser events only for data
     //if (calc->IsRealData()){
@@ -443,7 +446,8 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     if(!Chi2Selection40->passSelection()) throw SError( SError::SkipEvent ); 
 
     Chi2_HistsChi2sel->Fill();
-    if(m_addGenInfo) BTagEff_HistsChi2sel->Fill();
+    if(m_addGenInfo) BTagEff_HistsChi2selCSVT->Fill();
+    if(m_addGenInfo) BTagEff_HistsChi2selCSVL->Fill();
     FillControlHistos("_Chi2sel");
 
     // BTag-NoBTag categories: do a chi2 selection of 10 for comparison with published analysis

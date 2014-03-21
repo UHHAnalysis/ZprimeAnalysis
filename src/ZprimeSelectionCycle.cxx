@@ -335,11 +335,11 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     
     //do reconstruction here
     //if(!bcc->recoHyps)  cout<<"no Hyp list"<<endl;
-    if(TopTagSel->passSelection()){
-      topcalc->CalculateTopTag();
-    } else{
+ //   if(TopTagSel->passSelection()){
+  //    topcalc->CalculateTopTag();
+ //   } else{
       topcalc->FillHighMassTTbarHypotheses();
-    }
+ //   }
 
     m_chi2discr->FillDiscriminatorValues();
     m_bpdiscr->FillDiscriminatorValues();
