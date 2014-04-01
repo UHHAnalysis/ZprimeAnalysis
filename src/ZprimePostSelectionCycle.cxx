@@ -333,9 +333,9 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
         else 
             m_logger << ERROR << "Unknown BTaggingScaleFactors option, default option is applied --- should be either `Default`, `Up-bjets`, `Down-bjets`, `Up-ljets`, or `Down-ljets`" << SLogger::endmsg; 
         if(doEle)  
-            m_bsf = new BTaggingScaleFactors(m_btagtype, e_Electron, sys_bjets, sys_ljets);
+            m_bsf = new BTaggingScaleFactors(x_btagtype, e_Electron, sys_bjets, sys_ljets);
         else if(doMu)
-            m_bsf = new BTaggingScaleFactors(m_btagtype, e_Muon, sys_bjets, sys_ljets);
+            m_bsf = new BTaggingScaleFactors(x_btagtype, e_Muon, sys_bjets, sys_ljets);
     }
 
     if(m_writeeventlist)

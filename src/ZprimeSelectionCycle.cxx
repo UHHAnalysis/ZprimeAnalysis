@@ -336,7 +336,8 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     //do reconstruction here
     //if(!bcc->recoHyps)  cout<<"no Hyp list"<<endl;
     if(TopTagSel->passSelection()){
-      topcalc->CalculateTopTag();
+      //topcalc->CalculateTopTag();
+      topcalc->FillHighMassTTbarHypotheses();
     } else{
       topcalc->FillHighMassTTbarHypotheses();
     }
