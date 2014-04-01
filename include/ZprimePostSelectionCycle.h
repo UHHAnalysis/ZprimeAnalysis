@@ -64,16 +64,18 @@ private:
   std::string m_Electron_Or_Muon_Selection;
 
   std::string m_dobsf;
+  std::string m_dotsf;
   E_BtagType m_btagtype;
-  E_BtagType x_btagtype;  
+  E_BtagType x_btagtype;
   BTaggingScaleFactors* m_bsf;
+  TopTaggingScaleFactors* m_tsf;
 
   bool m_mttgencut;
 
   bool m_writeeventlist;
   ofstream m_eventlist;
 
-  std::string m_flavor_selection; 
+  std::string m_flavor_selection;
   std::string m_filter_file;
 
   bool m_applyEleORJetTriggerSF;
