@@ -15,6 +15,7 @@ ZprimePostSelectionCycle::ZprimePostSelectionCycle()
     // obtained from the steering-xml file
 
     m_dobsf = "None";
+    m_dotsf = "None";
     m_mttgencut = false;
     m_flavor_selection = "None";
     m_writeeventlist = false;
@@ -22,6 +23,7 @@ ZprimePostSelectionCycle::ZprimePostSelectionCycle()
     // steerable properties for making qcd (pre) selection
     DeclareProperty( "Electron_Or_Muon_Selection", m_Electron_Or_Muon_Selection );
     DeclareProperty( "BTaggingScaleFactors", m_dobsf );
+    DeclareProperty( "TopTaggingScaleFactors", m_dotsf );
     DeclareProperty( "ApplyMttbarGenCut", m_mttgencut );
     DeclareProperty( "ApplyFlavorSelection", m_flavor_selection );
     DeclareProperty( "EventFilterFile", m_filter_file );
@@ -31,7 +33,7 @@ ZprimePostSelectionCycle::ZprimePostSelectionCycle()
     SetIntLumiPerBin(500.);
 
     // set the btagging operating point
-    m_btagtype = e_CSVT; 
+    m_btagtype = e_CSVT;
     x_btagtype = e_CSVL;
 
     // apply SF for the "Ele30 OR PFJet320" trigger (electron channel)
@@ -88,7 +90,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
         m_logger << ERROR << "Electron_Or_Muon_Selection is not defined in your xml config file --- should be either `ELE` or `MU`" << SLogger::endmsg;
     }
 
-    // Chi2 reconstruction and discriminant 
+    // Chi2 reconstruction and discriminant
     static Chi2Discriminator* m_chi2discr = new Chi2Discriminator();
 
     // event filter for HCAL laser events
@@ -118,7 +120,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
 
     std::transform(
         m_flavor_selection.begin(), m_flavor_selection.end(), m_flavor_selection.begin(), ::tolower
-    );    
+    );
     if (m_flavor_selection == "bflavor") {
         m_logger << INFO << "Applying b flavor selection" << SLogger::endmsg;
         KinematicSelection->addSelectionModule(new EventFlavorSelection(e_BFlavor));
@@ -129,7 +131,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
         m_logger << INFO << "Applying l flavor selection" << SLogger::endmsg;
         KinematicSelection->addSelectionModule(new EventFlavorSelection(e_LFlavor));
     } else if (m_flavor_selection != "none") {
-        m_logger << ERROR << "Unknown ApplyFlavorSelection option --- should be either `BFlavor`, `CFlavor` or `LFlavor`" << SLogger::endmsg;        
+        m_logger << ERROR << "Unknown ApplyFlavorSelection option --- should be either `BFlavor`, `CFlavor` or `LFlavor`" << SLogger::endmsg;
     }
 
     Selection* Chi2Seletion40 = new Selection("Chi2Selection40");
@@ -154,9 +156,9 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
 
     Selection* CMSSubBTagNsubjSelection = new Selection ("CMSSubBTagNsubjSelection");
     CMSSubBTagNsubjSelection->addSelectionModule(new NCMSSubBTagSelection(1,int_infinity(),1,int_infinity(),x_btagtype,0.7)); // with Nsubjettiness cut
-     
+
     Selection* CMSSubBTagSelection = new Selection ("CMSSubBTagSelection");
-    CMSSubBTagSelection->addSelectionModule(new NCMSSubBTagSelection(1,int_infinity(),1,int_infinity(),x_btagtype,int_infinity())); // without Nsubjettiness 
+    CMSSubBTagSelection->addSelectionModule(new NCMSSubBTagSelection(1,int_infinity(),1,int_infinity(),x_btagtype,int_infinity())); // without Nsubjettiness
 
     Selection* SumBTags0Selection = new Selection ("SumBTags0Selection");
     SumBTags0Selection->addSelectionModule(new NSumBTagsSelection(0,0,x_btagtype)); //Sum B-Tags
@@ -223,7 +225,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     RegisterHistCollection( new ElectronHists("Electron_Chi2sel") );
     RegisterHistCollection( new MuonHists("Muon_Chi2sel") );
     RegisterHistCollection( new TauHists("Tau_Chi2sel") );
-    RegisterHistCollection( new TopJetHists("TopJets_Chi2sel") ); 
+    RegisterHistCollection( new TopJetHists("TopJets_Chi2sel") );
     RegisterHistCollection( new BTagEffHists("BTagEff_Chi2sel", m_btagtype) );
 
     // histograms with Btag and NoBtag and Chi2
@@ -254,7 +256,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     RegisterHistCollection( new TauHists("Tau_TopTag") );
     RegisterHistCollection( new TopJetHists("TopJets_TopTag") );
 
-    //histograms of Top-Tags with SumBTags 
+    //histograms of Top-Tags with SumBTags
 
     // No-TopTag (+0,1,>=2 SumBTag)
     RegisterHistCollection( new HypothesisHists("Chi2_NoTopTagSumBTag0",m_chi2discr));
@@ -309,7 +311,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     // important: initialise histogram collections after their definition
     InitHistos();
 
-    // Data-MC b-tagging reweighting 
+    // Data-MC b-tagging reweighting
     m_bsf = NULL;
     std::transform(m_dobsf.begin(), m_dobsf.end(), m_dobsf.begin(), ::tolower);
     if(m_dobsf != "none") {
@@ -318,7 +320,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
         if (m_dobsf == "default") {
             m_logger << INFO << "Applying btagging scale factor" << SLogger::endmsg;
         } else if (m_dobsf == "up-bjets") {
-            m_logger << INFO << "Applying btagging up scale factor for b-jets" << SLogger::endmsg; 
+            m_logger << INFO << "Applying btagging up scale factor for b-jets" << SLogger::endmsg;
             sys_bjets = e_Up;
         } else if (m_dobsf == "down-bjets") {
             m_logger << INFO << "Applying btagging down scale factor for b-jets" << SLogger::endmsg;
@@ -329,14 +331,41 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
         } else if (m_dobsf == "down-ljets") {
             m_logger << INFO << "Applying btagging down scale factor for l-jets" << SLogger::endmsg;
             sys_ljets = e_Down;
-        } 
-        else 
-            m_logger << ERROR << "Unknown BTaggingScaleFactors option, default option is applied --- should be either `Default`, `Up-bjets`, `Down-bjets`, `Up-ljets`, or `Down-ljets`" << SLogger::endmsg; 
-        if(doEle)  
+        }
+        else
+            m_logger << ERROR << "Unknown BTaggingScaleFactors option, default option is applied --- should be either `Default`, `Up-bjets`, `Down-bjets`, `Up-ljets`, or `Down-ljets`" << SLogger::endmsg;
+        if(doEle)
             m_bsf = new BTaggingScaleFactors(x_btagtype, e_Electron, sys_bjets, sys_ljets);
         else if(doMu)
             m_bsf = new BTaggingScaleFactors(x_btagtype, e_Muon, sys_bjets, sys_ljets);
     }
+
+    m_tsf = NULL;
+    std::transform(m_dotsf.begin(), m_dotsf.end(), m_dotsf.begin(), ::tolower);
+    if(m_dotsf != "none") {
+        E_SystShift sys_toptag = e_Default;
+        E_SystShift sys_mistag = e_Default;
+        if (m_dotsf == "default") {
+            m_logger << INFO << "Applying toptagging scale factor" << SLogger::endmsg;
+        } else if (m_dotsf == "up-mistag") {
+            m_logger << INFO << "Applying topmistagging up scale factor" << SLogger::endmsg;
+            sys_mistag = e_Up;
+        } else if (m_dotsf == "down-mistag") {
+            m_logger << INFO << "Applying topmistagging down scale factor" << SLogger::endmsg;
+            sys_mistag = e_Down;
+        } else if (m_dotsf == "up-toptag") {
+            m_logger << INFO << "Applying toptagging up scale factor" << SLogger::endmsg;
+            sys_toptag = e_Up;
+        } else if (m_dotsf == "down-toptag") {
+            m_logger << INFO << "Applying toptagging down scale factor" << SLogger::endmsg;
+            sys_toptag = e_Down;
+        }
+        else
+            m_logger << ERROR << "Unknown TopTaggingScaleFactors option, default option is applied --- should be either `Default`, `Up`, or `Down`" << SLogger::endmsg;
+
+        m_tsf = new TopTaggingScaleFactors(sys_toptag, sys_mistag);
+    }
+
 
     if(m_writeeventlist)
       m_eventlist.open( id.GetVersion()+"_eventlist.txt" );
@@ -359,7 +388,7 @@ void ZprimePostSelectionCycle::BeginInputFile( const SInputData& id ) throw( SEr
 
     // important: call to base function to connect all variables to Ntuples from the input tree
     AnalysisCycle::BeginInputFile( id );
-    
+
     return;
 }
 
@@ -420,6 +449,11 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
         calc->ProduceWeight(m_bsf->GetWeight());
     }
 
+    // top tagging scale factor
+    if(m_tsf && m_addGenInfo) {
+        calc->ProduceWeight(m_tsf->GetWeight());
+    }
+
     // Ele30_OR_PFJet320 trigger Scale Factor
     if(m_applyEleORJetTriggerSF && !calc->IsRealData()) calc->ProduceWeight( m_lsf->GetElectronORJetTrigWeight() );
 
@@ -440,7 +474,7 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     Chi2_HistsKinesel->Fill();
     FillControlHistos("_Kinesel");
 
-    if(!Chi2Selection40->passSelection()) throw SError( SError::SkipEvent ); 
+    if(!Chi2Selection40->passSelection()) throw SError( SError::SkipEvent );
 
     Chi2_HistsChi2sel->Fill();
     if(m_addGenInfo) BTagEff_HistsChi2sel->Fill();
@@ -500,7 +534,7 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
 	m_eventlist << calc->GetRunNum() << ":" << calc->GetLumiBlock() << ":" << calc->GetEventNum() << std::endl;
       else
 	//don't fill the random run number produced by LumiHandler for MC samples
-	m_eventlist << "1:" << calc->GetLumiBlock() << ":" << calc->GetEventNum() << std::endl; 
+	m_eventlist << "1:" << calc->GetLumiBlock() << ":" << calc->GetEventNum() << std::endl;
     }
 
     return;
