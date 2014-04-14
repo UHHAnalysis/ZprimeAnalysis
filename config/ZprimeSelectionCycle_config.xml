@@ -18,7 +18,7 @@
 
 
 <!--	<Cycle Name="ZprimeSelectionCycle"  RunMode="PROOF" ProofServer="lite://"  ProofWorkDir="/nfs/dust/cms/user/gonzalez/PROOF/" OutputDirectory="/nfs/dust/cms/user/gonzalez/Analysis53X_v3/SelectionMuon/" PostFix="" TargetLumi="1" >  -->
-	<Cycle Name="ZprimeSelectionCycle"  OutputDirectory="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Marino_NeutrinoRec/" PostFix="" TargetLumi="1" >
+	<Cycle Name="ZprimeSelectionCycle"  OutputDirectory="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Marino_NeutrinoRec_JEC_down/" PostFix="" TargetLumi="1" >
 <!--
 		<InputData Lumi="1.0" NEventsMax="-1"  Type="DATA" Version="DATA" Cacheable="False">
 		        <In FileName="/nfs/dust/cms/user/missirol/Analysis53X/PreSelectionMuonNoEleVeto/ZprimePreSelectionCycle.DATA.DATA_A.root" Lumi="0.0"/> 
@@ -57,7 +57,7 @@
 		</InputData>
 		
 		-->
-		<!--
+		
 		<InputData Lumi="211382" NEventsMax="-1" Type="MC" Version="ZP1000w10" Cacheable="False">
 		        <In FileName="/nfs/dust/cms/user/missirol/Analysis53X/PreSelectionMuonNoEleVeto/ZprimePreSelectionCycle.MC.ZP1000w10.root" Lumi="0.0"/> 
 			<InputTree Name="AnalysisTree" /> 
@@ -234,7 +234,7 @@
 			<InputTree Name="AnalysisTree" /> 
 			<OutputTree Name="AnalysisTree" />  
 		</InputData> 
--->
+
 <!--
 
 		<InputData Lumi="2929.48" NEventsMax="-1" Type="MC" Version="RSG700" Cacheable="False">
@@ -578,10 +578,10 @@
 
 		      <!-- UPDATE REQUIRED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		      <Item Name="LeptonScaleFactors" Value="MuonRunABCD 1" />
-		      <!--
+		      
 		      <Item Name="SystematicUncertainty" Value="JEC" />
 		      <Item Name="SystematicVariation" Value="down" />
-		      -->
+		      
 		                      <Item Name="ReversedElectronSelection" Value="false" />
                 </UserConfig>	   
 </Cycle>
