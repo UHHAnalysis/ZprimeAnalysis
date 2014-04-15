@@ -455,9 +455,9 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     }
 
     // top tagging scale factor
-    //if(m_tsf && m_addGenInfo) {
-    //    calc->ProduceWeight(m_tsf->GetWeight());
-    //}
+    if(m_tsf && m_addGenInfo) {
+        calc->ProduceWeight(m_tsf->GetWeight());
+    }
 
     // Ele30_OR_PFJet320 trigger Scale Factor
     if(m_applyEleORJetTriggerSF && !calc->IsRealData()) calc->ProduceWeight( m_lsf->GetElectronORJetTrigWeight() );
