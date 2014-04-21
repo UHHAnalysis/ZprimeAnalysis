@@ -226,7 +226,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     RegisterHistCollection( new MuonHists("Muon_Chi2sel") );
     RegisterHistCollection( new TauHists("Tau_Chi2sel") );
 
-    RegisterHistCollection( new TopJetHists("TopJets_Chi2sel") ); 
+    RegisterHistCollection( new TopJetHists("TopJets_Chi2sel") );
     RegisterHistCollection( new BTagEffHists("BTagEff_Chi2selCSVT", m_btagtype) );
     RegisterHistCollection( new BTagEffHists("BTagEff_Chi2selCSVL", x_btagtype) );
 
@@ -369,6 +369,9 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
 
         m_tsf = new TopTaggingScaleFactors(sys_toptag, sys_mistag);
     }
+
+    if(m_tsf)
+        m_logger << INFO << "TopTaggingScaleFactors exists!" << SLogger::endmsg;
 
 
     if(m_writeeventlist)
