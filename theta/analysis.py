@@ -61,11 +61,9 @@ def build_boosted_semileptonic_model(files, filter, signal, mcstat, eflag=False,
         model.add_lognormal_uncertainty('lumi', math.log(1.026), p)
 
     model.add_lognormal_uncertainty('zj_rate', math.log(2.0), 'zlight')
-    model.add_lognormal_uncertainty('wj_rate', math.log(1.5), 'wlight')
-    model.add_lognormal_uncertainty('wj_rate', math.log(1.5), 'wb')
-    model.add_lognormal_uncertainty('wj_rate', math.log(1.5), 'wc')
-    model.add_lognormal_uncertainty('wb_rate', math.log(1.87), 'wb')
-    model.add_lognormal_uncertainty('wc_rate', math.log(1.87), 'wc')
+    model.add_lognormal_uncertainty('wl_rate', math.log(1.5), 'wlight')
+    model.add_lognormal_uncertainty('wb_rate', math.log(1.5), 'wb')
+    model.add_lognormal_uncertainty('wc_rate', math.log(1.5), 'wc')
     model.add_lognormal_uncertainty('ttbar_rate', math.log(1.15), 'ttbar')
     model.add_lognormal_uncertainty('st_rate', math.log(1.5), 'singletop')
     model.add_lognormal_uncertainty('diboson_rate', math.log(1.5), 'diboson')
@@ -86,13 +84,13 @@ def build_boosted_semileptonic_model(files, filter, signal, mcstat, eflag=False,
                 model.add_asymmetric_lognormal_uncertainty('scale_vjets', -math.log(1.584), math.log(0.690), proc, obs)
                 model.add_asymmetric_lognormal_uncertainty('matching_vjets', -math.log(1.0447), math.log(1.0706), proc, obs)
             for proc in model.processes:
-                model.add_lognormal_uncertainty('elid_rate', math.log(1.05), proc, obs)
+                model.add_lognormal_uncertainty('eltrig_rate', math.log(1.01), proc, obs)
         for obs in ['el_0top1btag_mttbar','el_0top2btag_mttbar','el_1top1btag_mttbar','el_1top2btag_mttbar']:
             for proc in ('wc', 'wb', 'wlight'):
                 model.add_asymmetric_lognormal_uncertainty('scale_vjets', -math.log(1.584), math.log(0.690), proc, obs)
                 model.add_asymmetric_lognormal_uncertainty('matching_vjets', -math.log(1.0447), math.log(1.0706), proc, obs)
             for proc in model.processes:
-                model.add_lognormal_uncertainty('elid_rate', math.log(1.05), proc, obs)
+                model.add_lognormal_uncertainty('eltrig_rate', math.log(1.01), proc, obs)
     
     return model
 
