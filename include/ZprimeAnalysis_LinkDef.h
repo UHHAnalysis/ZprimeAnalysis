@@ -17,7 +17,6 @@
 #pragma link C++ class ZprimeJetHTPreSelectionCycle+;
 #pragma link C++ class ZprimeSelectionCycle+;
 #pragma link C++ class ZprimePostSelectionCycle+;
-#pragma link C++ class TestCycle+;
 #pragma link C++ class ZprimeEleTrigCycle+;
 #pragma link C++ class ZprimeSelectionTrigTestCycle+;
 #pragma link C++ class ZprimeSelectionDataTrigTestCycle+;
