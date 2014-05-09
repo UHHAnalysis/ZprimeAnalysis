@@ -15,8 +15,8 @@
 	<Package Name="ZprimeAnalysis.par" />
 
 
-  <Cycle Name="ZprimePostSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/nfs/dust/cms/user/kripav/PROOF/" OutputDirectory="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/PostSelectionMuon/Systematics_JER_down/" PostFix="" TargetLumi="1" > 
-<!--	 <Cycle Name="ZprimePostSelectionCycle"  OutputDirectory="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/PostSelectionMuon/Systematics_JER_down/" PostFix="" TargetLumi="1" > -->
+ <!-- <Cycle Name="ZprimePostSelectionCycle"  RunMode="PROOF" ProofServer="pod://"  ProofWorkDir="/nfs/dust/cms/user/kripav/PROOF/" OutputDirectory="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/PostSelectionMuon/Systematics_JER_down/" PostFix="" TargetLumi="1" > -->
+	 <Cycle Name="ZprimePostSelectionCycle"  OutputDirectory="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/PostSelectionMuon/Systematics_new_updated/Systematics_JER_down/" PostFix="_JER_down" TargetLumi="1" > 
 	<!--	 
 		<InputData Lumi="1.0" NEventsMax="-1"  Type="DATA" Version="DATA" Cacheable="False">
 		        <In FileName="/nfs/dust/cms/user/kripav/AnalysisOutput/Zprime_53x_v3/SelectionMuon/Systematics_JER_down/ZprimeSelectionCycle.DATA.DATA.root" Lumi="0.0"/> 
@@ -442,7 +442,7 @@
 			<Item Name="PFParticleCollection" Value="PFParticles" />
 			
 			<Item Name="BTaggingScaleFactors" Value="Default" /> 
-			
+			<Item Name="TopTaggingScaleFactors" Value="Default" /> 
 			
 			
 			
@@ -463,10 +463,10 @@
 
 		      <!-- UPDATE REQUIRED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 		      <Item Name="LeptonScaleFactors" Value="MuonRunABCD 1" />
-<!--
-		      <Item Name="SystematicUncertainty" Value="JEC" />
+
+		      <Item Name="SystematicUncertainty" Value="JER" />
 		      <Item Name="SystematicVariation" Value="down" />
--->
+
                       <Item Name="ReversedElectronSelection" Value="false" />
 
                       <Item Name="applyEleORJetTriggerSF" Value="False" />
