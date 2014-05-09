@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE JobConfiguration PUBLIC "" "JobConfig.dtd" [
+<!ENTITY inDIR  "/nfs/dust/cms/user/missirol/Analysis53X/Selection/SingleElectronOR_0423_pro2">
+<!ENTITY outDIR "/nfs/dust/cms/user/missirol/Analysis53X/PostSelection/SingleElectronOR_0423_pro2">
+]>
+
+<JobConfiguration JobName="ZprimePostSelectionCycle" OutputLevel="INFO">
+
+       <Library Name="libfastjet"/>
+       <Library Name="libfastjettools"/>
+       <Library Name="libJetMETObjects" />
+       <Library Name="libSFramePlugIns"/>
+       <Library Name="libSFrameTools"/>
+       <Library Name="libNtuple"/>
+       <Library Name="libAnalysis"/>
+       <Library Name="libZprimeAnalysis"/>
+
+       <Package Name="ZprimeAnalysis.par" />
+
+       <Cycle Name="ZprimePostSelectionCycle" RunMode="PROOF" ProofServer="lite://" ProofNodes="16" ProofWorkDir="/nfs/dust/cms/user/missirol/PROOF" OutputDirectory="&outDIR;/PUdn/" PostFix="_bflavor" TargetLumi="1" >
+  <!-- <Cycle Name="ZprimePostSelectionCycle" OutputDirectory="./" PostFix="_bflavor" TargetLumi="1" > -->
+
+           <InputData Lumi="3473.2" NEventsMax="-1" Type="MC" Version="W1Jets" Cacheable="False">
+             <In FileName="&inDIR;/ZprimeSelectionCycle.MC.W1Jets.root" Lumi="0.0"/>
+             <InputTree Name="AnalysisTree" />
+           </InputData>
+           <InputData Lumi="15767" NEventsMax="-1" Type="MC" Version="W2Jets" Cacheable="False">
+             <In FileName="&inDIR;/ZprimeSelectionCycle.MC.W2Jets.root" Lumi="0.0"/>
+             <InputTree Name="AnalysisTree" />
+           </InputData>
+           <InputData Lumi="24266" NEventsMax="-1" Type="MC" Version="W3Jets" Cacheable="False">
+             <In FileName="&inDIR;/ZprimeSelectionCycle.MC.W3Jets.root" Lumi="0.0"/>
+             <InputTree Name="AnalysisTree" />
+           </InputData>
+           <InputData Lumi="50683" NEventsMax="-1" Type="MC" Version="W4Jets" Cacheable="False">
+             <In FileName="&inDIR;/ZprimeSelectionCycle.MC.W4Jets.root" Lumi="0.0"/>
+             <InputTree Name="AnalysisTree" />
+           </InputData>
+
+
+           <UserConfig>
+
+             <Item Name="Electron_Or_Muon_Selection" Value="Electron" />
+             <Item Name="ApplyFlavorSelection" Value="bflavor" />
+
+             <Item Name="ApplyMttbarGenCut" Value="True" />
+             <Item Name="writeTTbarReco" Value="False" />
+             <Item Name="readTTbarReco" Value="True" />
+
+             <Item Name="JetCollection" Value="goodPatJetsPFlow" />
+             <Item Name="GenJetCollection" Value="ak5GenJetsNoNu" />
+             <Item Name="ElectronCollection" Value="selectedPatElectronsPFlowLoose" />
+             <Item Name="MuonCollection" Value="selectedPatMuonsPFlowLoose" />
+             <Item Name="TauCollection" Value="selectedPatTausPFlow" />
+        <!-- <Item Name="PhotonCollection" Value="patPhotons" /> -->
+             <Item Name="PrimaryVertexCollection" Value="goodOfflinePrimaryVertices" />
+             <Item Name="METName" Value="patMETsPFlow" />
+             <Item Name="TopJetCollection" Value="goodPatJetsCATopTagPFPacked" />
+             <Item Name="TopJetCollectionGen" Value="caTopTagGen" />
+        <!-- <Item Name="PrunedJetCollection" Value="goodPatJetsCA8PrunedPF" /> -->
+             <Item Name="GenParticleCollection" Value="GenParticles" />
+             <Item Name="PFParticleCollection" Value="PFParticles" />
+
+             <Item Name="JECFileLocation" Value="/afs/desy.de/user/m/missirol/xxl/ZPrimeTTbar/JECFiles" />
+             <Item Name="JECDataGlobalTag" Value="FT_53_V21_AN6" />
+             <Item Name="JECMCGlobalTag" Value="START53_V27" />
+             <Item Name="JECJetCollection" Value="AK5PFchs" />
+             <Item Name="JECTopJetCollection" Value="AK7PFchs" />
+
+             <Item Name="PU_Filename_MC" Value="/nfs/dust/cms/user/peiffer/Analysis53X_v3/PileUpHistos/PileUpHistoCycle" />
+             <Item Name="PU_Filename_Data" Value="/nfs/dust/cms/user/peiffer/Analysis53X_v3/PileUpHistos/MyDataPileupHistogram_659.root" />
+             <Item Name="PU_Histname_Data" Value="pileup" />
+             <Item Name="PU_Histname_MC" Value="N_pileup_hist" />
+
+             <Item Name="LumiFilePath" Value="/nfs/dust/cms/user/missirol/Analysis53X/LumiFiles" />
+             <Item Name="LumiFileName" Value="Ele30_pixel.root" />
+             <Item Name="LumiTrigger" Value="HLT_Ele30_CaloIdVT_TrkIdT_PFNoPUJet100_PFNoPUJet25_v" />
+
+             <Item Name="LeptonScaleFactors" Value="EGMTrigMVA 1" />
+             <Item Name="BTaggingScaleFactors" Value="default" />
+             <Item Name="TopTaggingScaleFactors" Value="default" />
+             <Item Name="applyEleORJetTriggerSF" Value="True" />
+
+           </UserConfig>
+
+       </Cycle>
+</JobConfiguration>
