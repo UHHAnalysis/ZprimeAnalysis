@@ -61,11 +61,9 @@ def build_boosted_semileptonic_model(files, filter, signal, mcstat, eflag=False,
         model.add_lognormal_uncertainty('lumi', math.log(1.026), p)
 
     model.add_lognormal_uncertainty('zj_rate', math.log(2.0), 'zlight')
-    model.add_lognormal_uncertainty('wj_rate', math.log(1.5), 'wlight')
-    model.add_lognormal_uncertainty('wj_rate', math.log(1.5), 'wb')
-    model.add_lognormal_uncertainty('wj_rate', math.log(1.5), 'wc')
-    model.add_lognormal_uncertainty('wb_rate', math.log(1.87), 'wb')
-    model.add_lognormal_uncertainty('wc_rate', math.log(1.87), 'wc')
+    model.add_lognormal_uncertainty('wl_rate', math.log(1.5), 'wlight')
+    model.add_lognormal_uncertainty('wb_rate', math.log(1.5), 'wb')
+    model.add_lognormal_uncertainty('wc_rate', math.log(1.5), 'wc')
     model.add_lognormal_uncertainty('ttbar_rate', math.log(1.15), 'ttbar')
     model.add_lognormal_uncertainty('st_rate', math.log(1.5), 'singletop')
     model.add_lognormal_uncertainty('diboson_rate', math.log(1.5), 'diboson')
@@ -83,75 +81,21 @@ def build_boosted_semileptonic_model(files, filter, signal, mcstat, eflag=False,
     if eflag:
         #For categories with low statistics, use flat uncertainties instead of shape
         #  Template for the following lines:
-        #    model.add_asymmetric_lognormal_uncertainty(sys, -math.log( _PLUS_ ), math.log( _MINUS_ ), proc, obs)
+        #    model.add_asymmetric_lognormal_uncertainty(sys, -math.log( _MINUS_ ), math.log( _PLUS_ ), proc, obs)
         #  Where _PLUS_ = proc_sys_plus.Integral() / proc.Integral()  after the kinematic selection, before Chi2
         #  Where _MINUS_ = proc_sys_minus.Integral() / proc.Integral()  after the kinematic selection, before Chi2
-        for obs in ['el_1top0btag_mttbar','el_1top1btag_mttbar','el_1top2btag_mttbar']:
-            model.add_asymmetric_lognormal_uncertainty('bmistag', -math.log(0.99828), math.log(1.00173), 'diboson', obs)
-            model.add_asymmetric_lognormal_uncertainty('btageff', -math.log(1.00020), math.log(0.99979), 'diboson', obs)
-            model.add_asymmetric_lognormal_uncertainty('elesf'  , -math.log(1.00049), math.log(0.99951), 'diboson', obs)
-            model.add_asymmetric_lognormal_uncertainty('jec'    , -math.log(1.03533), math.log(0.95318), 'diboson', obs)
-            model.add_asymmetric_lognormal_uncertainty('jer'    , -math.log(1.01404), math.log(0.98601), 'diboson', obs)
-            model.add_asymmetric_lognormal_uncertainty('pileup' , -math.log(1.00604), math.log(0.99374), 'diboson', obs)
-            model.add_asymmetric_lognormal_uncertainty('topmistag', -math.log(1.00007), math.log(0.99993), 'diboson', obs)
-            model.add_asymmetric_lognormal_uncertainty('toptageff', -math.log(1.00004), math.log(0.99996), 'diboson', obs)
+        for obs in ['el_1top0btag_mttbar','el_1top1btag_mttbar','el_1top2btag_mttbar','el_0top2btag_mttbar']:
+            model.add_asymmetric_lognormal_uncertainty('scale_vjets', -math.log(1.49389), math.log(0.50611), 'wb', obs)
+            model.add_asymmetric_lognormal_uncertainty('matching_vjets', -math.log(1.01370), math.log(0.98630), 'wb', obs)
 
-            model.add_asymmetric_lognormal_uncertainty('bmistag', -math.log(1.00023), math.log(0.99977), 'singletop', obs)
-            model.add_asymmetric_lognormal_uncertainty('btageff', -math.log(0.99951), math.log(1.00049), 'singletop', obs)
-            model.add_asymmetric_lognormal_uncertainty('elesf'  , -math.log(1.00044), math.log(0.99956), 'singletop', obs)
-            model.add_asymmetric_lognormal_uncertainty('jec'    , -math.log(1.02887), math.log(0.95917), 'singletop', obs)
-            model.add_asymmetric_lognormal_uncertainty('jer'    , -math.log(1.01413), math.log(0.98887), 'singletop', obs)
-            model.add_asymmetric_lognormal_uncertainty('pileup' , -math.log(1.00121), math.log(0.99904), 'singletop', obs)
-            model.add_asymmetric_lognormal_uncertainty('topmistag', -math.log(0.99995), math.log(1.00005), 'singletop', obs)
-            model.add_asymmetric_lognormal_uncertainty('toptageff', -math.log(1.00036), math.log(0.99964), 'singletop', obs)
+            model.add_asymmetric_lognormal_uncertainty('scale_vjets', -math.log(1.49901), math.log(0.50099), 'wc', obs)
+            model.add_asymmetric_lognormal_uncertainty('matching_vjets', -math.log(0.98011), math.log(1.01989), 'wc', obs)
 
-            model.add_asymmetric_lognormal_uncertainty('bmistag', -math.log(1.00036), math.log(0.99963), 'wb', obs)
-            model.add_asymmetric_lognormal_uncertainty('btageff', -math.log(0.99718), math.log(1.00277), 'wb', obs)
-            model.add_asymmetric_lognormal_uncertainty('elesf'  , -math.log(1.00051), math.log(0.99949), 'wb', obs)
-            model.add_asymmetric_lognormal_uncertainty('jec'    , -math.log(1.03401), math.log(0.95899), 'wb', obs)
-            model.add_asymmetric_lognormal_uncertainty('jer'    , -math.log(1.01522), math.log(0.99024), 'wb', obs)
-            model.add_asymmetric_lognormal_uncertainty('pileup' , -math.log(1.00922), math.log(0.98990), 'wb', obs)
-            model.add_asymmetric_lognormal_uncertainty('topmistag', -math.log(1.00031), math.log(0.99969), 'wb', obs)
-            #model.add_asymmetric_lognormal_uncertainty('toptageff', -math.log(1.0), math.log(1.0), 'wb', obs)
-            model.add_asymmetric_lognormal_uncertainty('scale_vjets', -math.log(2.317105), math.log(0.50625), 'wb', obs)
-            model.add_asymmetric_lognormal_uncertainty('matching_vjets', -math.log(0.90346), math.log(0.64922), 'wb', obs)
+            model.add_asymmetric_lognormal_uncertainty('scale_vjets', -math.log(1.50848), math.log(0.49152), 'wlight', obs)
+            model.add_asymmetric_lognormal_uncertainty('matching_vjets', -math.log(0.97089), math.log(1.02911), 'wlight', obs)
 
-            model.add_asymmetric_lognormal_uncertainty('bmistag', -math.log(0.99854), math.log(1.00146), 'wc', obs)
-            model.add_asymmetric_lognormal_uncertainty('btageff', -math.log(0.99908), math.log(1.00093), 'wc', obs)
-            model.add_asymmetric_lognormal_uncertainty('elesf'  , -math.log(1.00048), math.log(0.99951), 'wc', obs)
-            model.add_asymmetric_lognormal_uncertainty('jec'    , -math.log(1.03686), math.log(0.95038), 'wc', obs)
-            model.add_asymmetric_lognormal_uncertainty('jer'    , -math.log(1.01454), math.log(0.98724), 'wc', obs)
-            model.add_asymmetric_lognormal_uncertainty('pileup' , -math.log(1.00449), math.log(0.99578), 'wc', obs)
-            model.add_asymmetric_lognormal_uncertainty('topmistag', -math.log(1.00007), math.log(0.99993), 'wc', obs)
-            #model.add_asymmetric_lognormal_uncertainty('toptageff', -math.log(1.0), math.log(1.0), 'wb', obs)
-            model.add_asymmetric_lognormal_uncertainty('scale_vjets', -math.log(2.35657), math.log(0.49810), 'wc', obs)
-            model.add_asymmetric_lognormal_uncertainty('matching_vjets', -math.log(0.87614), math.log(0.67215), 'wc', obs)
-
-            model.add_asymmetric_lognormal_uncertainty('bmistag', -math.log(0.99840), math.log(1.00162), 'wlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('btageff', -math.log(0.99992), math.log(1.00008), 'wlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('elesf'  , -math.log(1.00051), math.log(0.99949), 'wlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('jec'    , -math.log(1.03593), math.log(0.95568), 'wlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('jer'    , -math.log(1.01414), math.log(0.98731), 'wlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('pileup' , -math.log(1.00495), math.log(0.99499), 'wlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('topmistag', -math.log(0.99998), math.log(1.00002), 'wlight', obs)
-            #model.add_asymmetric_lognormal_uncertainty('toptageff', -math.log(1.0), math.log(1.0), 'wlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('scale_vjets', -math.log(2.32356), math.log(0.50250), 'wlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('matching_vjets', -math.log(0.89011), math.log(0.69660), 'wlight', obs)
-
-            model.add_asymmetric_lognormal_uncertainty('bmistag', -math.log(1.00019), math.log(0.99979), 'zlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('btageff', -math.log(0.99975), math.log(1.00025), 'zlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('elesf'  , -math.log(1.00050), math.log(0.99950), 'zlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('jec'    , -math.log(1.05828), math.log(0.94517), 'zlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('jer'    , -math.log(1.05491), math.log(0.96224), 'zlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('pileup' , -math.log(1.02015), math.log(0.98078), 'zlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('topmistag', -math.log(0.99995), math.log(1.00005), 'zlight', obs)
-            #model.add_asymmetric_lognormal_uncertainty('toptageff', -math.log(1.0), math.log(1.0), 'zlight', obs)
-
-        for obs in ['el_1top0btag_mttbar','el_1top1btag_mttbar','el_1top2btag_mttbar','el_0top0btag_mttbar','el_0top1btag_mttbar','el_0top2btag_mttbar']:
-            model.add_asymmetric_lognormal_uncertainty('scale_vjets', -math.log(0.87969), math.log(1.21499), 'zlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('matching_vjets', -math.log(1.12298), math.log(1.67109), 'zlight', obs)
-            for proc in model.processes:
-                model.add_lognormal_uncertainty('eltrig_rate', math.log(1.01), p)
+        for p in model.processes:
+            model.add_lognormal_uncertainty('eltrig_rate', math.log(1.01), p)
 
     return model
 
