@@ -501,6 +501,8 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     // NoTopTag categories
     if(!TopTagSelection->passSelection()){
 
+     
+
       if(SumBTags0Selection->passSelection()){
         Chi2_HistsNoTopTagSumBTag0->Fill();
         FillControlHistos("_NoTopTagSumBTag0");
@@ -517,6 +519,8 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
 
     // TopTag categories
     if(TopTagSelection->passSelection()){
+
+   
 
       Chi2_HistsTopTag->Fill();
       FillControlHistos("_TopTag");
