@@ -82,7 +82,8 @@ def fixFile(filename,channelsToSym):
                     output.cd()
                     histos[ch][proc][sys][dir].Write()
 
-fixFile('theta_input_sixchannel_rebinned.root', ['el_0top0btag_mttbar__wb__matching_vjets','el_0top1btag_mttbar__wb__matching_vjets','el_0top0btag_mttbar__wb__scale_vjets','el_0top1btag_mttbar__wb__scale_vjets','el_0top0btag_mttbar__wc__matching_vjets','el_0top1btag_mttbar__wc__matching_vjets','el_0top0btag_mttbar__wc__scale_vjets','el_0top1btag_mttbar__wc__scale_vjets','el_0top0btag_mttbar__wlight__matching_vjets','el_0top1btag_mttbar__wlight__matching_vjets','el_0top0btag_mttbar__wlight__scale_vjets','el_0top1btag_mttbar__wlight__scale_vjets'])
+fixFile('theta_input_sixchannel_rebinned.root', ['el_0top0btag_mttbar__wlight__matching_vjets','el_0top1btag_mttbar__wlight__matching_vjets',
+                                                 'el_0top0btag_mttbar__wlight__scale_vjets','el_0top1btag_mttbar__wlight__scale_vjets'])
 
 
 

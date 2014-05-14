@@ -218,7 +218,10 @@ def binFile(rerror, filename, xtitle, backgrounds):
                 if ('zlight' in info.process and (info.systematic == 'scale' or info.systematic == 'matching')):
                     print 'Excluding :',info.systematic, info.process, info.channel
                     continue
-                if (('w' in info.process) and (info.systematic == 'scale' or info.systematic == 'matching') and ('1top' in info.channel or '0top2btag' in info.channel)):
+                if (('wb' in info.process or 'wc' in info.process) and (info.systematic == 'scale' or info.systematic == 'matching')):
+                    print 'Excluding :',info.systematic, info.process, info.channel
+                    continue
+                if (('wlight' in info.process) and (info.systematic == 'scale' or info.systematic == 'matching') and ('1top' in info.channel or '0top2btag' in info.channel)):
                     print 'Excluding :',info.systematic, info.process, info.channel
                     continue
                 if 'data' in info.process:
