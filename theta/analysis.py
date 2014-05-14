@@ -81,19 +81,19 @@ def build_boosted_semileptonic_model(files, filter, signal, mcstat, eflag=False,
     if eflag:
         #For categories with low statistics, use flat uncertainties instead of shape
         #  Template for the following lines:
-        #    model.add_asymmetric_lognormal_uncertainty(sys, -math.log( _MINUS_ ), math.log( _PLUS_ ), proc, obs)
-        #  Where _PLUS_ = proc_sys_plus.Integral() / proc.Integral()  after the Chi2 selection
-        #  Where _MINUS_ = proc_sys_minus.Integral() / proc.Integral()  after the Chi2 selection
+        #    model.add_lognormal_uncertainty(sys, math.log( _DIFF_ ), proc, obs)
+        #  Where _DIFF_ = 2.0 * proc_sys_plus.Integral() / (proc_sys_minus.Integral() + proc_sys_plus.Integral())
+        #    after the Chi2 selection
         for obs in ['el_1top0btag_mttbar','el_1top1btag_mttbar','el_1top2btag_mttbar','el_0top0btag_mttbar','el_0top1btag_mttbar','el_0top2btag_mttbar']:
-            model.add_asymmetric_lognormal_uncertainty('scale_vjets', -math.log(1.49389), math.log(0.50611), 'wb', obs)
-            model.add_asymmetric_lognormal_uncertainty('matching_vjets', -math.log(1.01370), math.log(0.98630), 'wb', obs)
+            model.add_lognormal_uncertainty('scale_vjets', math.log(1.49389), 'wb', obs)
+            model.add_lognormal_uncertainty('matching_vjets', math.log(1.01370), 'wb', obs)
 
-            model.add_asymmetric_lognormal_uncertainty('scale_vjets', -math.log(1.49901), math.log(0.50099), 'wc', obs)
-            model.add_asymmetric_lognormal_uncertainty('matching_vjets', -math.log(0.98011), math.log(1.01989), 'wc', obs)
+            model.add_lognormal_uncertainty('scale_vjets', math.log(1.49901), 'wc', obs)
+            model.add_lognormal_uncertainty('matching_vjets', math.log(0.98011), 'wc', obs)
 
         for obs in ['el_1top0btag_mttbar','el_1top1btag_mttbar','el_1top2btag_mttbar','el_0top2btag_mttbar']:
-            model.add_asymmetric_lognormal_uncertainty('scale_vjets', -math.log(1.50848), math.log(0.49152), 'wlight', obs)
-            model.add_asymmetric_lognormal_uncertainty('matching_vjets', -math.log(0.97089), math.log(1.02911), 'wlight', obs)
+            model.add_lognormal_uncertainty('scale_vjets', math.log(1.50848), 'wlight', obs)
+            model.add_lognormal_uncertainty('matching_vjets', math.log(0.97089), 'wlight', obs)
 
         for p in model.processes:
             model.add_lognormal_uncertainty('eltrig_rate', math.log(1.01), p)
