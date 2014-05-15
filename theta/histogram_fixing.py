@@ -61,16 +61,14 @@ def fixFile(filename,channelsToSym):
                     minus = histos[ch][proc][sys]['minus']
                     nom = histos[ch][proc]['None']['None']
                     for bin in range(0,nom.GetNbinsX()+2):
-                        diff = abs(plus.GetBinContent(bin) - minus.GetBinContent(bin))
+                        diff = (plus.GetBinContent(bin) - minus.GetBinContent(bin)) / 2.0
                         avg = (plus.GetBinContent(bin) + minus.GetBinContent(bin)) / 2.0
                         change = 0.0
                         if avg !=0:
                             change = diff/avg
-                        changep = change
-                        changem = change
-                        if changem > 1.0: changem = 1.0
-                        plus.SetBinContent(bin, nom.GetBinContent(bin) * (1.0 + changep))
-                        minus.SetBinContent(bin, nom.GetBinContent(bin) * (1.0 - changem))
+                        if change > 1.0: change = 1.0
+                        plus.SetBinContent(bin, nom.GetBinContent(bin) * (1.0 + change))
+                        minus.SetBinContent(bin, nom.GetBinContent(bin) * (1.0 - change))
 
 
     output = TFile(filename.split('.')[0]+'_fixed.root', 'RECREATE')
