@@ -82,18 +82,18 @@ def build_boosted_semileptonic_model(files, filter, signal, mcstat, eflag=False,
         #For categories with low statistics, use flat uncertainties instead of shape
         #  Template for the following lines:
         #    model.add_lognormal_uncertainty(sys, math.log( _DIFF_ ), proc, obs)
-        #  Where _DIFF_ = 2.0 * proc_sys_minus.Integral() / (proc_sys_minus.Integral() + proc_sys_plus.Integral())
+        #  Where _DIFF_ = 2.0 * proc_sys_plus.Integral() / (proc_sys_minus.Integral() + proc_sys_plus.Integral())
         #    after the Chi2 selection
         for obs in ['el_1top0btag_mttbar','el_1top1btag_mttbar','el_1top2btag_mttbar','el_0top0btag_mttbar','el_0top1btag_mttbar','el_0top2btag_mttbar']:
-            model.add_lognormal_uncertainty('scale_vjets', math.log(1.49389), 'wb', obs)
-            model.add_lognormal_uncertainty('matching_vjets', math.log(1.01370), 'wb', obs)
+            model.add_lognormal_uncertainty('scale_vjets', math.log(0.50611), 'wb', obs)
+            model.add_lognormal_uncertainty('matching_vjets', math.log(0.98630), 'wb', obs)
 
-            model.add_lognormal_uncertainty('scale_vjets', math.log(1.49901), 'wc', obs)
-            model.add_lognormal_uncertainty('matching_vjets', math.log(0.98011), 'wc', obs)
+            model.add_lognormal_uncertainty('scale_vjets', math.log(0.50099), 'wc', obs)
+            model.add_lognormal_uncertainty('matching_vjets', math.log(1.01989), 'wc', obs)
 
         for obs in ['el_1top0btag_mttbar','el_1top1btag_mttbar','el_1top2btag_mttbar','el_0top2btag_mttbar']:
-            model.add_lognormal_uncertainty('scale_vjets', math.log(1.50848), 'wlight', obs)
-            model.add_lognormal_uncertainty('matching_vjets', math.log(0.97089), 'wlight', obs)
+            model.add_lognormal_uncertainty('scale_vjets', math.log(0.49152), 'wlight', obs)
+            model.add_lognormal_uncertainty('matching_vjets', math.log(1.02911), 'wlight', obs)
 
         for p in model.processes:
             model.add_lognormal_uncertainty('eltrig_rate', math.log(1.01), p)
