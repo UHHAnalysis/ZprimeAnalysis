@@ -109,7 +109,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
         KinematicSelection->addSelectionModule(new HypothesisLeptopPtCut( m_chi2discr, 140.0, double_infinity()));
 
     static Selection* mttbar_gen_selection = new Selection("Mttbar_Gen_Selection");
-    if ( m_mttgencut && ((id.GetVersion() == "TTbar_0to700") || (id.GetVersion() == "TTbar") )  ) {
+    if ( m_mttgencut && ((id.GetVersion() == "TTbar_0to700") || (id.GetVersion() == "TTbar") || (id.GetVersion().BeginsWith("TT")))  ) {
       m_logger << INFO << "Applying mttbar generator cut from 0 to 700 GeV." << SLogger::endmsg;
       mttbar_gen_selection->addSelectionModule(new MttbarGenCut(0,700));
       mttbar_gen_selection->EnableSelection();
@@ -226,7 +226,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     RegisterHistCollection( new MuonHists("Muon_Chi2sel") );
     RegisterHistCollection( new TauHists("Tau_Chi2sel") );
 
-    RegisterHistCollection( new TopJetHists("TopJets_Chi2sel") ); 
+    RegisterHistCollection( new TopJetHists("TopJets_Chi2sel") );
     RegisterHistCollection( new BTagEffHists("BTagEff_Chi2selCSVT", m_btagtype) );
     RegisterHistCollection( new BTagEffHists("BTagEff_Chi2selCSVL", x_btagtype) );
 
