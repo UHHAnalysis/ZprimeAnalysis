@@ -158,7 +158,7 @@ void ZprimeSelectionCycle::BeginInputData( const SInputData& id ) throw( SError 
     matchable_selection->addSelectionModule(new HypothesisDiscriminatorCut( m_cmdiscr, -1*double_infinity(), 999));
 
     Selection* TopTagSel = new Selection("TopTagSelection");
-    TopTagSel->addSelectionModule(new NTopJetSelection(1,int_infinity(),350,2.5));// top jet
+    //TopTagSel->addSelectionModule(new NTopJetSelection(1,int_infinity(),350,2.5));// top jet
     TopTagSel->addSelectionModule(new NTopTagSelection(1,int_infinity()));
     TopTagSel->addSelectionModule(new TopTagOverlapSelection());
 
@@ -300,6 +300,7 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     if(bcc->muons) m_cleaner->MuonCleaner_noIso(45,2.1);
     if(bcc->jets) m_cleaner->JetLeptonSubtractor(m_corrector,false);
     if(!bcc->isRealData && bcc->jets) m_cleaner->JetEnergyResolutionShifter();
+    if(!bcc->isRealData && bcc->topjets) m_cleaner->JetEnergyResolutionShifterFat();
 
     //apply loose jet cleaning for 2D cut
     if(bcc->jets) m_cleaner->JetCleaner(25,double_infinity(),true);
@@ -318,6 +319,33 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
     if(!triggerbit)  throw SError( SError::SkipEvent );
 
     if(!first_selection->passSelection())  throw SError( SError::SkipEvent );
+
+    // manual cleaner for topjet collection
+    // keep only candidates for CMS-TopTagger,
+    // i.e. passing kinematic cuts and no lepton-overlap
+    std::vector<TopJet> toptag_jets;
+    Particle* plepton = calc->GetPrimaryLepton();
+
+    for(unsigned int i=0; i<bcc->topjets->size(); ++i){
+
+      TopJet& itopjet = bcc->topjets->at(i);
+
+      // kinematics
+      if(!( itopjet.pt() > 400 )) continue;
+      if(!( fabs(itopjet.v4().Rapidity()) < 2.4 )) continue;
+
+      // min distance from lepton
+      if(!( deltaR(itopjet.v4(),plepton->v4()) > 0.8 )) continue;
+
+      toptag_jets.push_back(itopjet);
+    }
+
+    std::sort(toptag_jets.begin(), toptag_jets.end(), HigherPt());
+
+    bcc->topjets->clear();
+    for(unsigned int i=0; i<toptag_jets.size(); ++i){
+      bcc->topjets->push_back(toptag_jets.at(i));
+    }
     
     //apply tighter jet cleaning for further cuts and analysis steps
     if(bcc->jets) m_cleaner->JetCleaner(50,2.5,true);
