@@ -291,8 +291,8 @@ void ZprimeSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weight) 
       if (m_sys_var==e_Down) m_cleaner->ApplyJECVariationDown();
     }
     if (m_sys_unc==e_JER){
-      if (m_sys_var==e_Up) m_cleaner->ApplyJERVariationUp();
-      if (m_sys_var==e_Down) m_cleaner->ApplyJERVariationDown();
+      if (m_sys_var==e_Up){ m_cleaner->ApplyJERVariationUp(); m_cleaner->ApplyfatJERVariationUp(); }
+      if (m_sys_var==e_Down){ m_cleaner->ApplyJERVariationDown(); m_cleaner->ApplyfatJERVariationDown(); }
     }
 
     if(bcc->pvs)  m_cleaner->PrimaryVertexCleaner(4, 24., 2.);
