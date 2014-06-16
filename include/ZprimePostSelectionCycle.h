@@ -57,7 +57,7 @@ public:
   void FillControlHistos(TString postfix="");
 
   /// Scale control histograms
-  void ScaleHistos(TString postfix="", double scale);
+  void ScaleHistos(TString postfix="", double scale=1.0);
 
 private:
   //

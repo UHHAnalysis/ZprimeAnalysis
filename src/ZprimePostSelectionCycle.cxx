@@ -394,6 +394,25 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
 
 void ZprimePostSelectionCycle::EndInputData( const SInputData& id ) throw( SError )
 {
+    if(m_tpr){
+        double average = m_tpr->GetAverageWeight();
+        m_logger << INFO << "Correcting TopPtReweight normalizations" << SLogger::endmsg;
+        ScaleHistos("Presel", 1.0 / average );
+        ScaleHistos("LJetsel", 1.0 / average );
+        ScaleHistos("Kinesel", 1.0 / average );
+        ScaleHistos("Chi2sel", 1.0 / average );
+        ScaleHistos("BTag", 1.0 / average );
+        ScaleHistos("NoBTag", 1.0 / average );
+        ScaleHistos("TopTag", 1.0 / average );
+        ScaleHistos("NoTopTagBTag", 1.0 / average );
+        ScaleHistos("NoTopTagNoBTag", 1.0 / average );
+        ScaleHistos("TopTagSumBTag0", 1.0 / average );
+        ScaleHistos("TopTagSumBTag1", 1.0 / average );
+        ScaleHistos("TopTagSumBTag2", 1.0 / average );
+        ScaleHistos("NoTopTagSumBTag0", 1.0 / average );
+        ScaleHistos("NoTopTagSumBTag1", 1.0 / average );
+        ScaleHistos("NoTopTagSumBTag2", 1.0 / average );
+    }
     AnalysisCycle::EndInputData( id );
     if(m_writeeventlist)
       m_eventlist.close();
@@ -606,7 +625,7 @@ void ZprimePostSelectionCycle::ScaleHistos(TString postfix, double scale)
     jethists->Scale(scale);
     elehists->Scale(scale);
     muonhists->Scale(scale);
-    tauhists->Scale(scale)
+    tauhists->Scale(scale);
     topjethists->Scale(scale);
 }
 
