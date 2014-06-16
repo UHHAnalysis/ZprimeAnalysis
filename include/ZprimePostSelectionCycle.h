@@ -56,6 +56,9 @@ public:
   /// Fill control histograms
   void FillControlHistos(TString postfix="");
 
+  /// Scale control histograms
+  void ScaleHistos(TString postfix="", double scale);
+
 private:
   //
   // Put all your private variables here

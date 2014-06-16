@@ -501,7 +501,7 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     // NoTopTag categories
     if(!TopTagSelection->passSelection()){
 
-     
+
 
       if(SumBTags0Selection->passSelection()){
         Chi2_HistsNoTopTagSumBTag0->Fill();
@@ -520,7 +520,7 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     // TopTag categories
     if(TopTagSelection->passSelection()){
 
-   
+
 
       Chi2_HistsTopTag->Fill();
       FillControlHistos("_TopTag");
@@ -569,3 +569,23 @@ void ZprimePostSelectionCycle::FillControlHistos(TString postfix)
     tauhists->Fill();
     topjethists->Fill();
 }
+
+void ZprimePostSelectionCycle::ScaleHistos(TString postfix, double scale)
+{
+    BaseHists* chi2hists = GetHistCollection((std::string)("Chi2"+postfix));
+    BaseHists* eventhists = GetHistCollection((std::string)("Event"+postfix));
+    BaseHists* jethists = GetHistCollection((std::string)("Jets"+postfix));
+    BaseHists* elehists = GetHistCollection((std::string)("Electron"+postfix));
+    BaseHists* muonhists = GetHistCollection((std::string)("Muon"+postfix));
+    BaseHists* tauhists = GetHistCollection((std::string)("Tau"+postfix));
+    BaseHists* topjethists = GetHistCollection((std::string)("TopJets"+postfix));
+
+    chi2hists->Scale(scale);
+    eventhists->Scale(scale);
+    jethists->Scale(scale);
+    elehists->Scale(scale);
+    muonhists->Scale(scale);
+    tauhists->Scale(scale)
+    topjethists->Scale(scale);
+}
+
