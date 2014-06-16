@@ -250,13 +250,28 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
 
     // histograms after the top selection
     RegisterHistCollection( new HypothesisHists("Chi2_TopTag", m_chi2discr ) );
-
     RegisterHistCollection( new EventHists("Event_TopTag") );
     RegisterHistCollection( new JetHists("Jets_TopTag") );
     RegisterHistCollection( new ElectronHists("Electron_TopTag") );
     RegisterHistCollection( new MuonHists("Muon_TopTag") );
     RegisterHistCollection( new TauHists("Tau_TopTag") );
     RegisterHistCollection( new TopJetHists("TopJets_TopTag") );
+
+    RegisterHistCollection( new HypothesisHists("Chi2_NoTopTagBTag", m_chi2discr ) );
+    RegisterHistCollection( new EventHists("Event_NoTopTagBTag") );
+    RegisterHistCollection( new JetHists("Jets_NoTopTagBTag") );
+    RegisterHistCollection( new ElectronHists("Electron_NoTopTagBTag") );
+    RegisterHistCollection( new MuonHists("Muon_NoTopTagBTag") );
+    RegisterHistCollection( new TauHists("Tau_NoTopTagBTag") );
+    RegisterHistCollection( new TopJetHists("TopJets_NoTopTagBTag") );
+
+    RegisterHistCollection( new HypothesisHists("Chi2_NoTopTagNoBTag", m_chi2discr ) );
+    RegisterHistCollection( new EventHists("Event_NoTopTagNoBTag") );
+    RegisterHistCollection( new JetHists("Jets_NoTopTagNoBTag") );
+    RegisterHistCollection( new ElectronHists("Electron_NoTopTagNoBTag") );
+    RegisterHistCollection( new MuonHists("Muon_NoTopTagNoBTag") );
+    RegisterHistCollection( new TauHists("Tau_NoTopTagNoBTag") );
+    RegisterHistCollection( new TopJetHists("TopJets_NoTopTagNoBTag") );
 
     //histograms of Top-Tags with SumBTags
 
@@ -430,6 +445,8 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     BaseHists* Chi2_HistsBTag = GetHistCollection("Chi2_BTag");
     BaseHists* Chi2_HistsNoBTag = GetHistCollection("Chi2_NoBTag");
     BaseHists* Chi2_HistsTopTag = GetHistCollection("Chi2_TopTag");
+    BaseHists* Chi2_HistsNoTopTagBTag = GetHistCollection("Chi2_NoTopTagBTag");
+    BaseHists* Chi2_HistsNoTopTagNoBTag = GetHistCollection("Chi2_NoTopTagNoBTag");
     BaseHists* Chi2_HistsNoTopTagSumBTag0 = GetHistCollection("Chi2_NoTopTagSumBTag0");
     BaseHists* Chi2_HistsNoTopTagSumBTag1 = GetHistCollection("Chi2_NoTopTagSumBTag1");
     BaseHists* Chi2_HistsNoTopTagSumBTag2 = GetHistCollection("Chi2_NoTopTagSumBTag2");
@@ -486,6 +503,9 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     if(m_addGenInfo) BTagEff_HistsChi2selCSVL->Fill();
     FillControlHistos("_Chi2sel");
 
+    bool btagged = BTagSelection->passSelection();
+    bool toptagged = TopTagSelection->passSelection();
+
     // BTag-NoBTag categories: do a chi2 selection of 10 for comparison with published analysis
     if(Chi2Selection10->passSelection()){
       if(BTagSelection->passSelection()) {
@@ -499,10 +519,14 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     }
 
     // NoTopTag categories
-    if(!TopTagSelection->passSelection()){
-
-
-
+    if(!toptagged){
+      if(btagged) {
+        Chi2_HistsNoTopTagBTag->Fill();
+        FillControlHistos("_NoTopTagBTag");
+      } else {
+        Chi2_HistsNoTopTagNoBTag->Fill();
+        FillControlHistos("_NoTopTagNoBTag");
+      }
       if(SumBTags0Selection->passSelection()){
         Chi2_HistsNoTopTagSumBTag0->Fill();
         FillControlHistos("_NoTopTagSumBTag0");
@@ -518,10 +542,7 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     }
 
     // TopTag categories
-    if(TopTagSelection->passSelection()){
-
-
-
+    if(toptagged){
       Chi2_HistsTopTag->Fill();
       FillControlHistos("_TopTag");
 
