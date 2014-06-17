@@ -34,7 +34,7 @@ ZprimePostSelectionCycle::ZprimePostSelectionCycle()
 
     // set the btagging operating point
     m_btagtype = e_CSVT;
-    x_btagtype = e_CSVL;
+    x_btagtype = e_CSVM;
 
     // apply SF for the "Ele30 OR PFJet320" trigger (electron channel)
     m_applyEleORJetTriggerSF = false;
@@ -105,6 +105,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     // Kinematic selection
     Selection* KinematicSelection = new Selection("KinematicSelection");
     KinematicSelection->addSelectionModule(new METCut(50));
+    KinematicSelection->addSelectionModule(new NTopTagSelection(0,1));// veto on 2-TopTag events
     if (doEle)
         KinematicSelection->addSelectionModule(new HypothesisLeptopPtCut( m_chi2discr, 140.0, double_infinity()));
 
@@ -150,7 +151,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     BTagAntiktJetSelection->addSelectionModule(new NBTagAntiktJetSelection(1,int_infinity(),m_btagtype,1.3)); //at least one AK5 b jet
 
     Selection* TopTagSelection = new Selection("TopTagSelection");
-    TopTagSelection->addSelectionModule(new NTopJetSelection(1,int_infinity(),350,2.5));// top jet
+    //TopTagSelection->addSelectionModule(new NTopJetSelection(1,int_infinity(),350,2.5));// top jet
     TopTagSelection->addSelectionModule(new NTopTagSelection(1,int_infinity())); //top tag
     TopTagSelection->addSelectionModule(new TopTagOverlapSelection()); //top tag
 
@@ -228,7 +229,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
 
     RegisterHistCollection( new TopJetHists("TopJets_Chi2sel") );
     RegisterHistCollection( new BTagEffHists("BTagEff_Chi2selCSVT", m_btagtype) );
-    RegisterHistCollection( new BTagEffHists("BTagEff_Chi2selCSVL", x_btagtype) );
+    RegisterHistCollection( new BTagEffHists("BTagEff_Chi2selCSVM", x_btagtype) );
 
     // histograms with Btag and NoBtag and Chi2
     RegisterHistCollection( new HypothesisHists("Chi2_BTag", m_chi2discr ) );
@@ -354,9 +355,9 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
         else
             m_logger << ERROR << "Unknown BTaggingScaleFactors option, default option is applied --- should be either `Default`, `Up-bjets`, `Down-bjets`, `Up-ljets`, or `Down-ljets`" << SLogger::endmsg;
         if(doEle)
-            m_bsf = new BTaggingScaleFactors(x_btagtype, e_Electron, sys_bjets, sys_ljets);
+          m_bsf = new BTaggingScaleFactors(x_btagtype, e_Electron, sys_bjets, sys_ljets, false);
         else if(doMu)
-            m_bsf = new BTaggingScaleFactors(x_btagtype, e_Muon, sys_bjets, sys_ljets);
+          m_bsf = new BTaggingScaleFactors(x_btagtype, e_Muon, sys_bjets, sys_ljets, false);
     }
 
     m_tsf = NULL;
