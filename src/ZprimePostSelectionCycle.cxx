@@ -19,6 +19,7 @@ ZprimePostSelectionCycle::ZprimePostSelectionCycle()
     m_mttgencut = false;
     m_flavor_selection = "None";
     m_writeeventlist = false;
+    m_correctTopPtWeights = false;
 
     // steerable properties for making qcd (pre) selection
     DeclareProperty( "Electron_Or_Muon_Selection", m_Electron_Or_Muon_Selection );
@@ -28,6 +29,7 @@ ZprimePostSelectionCycle::ZprimePostSelectionCycle()
     DeclareProperty( "ApplyFlavorSelection", m_flavor_selection );
     DeclareProperty( "EventFilterFile", m_filter_file );
     DeclareProperty( "WriteEventList", m_writeeventlist);
+    DeclareProperty( "CorrectTopPtWeights", m_correctTopPtWeights);
 
     // set the integrated luminosity per bin for the lumi-yield control plots
     SetIntLumiPerBin(500.);
@@ -395,7 +397,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
 
 void ZprimePostSelectionCycle::EndInputData( const SInputData& id ) throw( SError )
 {
-    if(m_tpr){
+    if(m_tpr && m_correctTopPtWeights){
         double average = m_tpr->GetAverageWeight();
         m_logger << INFO << "Correcting TopPtReweight normalizations" << SLogger::endmsg;
         ScaleHistos("Presel", 1.0 / average );

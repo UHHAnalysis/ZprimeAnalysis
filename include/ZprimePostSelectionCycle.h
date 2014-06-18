@@ -82,6 +82,7 @@ private:
   std::string m_filter_file;
 
   bool m_applyEleORJetTriggerSF;
+  bool m_correctTopPtWeights;
 
   // Macro adding the functions for dictionary generation
   ClassDef( ZprimePostSelectionCycle, 0 );
