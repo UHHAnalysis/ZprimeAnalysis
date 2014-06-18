@@ -142,10 +142,10 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     Chi2Seletion10->addSelectionModule(new HypothesisDiscriminatorCut( m_chi2discr, -1*double_infinity(), 10));
 
     Selection* BTagSelection = new Selection("BTagSelection");
-    BTagSelection->addSelectionModule(new NBTagSelection(1,int_infinity(),m_btagtype)); //at least one b tag
+    BTagSelection->addSelectionModule(new NBTagSelection(1,int_infinity(),x_btagtype)); //at least one b tag
 
     Selection* NoBTagSelection = new Selection("NoBTagSelection");
-    NoBTagSelection->addSelectionModule(new NBTagSelection(0,0,m_btagtype)); //no b tags
+    NoBTagSelection->addSelectionModule(new NBTagSelection(0,0,x_btagtype)); //no b tags
 
     Selection* BTagAntiktJetSelection = new Selection("BTagAntiktJetSelection");
     BTagAntiktJetSelection->addSelectionModule(new NBTagAntiktJetSelection(1,int_infinity(),m_btagtype,1.3)); //at least one AK5 b jet
