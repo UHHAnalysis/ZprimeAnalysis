@@ -137,8 +137,8 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
         m_logger << ERROR << "Unknown ApplyFlavorSelection option --- should be either `BFlavor`, `CFlavor` or `LFlavor`" << SLogger::endmsg;
     }
 
-    Selection* Chi2Seletion40 = new Selection("Chi2Selection40");
-    Chi2Seletion40->addSelectionModule(new HypothesisDiscriminatorCut( m_chi2discr, -1*double_infinity(), 40));
+    Selection* Chi2Seletion50 = new Selection("Chi2Selection50");
+    Chi2Seletion50->addSelectionModule(new HypothesisDiscriminatorCut( m_chi2discr, -1*double_infinity(), 50));
 
     Selection* Chi2Seletion10 = new Selection("Chi2Selection10");
     Chi2Seletion10->addSelectionModule(new HypothesisDiscriminatorCut( m_chi2discr, -1*double_infinity(), 10));
@@ -177,7 +177,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     RegisterSelection(LeadingJetSelection);
     RegisterSelection(KinematicSelection);
     RegisterSelection(TopTagSelection);
-    RegisterSelection(Chi2Seletion40);
+    RegisterSelection(Chi2Seletion50);
     RegisterSelection(Chi2Seletion10);
     RegisterSelection(BTagSelection);
     RegisterSelection(NoBTagSelection);
@@ -449,7 +449,7 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     static Selection* LeadingJetSelection = GetSelection("LeadingJetSelection");
     static Selection* KinematicSelection = GetSelection("KinematicSelection");
     static Selection* TopTagSelection = GetSelection("TopTagSelection");
-    static Selection* Chi2Selection40 = GetSelection("Chi2Selection40");
+    static Selection* Chi2Selection50 = GetSelection("Chi2Selection50");
     static Selection* Chi2Selection10 = GetSelection("Chi2Selection10");
     static Selection* BTagSelection = GetSelection("BTagSelection");
     static Selection* NoBTagSelection = GetSelection("NoBTagSelection");
@@ -518,7 +518,7 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     Chi2_HistsKinesel->Fill();
     FillControlHistos("_Kinesel");
 
-    if(!Chi2Selection40->passSelection()) throw SError( SError::SkipEvent );
+    if(!Chi2Selection50->passSelection()) throw SError( SError::SkipEvent );
 
     Chi2_HistsChi2sel->Fill();
     if(m_addGenInfo) BTagEff_HistsChi2selCSVT->Fill();
