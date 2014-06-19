@@ -477,7 +477,7 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     BaseHists* Chi2_HistsTopTagSumBTag2 = GetHistCollection("Chi2_TopTagSumBTag2");
 
     BaseHists* BTagEff_HistsChi2selCSVT = GetHistCollection("BTagEff_Chi2selCSVT");
-    BaseHists* BTagEff_HistsChi2selCSVL = GetHistCollection("BTagEff_Chi2selCSVL");
+    BaseHists* BTagEff_HistsChi2selCSVM = GetHistCollection("BTagEff_Chi2selCSVM");
 
     // reject laser events only for data
     //if (calc->IsRealData()){
@@ -522,7 +522,7 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
 
     Chi2_HistsChi2sel->Fill();
     if(m_addGenInfo) BTagEff_HistsChi2selCSVT->Fill();
-    if(m_addGenInfo) BTagEff_HistsChi2selCSVL->Fill();
+    if(m_addGenInfo) BTagEff_HistsChi2selCSVM->Fill();
     FillControlHistos("_Chi2sel");
 
     bool btagged = BTagSelection->passSelection();
