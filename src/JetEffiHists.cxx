@@ -1,6 +1,7 @@
 #include "include/JetEffiHists.h"
 #include "include/SelectionModules.h"
 #include "include/EventCalc.h"
+#include "SFrameTools/include/SubJetTagger.h"
 #include <iostream>
 
 using namespace std;
@@ -98,14 +99,12 @@ void JetEffiHists::Fill()
   Hist("gen_mttbar")->Fill((GenTopHad.v4()+GenTopLep.v4()).M(),weight);
 
 
-
-  double mjet = 0;
-  int nsubjets= 0;
-  double mmin = 0;
+  CMSTopTagger toptag;
+  toptag.SetTau32Cut();
 
   for(unsigned int i = 0 ; i<cajets->size(); ++i){
     TopJet cajet = cajets->at(i);
-    if(TopTag(cajet,mjet,nsubjets,mmin) && GenTopHad.deltaR(cajet)<0.7)
+    if(toptag.Tag(cajet) && GenTopHad.deltaR(cajet)<0.7)
       Hist("gentop_matched_pt")->Fill(GenTopHad.pt(),weight);
 
   }

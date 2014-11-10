@@ -2,7 +2,7 @@
 #include "include/SelectionModules.h"
 #include "include/EventCalc.h"
 #include "TH2.h"
-
+#include "SFrameTools/include/SubJetTagger.h"
 #include <iostream>
 
 using namespace std;
@@ -57,7 +57,8 @@ void TopEffiHists::Fill()
   BaseCycleContainer* bcc = calc->GetBaseCycleContainer();
 
 
-
+  CMSTopTagger toptag;
+  toptag.SetTau32Cut();
   
   for (unsigned int i =0; i<bcc->topjets->size(); ++i)
     {
@@ -67,7 +68,11 @@ void TopEffiHists::Fill()
       double mjet=0;
       int nsubjets=0;
 
-      bool NTopTag = TopTag(topjet,mjet,nsubjets,mmin);
+      bool NTopTag = toptag.Tag(topjet);
+      std::map<string, double> vars = toptag.TagVar();
+      mjet = vars["mjet"];
+      mmin = vars["mmin"];
+      nsubjets = vars["nsubjets"];
 
       Hist( "Mjet" )->Fill( mjet, weight );
       if(nsubjets>=3)

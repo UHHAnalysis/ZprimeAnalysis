@@ -196,8 +196,8 @@ void QCDCycle::BeginInputData( const SInputData& id ) throw( SError )
 
 
   Selection* TopTagSel = new Selection("TopTagSelection");
-  TopTagSel->addSelectionModule(new NTopTagSelection(1));
-  TopTagSel->addSelectionModule(new TopTagOverlapSelection());
+  TopTagSel->addSelectionModule(new NCMSTopTagSelection(1));
+  TopTagSel->addSelectionModule(new CMSTopTagOverlapSelection());
 
   Selection* Chi2Seletion = new Selection("Chi2Selection");
   Chi2Seletion->addSelectionModule(new HypothesisDiscriminatorCut(m_chi2discr, -1*double_infinity(), 50));

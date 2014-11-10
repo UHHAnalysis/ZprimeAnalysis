@@ -2,6 +2,7 @@
 #include "include/EventCalc.h"
 #include "include/SelectionModules.h"
 #include "include/TopFitCalc.h"
+#include "SFrameTools/include/SubJetTagger.h"
 #include <iostream>
 #include "TH3F.h"
 
@@ -65,14 +66,13 @@ void TopTagDelRHists::Fill()
   GenParticle TopLep_gen = calc->GetTTbarGen()->TopLep();
   GenParticle TopHad_gen = calc->GetTTbarGen()->TopHad();
 
-  double mjet=0;
-  int nsubjets=0;
-  double mmin=0;
-
   int cajet_tag_num=-1;
 
+  CMSTopTagger toptag;
+  toptag.SetTau32Cut();
+
   for(unsigned int m =0;m<cajets->size();++m)
-    if(TopTag(cajets->at(m), mjet,nsubjets,mmin)) cajet_tag_num=m;
+    if(toptag.Tag(cajets->at(m))) cajet_tag_num=m;
   
   TopJet TopTagJet = cajets->at(cajet_tag_num); 
     

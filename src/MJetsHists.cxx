@@ -2,6 +2,7 @@
 #include "include/SelectionModules.h"
 #include "include/TopFitCalc.h"
 #include "include/Utils.h"
+#include "SFrameTools/include/SubJetTagger.h"
 #include "TH3F.h"
 #include <iostream>
 #include <cmath>
@@ -339,20 +340,24 @@ void MJetsHists::Fill()
  
   std::vector<Jet>* antikjets = calc->GetJets();
 
+  CMSTopTagger toptag;
+  toptag.SetTau32Cut();
+
   for(unsigned int i=0; i< bcc->muons->size(); ++i)
     {
       Muon muon  = bcc->muons->at(i);
      
       
 
-
-      double tag_mjet = 0;
-      int tag_nsubjets = 0;
       double tag_mmin = 0;
 
+   
       for(unsigned int i = 0; i<cajets->size(); ++i){
-	if(TopTag(cajets->at(i),tag_mjet,tag_nsubjets,tag_mmin)) 
+	if(toptag.Tag(cajets->at(i))){
+	  std::map<string, double> vars = toptag.TagVar();
+	  tag_mmin = vars["mmin"];
 	  Hist("toptag_min_pt")->Fill(tag_mmin,weight);
+	}
       }
 
 
@@ -651,16 +656,13 @@ void MJetsHists::Fill()
 	      Hist("Cut_Variable")->Fill(muon.v4().E()*bjet.v4().E()+bjet.v4().E()*neutrino.E()-muon.v4().px()*bjet.v4().px()+bjet.v4().px()*neutrino.px()-muon.v4().py()*bjet.v4().py()+bjet.v4().py()*neutrino.py()-muon.v4().pz()*bjet.v4().pz()+bjet.v4().pz()*neutrino.pz()-12071.76,weight);
 	      
 	      int caposi_subjets = -1;
-	      double mjet_subjets;
-	      int nsubjets_subjets;
-	      double mmin_subjets;	
 	      double deltaR_Lep_Tophad = .8;
 	      
 	      for(unsigned int m = 0; m<cajets->size(); ++m)
 		{
 		  TopJet cajet_subjets = cajets->at(m);
 
-		  if(TopTag(cajet_subjets, mjet_subjets, nsubjets_subjets, mmin_subjets) && deltaR_Lep_Tophad < deltaR(cajet_subjets.v4(),muon.v4())){
+		  if(toptag.Tag(cajet_subjets) && deltaR_Lep_Tophad < deltaR(cajet_subjets.v4(),muon.v4())){
 		    caposi_subjets = m;
 		    deltaR_Lep_Tophad = deltaR(cajet_subjets.v4(),muon.v4());
 		  }

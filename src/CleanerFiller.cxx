@@ -5,7 +5,7 @@
 #include <cmath>
 #include <stdio.h>
 #include "TH3F.h"
-
+#include "SFrameTools/include/SubJetTagger.h"
 
 
 using namespace std;
@@ -72,13 +72,11 @@ void CleanerFiller::Fill()
   m_toptag = 0; 
   m_heptoptag =0;
 
-
-  double mjet = 0;
-  double mmin = 0;
-  int nsubjets = 0;
+  CMSTopTagger toptag;
+  toptag.SetTau32Cut();
 
   for(unsigned int i =0; i<cajets->size(); ++i) 
-     if(TopTag(cajets->at(i),mjet,nsubjets,mmin)) m_toptag += 1;	
+    if(toptag.Tag(cajets->at(i))) m_toptag += 1;	
 
 
   for(unsigned int i =0; i<hepjets->size();++i)

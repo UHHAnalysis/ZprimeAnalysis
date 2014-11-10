@@ -120,8 +120,8 @@ void ZPrimeTopTaggerCycle::BeginInputData( const SInputData& id ) throw( SError 
   //TopSel->addSelectionModule(new METCut(50));
   
   Selection* TopTagSel = new Selection("TopTagSelection");
-  TopTagSel->addSelectionModule(new NTopTagSelection(1));
-  TopTagSel->addSelectionModule(new TopTagAntiktJetSelection(1,2,0.8,int_infinity(),int_infinity()));
+  TopTagSel->addSelectionModule(new NCMSTopTagSelection(1));
+  TopTagSel->addSelectionModule(new CMSTopTagAntiktJetSelection(1,2,0.8,int_infinity(),int_infinity()));
   //Selection* TTreco = new Selection("TTreco");
 
   m_chi2discr = new Chi2Discriminator();

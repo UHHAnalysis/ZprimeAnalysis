@@ -3,6 +3,7 @@
 #include <iostream>
 #include "include/SelectionModules.h"
 #include "include/TopFitCalc.h"
+#include "SFrameTools/include/SubJetTagger.h"
 #include "TH3F.h"
 
 using namespace std;
@@ -155,12 +156,11 @@ void RazorHists::Fill()
   //cout<<(hyp->wlep_v4()).M2()<<" "<<(muon.v4()+hyp->blep_v4()).M2() <<endl;
 
 
-  double tag_mjet = 0;
-  int tag_nsubjets = 0;
-  double tag_mmin = 0;
+  CMSTopTagger toptag;
+  toptag.SetTau32Cut();
 
   for(unsigned int i = 0; i<cajets->size(); ++i){
-    if(TopTag(cajets->at(i),tag_mjet,tag_nsubjets,tag_mmin)){
+    if(toptag.Tag(cajets->at(i))){
       std::vector<Particle> topsub = cajets->at(i).subjets();
 
       //cout<<(topsub.at(0).v4()+topsub.at(1).v4()).M2()<<" "<<(topsub.at(1).v4()+topsub.at(2).v4()).M2()<<endl;

@@ -107,7 +107,7 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
     // Kinematic selection
     Selection* KinematicSelection = new Selection("KinematicSelection");
     KinematicSelection->addSelectionModule(new METCut(50));
-    KinematicSelection->addSelectionModule(new NTopTagSelection(0,1));// veto on 2-TopTag events
+    KinematicSelection->addSelectionModule(new NCMSTopTagSelection(0,1));// veto on 2-TopTag events
     if (doEle)
         KinematicSelection->addSelectionModule(new HypothesisLeptopPtCut( m_chi2discr, 140.0, double_infinity()));
 
@@ -154,8 +154,8 @@ void ZprimePostSelectionCycle::BeginInputData( const SInputData& id ) throw( SEr
 
     Selection* TopTagSelection = new Selection("TopTagSelection");
     //TopTagSelection->addSelectionModule(new NTopJetSelection(1,int_infinity(),350,2.5));// top jet
-    TopTagSelection->addSelectionModule(new NTopTagSelection(1,int_infinity())); //top tag
-    TopTagSelection->addSelectionModule(new TopTagOverlapSelection()); //top tag
+    TopTagSelection->addSelectionModule(new NCMSTopTagSelection(1,int_infinity())); //top tag
+    TopTagSelection->addSelectionModule(new CMSTopTagOverlapSelection()); //top tag
 
     Selection* CMSSubBTagNsubjSelection = new Selection ("CMSSubBTagNsubjSelection");
     CMSSubBTagNsubjSelection->addSelectionModule(new NCMSSubBTagSelection(1,int_infinity(),1,int_infinity(),x_btagtype,0.7)); // with Nsubjettiness cut
@@ -507,17 +507,13 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
 
     Chi2_HistsPresel->Fill();
     FillControlHistos("_Presel");
-
     if(!LeadingJetSelection->passSelection())  throw SError( SError::SkipEvent );
 
     Chi2_HistsLJetsel->Fill();
     FillControlHistos("_LJetsel");
-
     if(!KinematicSelection->passSelection())  throw SError( SError::SkipEvent );
-
     Chi2_HistsKinesel->Fill();
     FillControlHistos("_Kinesel");
-
     if(!Chi2Selection50->passSelection()) throw SError( SError::SkipEvent );
 
     Chi2_HistsChi2sel->Fill();
@@ -526,7 +522,9 @@ void ZprimePostSelectionCycle::ExecuteEvent( const SInputData& id, Double_t weig
     FillControlHistos("_Chi2sel");
 
     bool btagged = BTagSelection->passSelection();
+
     bool toptagged = TopTagSelection->passSelection();
+
 
     // BTag-NoBTag categories: do a chi2 selection of 10 for comparison with published analysis
     if(Chi2Selection10->passSelection()){
